@@ -40,7 +40,7 @@ public class AppTest extends TestCase
     public void testunParsableJavaCode()
     {
         JavaFormat javaFormatter = new JavaFormat();
-        javaFormatter.format("java.java", " asfasgfdasgfdagfdsgsafgdasfdsf dsfdsa sdfdsf dsd");
+        javaFormatter.format("java.java", "asfasgfdasgfdagfdsgsafgdasfdsf dsfdsa sdfdsf dsd");
         assertTrue("correctlyFormatted is false", javaFormatter.isFormatted() == false);
     }
 
@@ -50,7 +50,7 @@ public class AppTest extends TestCase
     public void testparsableJavaCode()
     {
         JavaFormat javaFormatter = new JavaFormat();
-        javaFormatter.format("java.java", " package groovyTest;\npublic class genericJavaClass" 
+        javaFormatter.format("java.java", "package groovyTest;\npublic class genericJavaClass" 
             + "{\npublic static void main(String[] args) {\n// TODO Auto-generated method stub\n}\n}");
         assertTrue("correctlyFormatted is true", javaFormatter.isFormatted() == true);
     }
@@ -61,7 +61,7 @@ public class AppTest extends TestCase
     public void testparsableGroovyCode()
     {
         GroovyFormat groovyFormatter = new GroovyFormat();
-        groovyFormatter.format("groovy.groovy", " package groovyTest\nclass genericClass "
+        groovyFormatter.format("groovy.groovy", "package groovyTest\nclass genericClass "
             + "{\nstatic main(args) {\n}\n}\n");
         assertTrue("correctlyFormatted is true", groovyFormatter.isFormatted() == true);
     }
