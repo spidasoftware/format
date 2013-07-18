@@ -3,12 +3,19 @@
  * Extracted various classes from eclipse to create a command line automatic java 
  * and groovy formatter
  * 
+ * July of 2013
  * SpidaSoftware
- * @author Nicholas Joodi
+ * @author Nick Joodi
  * 
  */
 
 package com.spidasoftware.EclipseFormatter;
+
+import org.apache.log4j.Logger;
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.Level;
+import org.apache.log4j.Appender;
+import org.apache.log4j.PatternLayout;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -20,36 +27,72 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.BasicParser;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.HelpFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Formatter {
+	private static Logger log = Logger.getRootLogger();
+	private static Options options = new Options();
+
+
+	public static void main(String[] args) {
+		instantiateLogger();
+		CommandLine cmd = getOptions(args, options);
+		File pathToFile = new File(System.getProperty("user.dir") + File.separator + args[args.length - 1]);
+		if (cmd.hasOption("help")) {
+			HelpFormatter formatter = new HelpFormatter();
+			formatter.printHelp("format [option] [directory or file]", options);
+		} else {
+			if (pathToFile.isDirectory()) {
+				ArrayList<File> files = new ArrayList<File>(Arrays.asList(pathToFile.listFiles()));
+				for (File f : files) {
+					String code = readInFile(f.toString());
+					formatOne(f.toString(), code, cmd);
+				}
+			} else if (pathToFile.exists()) {
+				String code = readInFile(args[args.length - 1]);
+				formatOne(args[args.length - 1], code, cmd);
+			} else {
+				log.info("!!!invalid input!!!");
+			}
+		}
+
+	}
 
 	/**
-	 * This main method will take in one command line argument, a file, 
-	 * and return a formatted verion of that file, as well as a backup file. 
-	 * Only files with the extension of .groovy or .java will be formatted.
+	 * A three-argument method that will take a filename string, the contents of 
+	 * that file as a string (before formatted), and the CommandLine arguments and
+	 * format the respective file.
+	 *
+	 * @param filename, a string representing the name of the file
+	 * @param code, a string containing the contents of that file
+	 * @param cmd, the list of command line arguments
 	 */
-	public static void main(String[] args) {
-		
-		String code = readInFile(args[0]);
-		String extension = args[0].substring(args[0].lastIndexOf(".") + 1, args[0].length());
+	public static String formatOne(String fileName, String code, CommandLine cmd) {
+		String extension = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length());
+		String nameWithDate = null;
 		if (code != null && extension.equals("java")) {
 			JavaFormat javaFormatter = new JavaFormat();
-			javaFormatter.format(args[0], code);
-			if (javaFormatter.isFormatted()) {
-				createBackupFile(args[0], code);
-			}
+			javaFormatter.format(fileName, code);
+			if (javaFormatter.isFormatted() && cmd.hasOption("b"))
+				nameWithDate = createBackupFile(fileName, code);
 
 		} else if (code != null && extension.equals("groovy")) {
 			GroovyFormat groovyFormatter = new GroovyFormat();
-			groovyFormatter.format(args[0], code);
-			if (groovyFormatter.isFormatted()) {
-				createBackupFile(args[0], code);
-			}
+			groovyFormatter.format(fileName, code);
+			if (groovyFormatter.isFormatted() && cmd.hasOption("b"))
+				nameWithDate = createBackupFile(fileName, code);
 
 		} else {
-			System.out.println("Sorry, no formatting could be applied to " + args[0]);
+			log.info("Sorry, no formatting could be applied to " + fileName);
 		}
-
+		return nameWithDate;
 	}
 
 	/**
@@ -61,7 +104,7 @@ public class Formatter {
 	 * @return String containing the contents of that file
 	 */
 	@SuppressWarnings("resource")
-	private static String readInFile(String fileName) {
+	public static String readInFile(String fileName) {
 		BufferedReader inStream = null;
 		StringBuilder code = new StringBuilder("");
 		String line;
@@ -71,13 +114,14 @@ public class Formatter {
 			while ((line = inStream.readLine()) != null) {
 				code.append(line + "\n");
 			}
+			code.delete(code.length()-1, code.length());
+
 		} catch (IOException e) {
-			System.out.println("Error occured when opening " + fileName);
+			log.error("Error occured when opening " + fileName);
 			return null;
 		}
 		return code.toString();
 	}
-
 
 	/**
 	 * A two-argument method that will take a filename string and the contents of 
@@ -86,23 +130,54 @@ public class Formatter {
 	 * @param filename, a string representing the name of the file
 	 * @param before, a string containing the contents of that file
 	 *
-	 * @return a backup file
 	 */
-	private static void createBackupFile(String fileName, String before) {
+	public static String createBackupFile(String fileName, String before) {
+		String nameWithDate = null;
 		try {
 			Date date = new Date();
 			SimpleDateFormat sdf = new SimpleDateFormat("MM_dd_yyyy_h_mm_ss");
 			String formattedDate = sdf.format(date);
-			String nameWithDate = fileName + "_BACKUP_" + formattedDate;
+			nameWithDate = fileName + "_BACKUP_" + formattedDate;
 			FileWriter file = new FileWriter(nameWithDate);
 			PrintWriter safety = new PrintWriter(file);
 			safety.println(before);
 			safety.close();
-			// System.out.println("*** A backup file was placed in " +
-			// nameWithDate + " ***");
+			return nameWithDate;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return nameWithDate;
 	}
 
+	/**
+	 * A no-argument method that will return the command line arguments as a 
+	 * CommandLine object
+	 *
+	 * @return cmd, the CommandLine object holding the command line arguments
+	 */
+	public static CommandLine getOptions(String[] args, Options options) {
+		options.addOption("b", false, "create a backup file");
+		options.addOption("help", false, "print this message");
+		CommandLineParser parser = new BasicParser();
+		CommandLine cmd = null;
+		try {
+			cmd = parser.parse(options, args);
+		} catch (ParseException e) {
+			log.error(e, e);
+		}
+		return cmd;
+	}
+
+	/**
+	* A no-argument method used to intantiate the logger
+	*/
+	public static void instantiateLogger() {
+		ConsoleAppender console = new ConsoleAppender();
+		String PATTERN = "%m%n";
+		console.setLayout(new PatternLayout(PATTERN));
+		console.setThreshold(Level.DEBUG);
+		console.activateOptions();
+		log.addAppender(console);
+	}
 }
+
