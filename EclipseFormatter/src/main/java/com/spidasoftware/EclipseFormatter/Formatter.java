@@ -33,13 +33,15 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.io.FileUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Formatter {
 	private static Logger log = Logger.getRootLogger();
 	private static Options options = new Options();
-
+	private static boolean java = true;
+	private static boolean groovy = true;
 
 	public static void main(String[] args) {
 		instantiateLogger();
@@ -48,7 +50,15 @@ public class Formatter {
 		if (cmd.hasOption("help")) {
 			HelpFormatter formatter = new HelpFormatter();
 			formatter.printHelp("format [option] [directory or file]", options);
+		} else if (cmd.hasOption("version")) {
+			log.info("Format");
+			log.info("java and groovy eclipse-formatter");
+			log.info("version 1.0");
 		} else {
+			if (cmd.hasOption("java"))
+				groovy = false;
+			if (cmd.hasOption("groovy"))
+				java = false;
 			if (pathToFile.isDirectory()) {
 				ArrayList<File> files = new ArrayList<File>(Arrays.asList(pathToFile.listFiles()));
 				for (File f : files) {
@@ -77,20 +87,20 @@ public class Formatter {
 	public static String formatOne(String fileName, String code, CommandLine cmd) {
 		String extension = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length());
 		String nameWithDate = null;
-		if (code != null && extension.equals("java")) {
+		if (code != null && extension.equals("java") && java) {
 			JavaFormat javaFormatter = new JavaFormat();
 			javaFormatter.format(fileName, code);
 			if (javaFormatter.isFormatted() && cmd.hasOption("b"))
 				nameWithDate = createBackupFile(fileName, code);
 
-		} else if (code != null && extension.equals("groovy")) {
+		} else if (code != null && extension.equals("groovy") && groovy) {
 			GroovyFormat groovyFormatter = new GroovyFormat();
 			groovyFormatter.format(fileName, code);
 			if (groovyFormatter.isFormatted() && cmd.hasOption("b"))
 				nameWithDate = createBackupFile(fileName, code);
 
 		} else {
-			log.info("Sorry, no formatting could be applied to " + fileName);
+			//log.info("Sorry, no formatting could be applied to " + fileName);
 		}
 		return nameWithDate;
 	}
@@ -105,22 +115,15 @@ public class Formatter {
 	 */
 	@SuppressWarnings("resource")
 	public static String readInFile(String fileName) {
-		BufferedReader inStream = null;
-		StringBuilder code = new StringBuilder("");
-		String line;
+		String code = null;
 		try {
-			FileReader file = new FileReader(fileName);
-			inStream = new BufferedReader(file);
-			while ((line = inStream.readLine()) != null) {
-				code.append(line + "\n");
-			}
-			code.delete(code.length()-1, code.length());
-
+			File file = new File(fileName);
+			code = FileUtils.readFileToString(file, null);
 		} catch (IOException e) {
 			log.error("Error occured when opening " + fileName);
 			return null;
 		}
-		return code.toString();
+		return code;
 	}
 
 	/**
@@ -140,9 +143,8 @@ public class Formatter {
 			nameWithDate = fileName + "_BACKUP_" + formattedDate;
 			FileWriter file = new FileWriter(nameWithDate);
 			PrintWriter safety = new PrintWriter(file);
-			safety.println(before);
+			safety.print(before);
 			safety.close();
-			return nameWithDate;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -158,6 +160,9 @@ public class Formatter {
 	public static CommandLine getOptions(String[] args, Options options) {
 		options.addOption("b", false, "create a backup file");
 		options.addOption("help", false, "print this message");
+		options.addOption("version", false, "version of the formatter");
+		options.addOption("java", false, "only format java files");
+		options.addOption("groovy", false, "only format groovy files");
 		CommandLineParser parser = new BasicParser();
 		CommandLine cmd = null;
 		try {
@@ -169,8 +174,8 @@ public class Formatter {
 	}
 
 	/**
-	* A no-argument method used to intantiate the logger
-	*/
+	 * A no-argument method used to intantiate the logger
+	 */
 	public static void instantiateLogger() {
 		ConsoleAppender console = new ConsoleAppender();
 		String PATTERN = "%m%n";

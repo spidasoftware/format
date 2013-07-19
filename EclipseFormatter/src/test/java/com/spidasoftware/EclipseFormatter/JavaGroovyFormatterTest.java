@@ -44,7 +44,7 @@ public class JavaGroovyFormatterTest extends TestCase {
 	 */
 	public void testjavaFormatConstruct() {
 		BasicConfigurator.configure();
-		log.info("Test to make sure javaFormat.isFormatted() method is set to false when initialized");
+		log.info("JavaFormat.isFormatted() method is set to false when initialized");
 		assertTrue("correctlyFormatted is set to false", javaFormatter.isFormatted() == false);
 	}
 
@@ -52,7 +52,7 @@ public class JavaGroovyFormatterTest extends TestCase {
 	 * Test the GroovyFormat constructor
 	 */
 	public void testgroovyFormatConstruct() {
-		log.info("Test to make sure GroovyFormat.isFormatted() method is set to false when initialized");
+		log.info("GroovyFormat.isFormatted() method is set to false when initialized");
 		assertTrue("correctlyFormatted is set to false", groovyFormatter.isFormatted() == false);
 	}
 
@@ -60,9 +60,8 @@ public class JavaGroovyFormatterTest extends TestCase {
 	 * Test the JavaFormat with unparsable code
 	 */
 	public void testunParsableJavaCode() {
-		log.info("Test to make sure JavaFormat.isFormatted() method is set to false after JavaFormat.Format(string, string) "
+		log.info("JavaFormat.isFormatted() method is set to false after JavaFormat.Format(string, string) "
 				+ "runs on unparsable java code");
-		JavaFormat javaFormatter = new JavaFormat();
 		javaFormatter.format("javaEclipseFormatterTest13243546.java",
 				"asfasgfdasgfdagfdsgsafgdasfdsf dsfdsa sdfdsf dsd");
 		assertTrue("correctlyFormatted is false", javaFormatter.isFormatted() == false);
@@ -72,9 +71,8 @@ public class JavaGroovyFormatterTest extends TestCase {
 	 * Test the JavaFormat with parsable code
 	 */
 	public void testparsableJavaCode() {
-		log.info("Test to make sure JavaFormat.isFormatted() method is set to true after JavaFormat.Format(string, string) "
+		log.info("JavaFormat.isFormatted() method is set to true after JavaFormat.Format(string, string) "
 				+ "runs on parsable java code");
-		JavaFormat javaFormatter = new JavaFormat();
 		javaFormatter.format("javaEclipseFormatterTest13243546.java",
 				"package groovyTest;\npublic class genericJavaClass"
 						+ "{\npublic static void main(String[] args) {\n// TODO Auto-generated method stub\n}\n}");
@@ -85,9 +83,8 @@ public class JavaGroovyFormatterTest extends TestCase {
 	 * Test the GroovyFormat with parsable code
 	 */
 	public void testparsableGroovyCode() {
-		log.info("Test to make sure GroovyFormat.isFormatted() method is set to false after GroovyFormat.Format(string, string) "
+		log.info("GroovyFormat.isFormatted() method is set to false after GroovyFormat.Format(string, string) "
 				+ "runs on parsable groovy code");
-		GroovyFormat groovyFormatter = new GroovyFormat();
 		groovyFormatter.format("groovyEclipseFormatterTest13243546.groovy", "package groovyTest\nclass genericClass "
 				+ "{\nstatic main(args) {\n}\n}\n");
 		assertTrue("correctlyFormatted is true", groovyFormatter.isFormatted() == true);
@@ -97,9 +94,8 @@ public class JavaGroovyFormatterTest extends TestCase {
 	 * Test the JavaFormat with an empty code string
 	 */
 	public void testEmptyCodeStringjava() {
-		log.info("Test to make sure JavaFormat.isFormatted() method is set to false after javaFormat.Format(string, string) "
+		log.info("JavaFormat.isFormatted() method is set to false after javaFormat.Format(string, string) "
 				+ "runs on an empty string of code");
-		JavaFormat javaFormatter = new JavaFormat();
 		javaFormatter.format("javaEclipseFormatterTest13243546.java", "");
 		assertTrue("correctlyFormatted is false", javaFormatter.isFormatted() == false);
 	}
@@ -108,9 +104,8 @@ public class JavaGroovyFormatterTest extends TestCase {
 	 * Test the GroovyFormat with an empty code string
 	 */
 	public void testEmptyCodeStringGroovy() {
-		log.info("Test to make sure GroovyFormat.isFormatted() method is set to false after GroovyFormat.Format(string, string) "
+		log.info("GroovyFormat.isFormatted() method is set to false after GroovyFormat.Format(string, string) "
 				+ "runs on an empty string of code");
-		GroovyFormat groovyFormatter = new GroovyFormat();
 		groovyFormatter.format("groovyEclipseFormatterTest13243546.groovy", "");
 		assertTrue("correctlyFormatted is false", groovyFormatter.isFormatted() == false);
 	}

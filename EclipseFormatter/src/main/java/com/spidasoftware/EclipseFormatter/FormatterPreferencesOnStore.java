@@ -19,21 +19,21 @@
 
 package com.spidasoftware.EclipseFormatter;
 
-import static com.spidasoftware.EclipseFormatter.PreferenceConstants.DEFAULT_BRACES_END;
-import static com.spidasoftware.EclipseFormatter.PreferenceConstants.DEFAULT_BRACES_START;
-import static com.spidasoftware.EclipseFormatter.PreferenceConstants.DEFAULT_INDENT_EMPTY_LINES;
-import static com.spidasoftware.EclipseFormatter.PreferenceConstants.DEFAULT_INDENT_MULTILINE;
-import static com.spidasoftware.EclipseFormatter.PreferenceConstants.DEFAULT_INDENT_SIZE;
-import static com.spidasoftware.EclipseFormatter.PreferenceConstants.DEFAULT_LONG_LIST_LENGTH;
-import static com.spidasoftware.EclipseFormatter.PreferenceConstants.DEFAULT_MAX_LINE_LEN;
-import static com.spidasoftware.EclipseFormatter.PreferenceConstants.DEFAULT_REMOVE_UNNECESSARY_SEMICOLONS;
-import static com.spidasoftware.EclipseFormatter.PreferenceConstants.DEFAULT_SMART_PASTE;
-import static com.spidasoftware.EclipseFormatter.PreferenceConstants.DEFAULT_TAB_SIZE;
-import static com.spidasoftware.EclipseFormatter.PreferenceConstants.DEFAULT_USE_TABS;
-import static com.spidasoftware.EclipseFormatter.PreferenceConstants.NEXT_LINE;
-import static com.spidasoftware.EclipseFormatter.PreferenceConstants.SAME_LINE;
+import static org.codehaus.groovy.eclipse.refactoring.PreferenceConstants.DEFAULT_BRACES_END;
+import static org.codehaus.groovy.eclipse.refactoring.PreferenceConstants.DEFAULT_BRACES_START;
+import static org.codehaus.groovy.eclipse.refactoring.PreferenceConstants.DEFAULT_INDENT_EMPTY_LINES;
+import static org.codehaus.groovy.eclipse.refactoring.PreferenceConstants.DEFAULT_INDENT_MULTILINE;
+import static org.codehaus.groovy.eclipse.refactoring.PreferenceConstants.DEFAULT_INDENT_SIZE;
+import static org.codehaus.groovy.eclipse.refactoring.PreferenceConstants.DEFAULT_LONG_LIST_LENGTH;
+import static org.codehaus.groovy.eclipse.refactoring.PreferenceConstants.DEFAULT_MAX_LINE_LEN;
+import static org.codehaus.groovy.eclipse.refactoring.PreferenceConstants.DEFAULT_REMOVE_UNNECESSARY_SEMICOLONS;
+import static org.codehaus.groovy.eclipse.refactoring.PreferenceConstants.DEFAULT_SMART_PASTE;
+import static org.codehaus.groovy.eclipse.refactoring.PreferenceConstants.DEFAULT_TAB_SIZE;
+import static org.codehaus.groovy.eclipse.refactoring.PreferenceConstants.DEFAULT_USE_TABS;
+import static org.codehaus.groovy.eclipse.refactoring.PreferenceConstants.NEXT_LINE;
+import static org.codehaus.groovy.eclipse.refactoring.PreferenceConstants.SAME_LINE;
 
-import com.spidasoftware.EclipseFormatter.PreferenceConstants;
+import org.codehaus.groovy.eclipse.refactoring.PreferenceConstants;
 import org.codehaus.groovy.eclipse.refactoring.formatter.IFormatterPreferences;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants;
@@ -152,8 +152,8 @@ public class FormatterPreferencesOnStore implements IFormatterPreferences {
 		if (pIndeMulti != 0)
 			indentationMultiline = pIndeMulti;
 
-		int pMaxLine = 50;//preferences.getInt(PreferenceConstants.GROOVY_FORMATTER_MAX_LINELENGTH);
-		maxLineLength = 50; // DEFAULT_MAX_LINE_LEN;
+		int pMaxLine = preferences.getInt(PreferenceConstants.GROOVY_FORMATTER_MAX_LINELENGTH);
+		maxLineLength = DEFAULT_MAX_LINE_LEN;
 		if (pMaxLine != 0)
 			maxLineLength = pMaxLine;
 
