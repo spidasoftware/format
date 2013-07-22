@@ -1,0 +1,131 @@
+#!/bin/bash
+
+#
+# Spida Software
+# Nick Joodi
+#
+# This script will automatically format files. 
+# To add more formatters to this script, see the format() method.
+
+# Display the options
+usage() { echo "Usage: $(basename $0) [options] [<file or directory with relative path>]" 1>&2; 
+          echo "    b:       create a backup file" 1>&2; 
+          echo "    r:       format all files recursively startingfrom the directory specified" 1>&2; 
+          echo "    g:       format all modified files in the git working directory" 1>&2;
+          echo "    Note:    r and g can not be set together" 1>&2;
+          echo "    Note:    g does not need a filename as an argument" 1>&2; exit 1;
+}
+
+# A one argument method that takes a file and creates a backup file
+backup() {
+    if [ $BACKUP = 1 ] ; then
+        DATE=$(date +"%Y_%m_%d_%H_%M_%S")
+        newName="${1}_BACKUP_${DATE}"
+        cp $1 ${newName}
+        echo "A backup file was stored in $newName"   
+    fi 
+}
+
+# A one argument method that takes a file to Format.
+# This method is where you add a new formatter. Just add a new if statement
+# that checks the extensions of the files that can be formatted with this new formatter.
+# Inside the if, give the command to format one file without a backup. This command must
+# beable to execute from the path where this script is located. Below that line, 
+# then add a call to the backup function with the first parameter being the file name.
+format() {
+    i=${1}
+    if [[ "${i##*.}" = "groovy" || "${i##*.}" = "java" ]]  && [[  -e $1  ]] ; then
+        java -jar ${FORMAT}/EclipseFormatter/target/EclipseFormatter.jar $1
+        backup ${1}
+    fi
+}
+
+# A one argument method that takes a directory and formats all files in a directory and the
+# files in the respective subdirectories
+recursive() {
+    echo "*** Are you sure you want to recursively format all files? (enter y to continue) ***"
+    read answer
+    if [ ${answer} = y ] ; then
+        echo "****************************************************************************"
+        echo "I'd recommend that you (if you haven't already done so) set the backup flag."
+        echo "If you haven't, would you like to terminate this command so that you can add"
+        echo "the backup flag?                                                            "
+        echo "(enter n to continue)                                                       "
+        echo "****************************************************************************"
+        read backupFlag
+        if [ ${backupFlag} = n ] ; then
+            for entry in $(find ${File}) ; do
+                format "${entry}" "${File}"
+            done
+        else
+            exit 1
+        fi
+    else
+        exit 1
+    fi
+}
+
+# Format all modified files in a git repository
+gitFormat() {
+    filenames=$(git diff --name-only)
+    for i in $filenames ; do
+        path=$(git rev-parse --show-toplevel)
+        cd $path
+        if  [  -e "${i}"  ] ; then
+            format "${i}"
+        fi
+    done
+}
+
+# Flags for the options
+BACKUP=0
+RECURSIVE=0
+GIT=0
+
+# Using getopts to parse the command line arguments
+while getopts ":brg" o; do
+    case "${o}" in
+        b)
+            BACKUP=1
+            ;;
+        r)
+            RECURSIVE=1
+            ;;
+        g)  
+            GIT=1
+            ;;
+        *)
+            usage
+            ;;
+    esac
+done
+shift $((OPTIND-1))
+
+File=$1
+if [ ${GIT} = 1 ] ; then
+    gitFormat
+elif [ $# != 1 ] ; then 
+    echo "invalid execution of format";
+    usage
+    exit 1
+elif  [ -d "${File}" ] ; then
+    if [ ${RECURSIVE} = 1 ] ; then
+        recursive "${File}"
+    else
+        for entry in $(ls ${File}) ; do
+            format "${entry}"
+        done
+    fi
+else
+    if [ -f "${File}" ]; then
+        format "${File}"
+    else
+        echo "${File} is not valid";
+        exit 1
+    fi
+fi
+
+
+
+
+

@@ -1,12 +1,12 @@
 /**
- * 
- * Extracted various classes from eclipse to create a command line automatic java 
+ *
+ * Extracted various classes from eclipse to create a command line automatic java
  * and groovy formatter
- * 
+ *
  * July of 2013
  * SpidaSoftware
  * @author Nick Joodi
- * 
+ *
  */
 
 package com.spidasoftware.EclipseFormatter;
@@ -46,7 +46,6 @@ public class Formatter {
 	public static void main(String[] args) {
 		instantiateLogger();
 		CommandLine cmd = getOptions(args, options);
-		File pathToFile = new File(System.getProperty("user.dir") + File.separator + args[args.length - 1]);
 		if (cmd.hasOption("help")) {
 			HelpFormatter formatter = new HelpFormatter();
 			formatter.printHelp("format [option] [directory or file]", options);
@@ -59,24 +58,30 @@ public class Formatter {
 				groovy = false;
 			if (cmd.hasOption("groovy"))
 				java = false;
-			if (pathToFile.isDirectory()) {
-				ArrayList<File> files = new ArrayList<File>(Arrays.asList(pathToFile.listFiles()));
-				for (File f : files) {
-					String code = readInFile(f.toString());
-					formatOne(f.toString(), code, cmd);
-				}
-			} else if (pathToFile.exists()) {
-				String code = readInFile(args[args.length - 1]);
-				formatOne(args[args.length - 1], code, cmd);
-			} else {
+			if (args.length == 0) {
 				log.info("!!!invalid input!!!");
+			}
+			else {
+				File pathToFile = new File(System.getProperty("user.dir") + File.separator + args[args.length - 1]);
+				if (pathToFile.isDirectory() && args.length != 0) {
+					ArrayList<File> files = new ArrayList<File>(Arrays.asList(pathToFile.listFiles()));
+					for (File f: files) {
+						String code = readInFile(f.toString());
+						formatOne(f.toString(), code, cmd);
+					}
+				} else if (pathToFile.exists() && args.length != 0) {
+					String code = readInFile(args[args.length - 1]);
+					formatOne(args[args.length - 1], code, cmd);
+				} else {
+					log.info("!!!invalid input!!!");
+				}
 			}
 		}
 
 	}
 
 	/**
-	 * A three-argument method that will take a filename string, the contents of 
+	 * A three-argument method that will take a filename string, the contents of
 	 * that file as a string (before formatted), and the CommandLine arguments and
 	 * format the respective file.
 	 *
@@ -106,9 +111,9 @@ public class Formatter {
 	}
 
 	/**
-	 * A one-argument method that will take a filename and return a string containing 
+	 * A one-argument method that will take a filename and return a string containing
 	 * the contents of that file.
-	 * 
+	 *
 	 * @param filename
 	 *            The name of that file
 	 * @return String containing the contents of that file
@@ -127,7 +132,7 @@ public class Formatter {
 	}
 
 	/**
-	 * A two-argument method that will take a filename string and the contents of 
+	 * A two-argument method that will take a filename string and the contents of
 	 * that file (before formatted), and return a backup file.
 	 *
 	 * @param filename, a string representing the name of the file
@@ -152,7 +157,7 @@ public class Formatter {
 	}
 
 	/**
-	 * A no-argument method that will return the command line arguments as a 
+	 * A no-argument method that will return the command line arguments as a
 	 * CommandLine object
 	 *
 	 * @return cmd, the CommandLine object holding the command line arguments
