@@ -145,7 +145,7 @@ public class FormatterTest extends TestCase {
 	}
 
 	/**
-	 * Test where Formatter.formatOne returned a backup file when ran on a java file
+	 * Test where Formatter.formatOne does not return a backup file when ran on a java file
 	 */
 	public void testformatOneNoBackupFileJava() {
 		log.info("Formatter.formatOne returns no backup file when ran on a java file when the option is not set");
@@ -160,7 +160,7 @@ public class FormatterTest extends TestCase {
 		nameWithDate = Formatter.formatOne("javaEclipseFormatterTest13243546.java",
 				"package groovyTest;\npublic class genericJavaClass"
 						+ "{\npublic static void main(String[] args) {\n// TODO Auto-generated method stub\n}\n}", cmd);
-		assertTrue("Formatter.formatOne returned a backup file", nameWithDate == null);
+		assertTrue("Formatter.formatOne did not return a backup file", nameWithDate == null);
 	}
 
 	/**
@@ -181,6 +181,115 @@ public class FormatterTest extends TestCase {
 				"package groovyTest\nclass genericClass " + "{\nstatic main(args) {\n}\n}\n", cmd);
 		assertTrue("Formatter.formatOne returned a backup file", nameWithDate != null);
 
+	}
+
+	/**
+	 * Test where Formatter.formatOne does not return a backup file when ran on a groovy file
+	 */
+	public void testformatOneNoBackupFileGroovy() {
+		log.info("Formatter.formatOne returns no backup file when ran on a groovy file when the option is not set");
+		Options options = new Options();
+		CommandLine cmd = null;
+		CommandLineParser parser = new BasicParser();
+		try {
+			cmd = parser.parse(options, new String[] {});
+		} catch (ParseException e) {
+			log.error(e, e);
+		}
+		nameWithDate = Formatter.formatOne("groovyEclipseFormatterTest13243546.groovy",
+				"package groovyTest\nclass genericClass " + "{\nstatic main(args) {\n}\n}\n", cmd);
+		assertTrue("Formatter.formatOne did not return a backup file", nameWithDate == null);
+	}
+
+	/**
+	 * Test where groovy flag is set true
+	 */
+	public void testgroovyFlagSetTrue() {
+		log.info("groovy flag set true");
+		Options options = new Options();
+		options.addOption("java", false, "only format java files");
+		options.addOption("groovy", false, "only format groovy files");
+		CommandLine cmd = null;
+		CommandLineParser parser = new BasicParser();
+		try {
+			cmd = parser.parse(options, new String[] { "-groovy" });
+		} catch (ParseException e) {
+			log.error(e, e);
+		}
+		assertTrue("groovy flag set true", Formatter.groovyFormatting(cmd) == true);
+	}
+
+	/**
+	 * Test where groovy flag is set false
+	 */
+	public void testgroovyFlagSetfalse() {
+		log.info("groovy flag set false");
+		Options options = new Options();
+		options.addOption("java", false, "only format java files");
+		options.addOption("groovy", false, "only format groovy files");
+		CommandLine cmd = null;
+		CommandLineParser parser = new BasicParser();
+		try {
+			cmd = parser.parse(options, new String[] { "-java" });
+		} catch (ParseException e) {
+			log.error(e, e);
+		}
+		assertTrue("groovy flag set false", Formatter.groovyFormatting(cmd) == false);
+	}
+
+	/**
+	 * Test where java flag is set true
+	 */
+	public void testjavaFlagSetTrue() {
+		log.info("java flag set true");
+		Options options = new Options();
+		options.addOption("java", false, "only format java files");
+		options.addOption("groovy", false, "only format groovy files");
+		CommandLine cmd = null;
+		CommandLineParser parser = new BasicParser();
+		try {
+			cmd = parser.parse(options, new String[] { "-java" });
+		} catch (ParseException e) {
+			log.error(e, e);
+		}
+		assertTrue("java flag set true", Formatter.javaFormatting(cmd) == true);
+	}
+
+	/**
+	 * Test where java flag is set false
+	 */
+	public void testjavaFlagSetFalse() {
+		log.info("java flag set false");
+		Options options = new Options();
+		options.addOption("java", false, "only format java files");
+		options.addOption("groovy", false, "only format groovy files");
+		CommandLine cmd = null;
+		CommandLineParser parser = new BasicParser();
+		try {
+			cmd = parser.parse(options, new String[] { "-groovy" });
+		} catch (ParseException e) {
+			log.error(e, e);
+		}
+		assertTrue("java flag set false", Formatter.javaFormatting(cmd) == false);
+	}
+
+	/**
+	 * Test is groovy script false
+	 */
+	public void testisgroovyScriptFalse() {
+		log.info("Is a groovy script");
+		String code = "package groovyTest\nclass genericClass " + "{\nstatic main(args) {\n}\n}\n";
+		assertTrue("is a groovy script", Formatter.groovyScript(code) == false);
+	}
+
+	/**
+	 * Test is groovy script true
+	 */
+	public void testisgroovyScriptTrue() {
+		log.info("Is not a groovy script");
+		String code = "#!/usr/bin/env groovy\npackage groovyTest\nclass genericClass "
+				+ "{\nstatic main(args) {\n}\n}\n";
+		assertTrue("is not a groovy script", Formatter.groovyScript(code) == true);
 	}
 
 }

@@ -1,12 +1,12 @@
 /**
- *
- * Extracted various classes from eclipse to create a command line automatic java
+ * 
+ * Extracted various classes from eclipse to create a command line automatic java 
  * and groovy formatter
- *
+ * 
  * July of 2013
  * SpidaSoftware
  * @author Nick Joodi
- *
+ * 
  */
 
 package com.spidasoftware.EclipseFormatter;
@@ -42,46 +42,57 @@ public class Formatter {
 	private static Options options = new Options();
 	private static boolean java = true;
 	private static boolean groovy = true;
+	private static boolean parseHeader = true;
 
 	public static void main(String[] args) {
 		instantiateLogger();
 		CommandLine cmd = getOptions(args, options);
 		if (cmd.hasOption("help")) {
 			HelpFormatter formatter = new HelpFormatter();
-			formatter.printHelp("format [option] [directory or file]", options);
+			formatter.printHelp("format [option] <directory or file with relative path>", options);
 		} else if (cmd.hasOption("version")) {
 			log.info("Format");
 			log.info("java and groovy eclipse-formatter");
 			log.info("version 1.0");
 		} else {
-			if (cmd.hasOption("java"))
-				groovy = false;
-			if (cmd.hasOption("groovy"))
-				java = false;
-			if (args.length == 0) {
-				log.info("!!!invalid input!!!");
-			}
-			else {
-				File pathToFile = new File(System.getProperty("user.dir") + File.separator + args[args.length - 1]);
-				if (pathToFile.isDirectory() && args.length != 0) {
-					ArrayList<File> files = new ArrayList<File>(Arrays.asList(pathToFile.listFiles()));
-					for (File f: files) {
-						String code = readInFile(f.toString());
-						formatOne(f.toString(), code, cmd);
-					}
-				} else if (pathToFile.exists() && args.length != 0) {
-					String code = readInFile(args[args.length - 1]);
-					formatOne(args[args.length - 1], code, cmd);
-				} else {
-					log.info("!!!invalid input!!!");
-				}
-			}
+			optionToFormat(cmd, args);
 		}
 
 	}
 
 	/**
-	 * A three-argument method that will take a filename string, the contents of
+	 * A two argument method that takes a CommandLine object, as well as the args string [],
+	 * and initiates the formatting.
+	 *
+	 * @param cmd, the list of command line arguments
+	 * @param args, the command line arguments 
+	 */
+	public static void optionToFormat(CommandLine cmd, String[] args) {
+		if (args.length == 0) {
+			log.info("Need to provide a file to format");
+		} else {
+			File pathToFile = new File(System.getProperty("user.dir") + File.separator + args[args.length - 1]);
+			if (pathToFile.isDirectory()) {
+				ArrayList<File> files = new ArrayList<File>(Arrays.asList(pathToFile.listFiles()));
+				parseHeader = false;
+				for (File f : files) {
+					if (!f.isDirectory()) {
+						String code = readInFile(f.toString());
+						formatOne(f.toString(), code, cmd);
+					}
+				}
+			} else if (pathToFile.exists()) {
+				String code = readInFile(args[args.length - 1]);
+				formatOne(args[args.length - 1], code, cmd);
+			} else {
+				log.info("cannot format: " + args[args.length - 1]
+						+ "\nThe file/directory should be the last arguments");
+			}
+		}
+	}
+
+	/**
+	 * A three-argument method that will take a filename string, the contents of 
 	 * that file as a string (before formatted), and the CommandLine arguments and
 	 * format the respective file.
 	 *
@@ -92,13 +103,14 @@ public class Formatter {
 	public static String formatOne(String fileName, String code, CommandLine cmd) {
 		String extension = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length());
 		String nameWithDate = null;
-		if (code != null && extension.equals("java") && java) {
+		boolean isGroovy = groovyScript(code);
+		if (code != null && extension.equals("java") && javaFormatting(cmd)) {
 			JavaFormat javaFormatter = new JavaFormat();
 			javaFormatter.format(fileName, code);
 			if (javaFormatter.isFormatted() && cmd.hasOption("b"))
 				nameWithDate = createBackupFile(fileName, code);
 
-		} else if (code != null && extension.equals("groovy") && groovy) {
+		} else if (code != null && (extension.equals("groovy") || isGroovy) && groovyFormatting(cmd)) {
 			GroovyFormat groovyFormatter = new GroovyFormat();
 			groovyFormatter.format(fileName, code);
 			if (groovyFormatter.isFormatted() && cmd.hasOption("b"))
@@ -111,9 +123,9 @@ public class Formatter {
 	}
 
 	/**
-	 * A one-argument method that will take a filename and return a string containing
+	 * A one-argument method that will take a filename and return a string containing 
 	 * the contents of that file.
-	 *
+	 * 
 	 * @param filename
 	 *            The name of that file
 	 * @return String containing the contents of that file
@@ -132,7 +144,7 @@ public class Formatter {
 	}
 
 	/**
-	 * A two-argument method that will take a filename string and the contents of
+	 * A two-argument method that will take a filename string and the contents of 
 	 * that file (before formatted), and return a backup file.
 	 *
 	 * @param filename, a string representing the name of the file
@@ -157,7 +169,7 @@ public class Formatter {
 	}
 
 	/**
-	 * A no-argument method that will return the command line arguments as a
+	 * A no-argument method that will return the command line arguments as a 
 	 * CommandLine object
 	 *
 	 * @return cmd, the CommandLine object holding the command line arguments
@@ -189,5 +201,43 @@ public class Formatter {
 		console.activateOptions();
 		log.addAppender(console);
 	}
+
+	/** 
+	 * determine if the file passed in is a groovy script
+	 *
+	 * @param code, the string containing the contents of the file
+	 */
+	public static boolean groovyScript(String code) {
+		boolean isGroovy = false;
+		if (code != null && code.indexOf("\n") > -1 && parseHeader) {
+			String firstLine = code.substring(0, code.indexOf("\n"));
+			if (firstLine.indexOf("#!/usr/bin/env groovy") > -1)
+				isGroovy = true;
+		}
+		return isGroovy;
+	}
+
+	/** 
+	 * If groovy option was set, return false
+	 *
+	 * @param CommandLine
+	 */
+	public static boolean javaFormatting(CommandLine cmd) {
+		if (cmd.hasOption("groovy"))
+			java = false;
+		return java;
+	}
+
+	/** 
+	 * If java option was set, return false
+	 *
+	 * @param CommandLine
+	 */
+	public static boolean groovyFormatting(CommandLine cmd) {
+		if (cmd.hasOption("java"))
+			groovy = false;
+		return groovy;
+	}
+
 }
 
