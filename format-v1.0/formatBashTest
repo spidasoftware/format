@@ -22,7 +22,7 @@ echo ""
 echo "Test format <folder/file.groovy>"
 mkdir "folder"
 echo "" > "folder/file.groovy"
-if [[ $(format folder/file.groovy) = "*** Groovy standard formatting conventions have been applied to folder/file.groovy ***"* ]]  ; then
+if [[ $(format folder/file.groovy) = "*** Groovy standard formatting conventions have been applied to "* ]]  ; then
 	echo " - Format on one groovy file: PASSED"
 else
 	echo " - Format on one groovy file: FAILED"
@@ -42,7 +42,7 @@ echo ""
 echo "Test format -b <folder/file.groovy> "
 mkdir "folder"
 echo "" > "folder/file.groovy"
-if [[ $(format -b folder/file.groovy) == "*** Groovy standard formatting conventions have been applied to folder/file.groovy ***"* ]]  ; then
+if [[ $(format -b folder/file.groovy) == "*** Groovy standard formatting conventions have been applied to "* ]]  ; then
 	echo " - Format on one groovy file: PASSED"
 else
 	echo " - Format on one groovy file: FAILED"
@@ -63,7 +63,7 @@ echo ""
 echo "Test format <folder/file> (groovy script)"
 mkdir "folder"
 echo "#!/usr/bin/env groovy\n\n\n\n\n" > "folder/file"
-if [[ $(format folder/file) = "*** Groovy standard formatting conventions have been applied to folder/file ***" ]]  ; then
+if [[ $(format folder/file) = "*** Groovy standard formatting conventions have been applied to"* ]]  ; then
 	echo " - Format on one groovy script: PASSED"
 else
 	echo " - Format on one groovy script: FAILED"
@@ -84,7 +84,7 @@ echo ""
 echo "Test format -b <folder/file> (groovy script)"
 mkdir "folder"
 echo "#!/usr/bin/env groovy\n\n\n\n\n" > "folder/file"
-if [[ $(format -b folder/file) == "*** Groovy standard formatting conventions have been applied to folder/file ***"* ]]  ; then
+if [[ $(format -b folder/file) == "*** Groovy standard formatting conventions have been applied to "* ]]  ; then
 	echo " - Format on one groovy script: PASSED"
 else
 	echo " - Format on one groovy script: FAILED"
@@ -108,8 +108,8 @@ echo "#!/usr/bin/env groovy\n\n\n\n\n" > "folder/file1"
 echo "public class file2 {} " > "folder/file2.java"
 echo "" > "folder/file3.groovy"
 echo "" > "folder/file4.groovy"
-outputJava="*** Java standard formatting conventions have been applied to folder/"
-outputGroovy="*** Groovy standard formatting conventions have been applied to folder/"
+outputJava="*** Java standard formatting conventions have been applied to "
+outputGroovy="*** Groovy standard formatting conventions have been applied to "
 if [[ $(format folder) == "${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"* ]]  ; then
 	echo " - Format on on folder: PASSED"
 else
@@ -134,8 +134,8 @@ echo "#!/usr/bin/env groovy\n\n\n\n\n" > "folder/file1"
 echo "public class file2 {} " > "folder/file2.java"
 echo "" > "folder/file3.groovy"
 echo "" > "folder/file4.groovy"
-outputJava="*** Java standard formatting conventions have been applied to folder/"
-outputGroovy="*** Groovy standard formatting conventions have been applied to folder/"
+outputJava="*** Java standard formatting conventions have been applied to "
+outputGroovy="*** Groovy standard formatting conventions have been applied to "
 if [[ $(format -b folder) == "${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"* ]]  ; then
 	echo " - Format on one groovy script: PASSED"
 else
@@ -170,8 +170,8 @@ echo "#!/usr/bin/env groovy\n\n\n\n\n" > "folder/inner/inside/file1"
 echo "public class file2 {} " > "folder/inner/inside/file2.java"
 echo "" > "folder/inner/inside/file3.groovy"
 echo "" > "folder/inner/inside/file4.groovy"
-outputJava="*** Java standard formatting conventions have been applied to folder/"
-outputGroovy="*** Groovy standard formatting conventions have been applied to folder/"
+outputJava="*** Java standard formatting conventions have been applied to "
+outputGroovy="*** Groovy standard formatting conventions have been applied to "
 if [[ $(printf "y\nn\n" | format -r folder) == *"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"*"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"*"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"* ]]  ; then
 	echo " - Format recursively: PASSED"
 else
@@ -208,8 +208,8 @@ echo "#!/usr/bin/env groovy\n\n\n\n\n" > "folder/inner/inside/file1"
 echo "public class file2 {} " > "folder/inner/inside/file2.java"
 echo "" > "folder/inner/inside/file3.groovy"
 echo "" > "folder/inner/inside/file4.groovy"
-outputJava="*** Java standard formatting conventions have been applied to folder/"
-outputGroovy="*** Groovy standard formatting conventions have been applied to folder/"
+outputJava="*** Java standard formatting conventions have been applied to "
+outputGroovy="*** Groovy standard formatting conventions have been applied to "
 
 if [[ $(printf "y\nn\n" | format -r -b folder) == *"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"*"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"*"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"* ]]  ; then
 	echo " - Format recursively: PASSED"
@@ -260,14 +260,14 @@ echo " " >> "folder/inner/inside/file1"
 echo " " >> "folder/inner/inside/file2.java"
 echo " " >> "folder/inner/inside/file3.groovy"
 echo " " >> "folder/inner/inside/file4.groovy"
-outputJava="*** Java standard formatting conventions have been applied to folder/"
-outputGroovy="*** Groovy standard formatting conventions have been applied to folder/"
+outputJava="*** Java standard formatting conventions have been applied to "
+outputGroovy="*** Groovy standard formatting conventions have been applied to "
 
-if [[ $(format -g folder) == "${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"*"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"*"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"* ]]  ; then
-	echo " - Format recursively: PASSED"
-else
-	echo " - Format recursively: FAILED"
-fi
+ if [[ $(format -g folder) == *"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"*"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"*"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"* ]]  ; then
+ 	echo " - Format git repo: PASSED"
+ else
+	echo " - Format git repo: FAILED"
+ fi
 if [ -d folder ]; then
 	numfilesFolder=$(ls -1 folder | wc -l)
 	numfilesInner=$(ls -1 folder/inner | wc -l)
@@ -314,13 +314,13 @@ echo " " >> "folder/inner/inside/file1"
 echo " " >> "folder/inner/inside/file2.java"
 echo " " >> "folder/inner/inside/file3.groovy"
 echo " " >> "folder/inner/inside/file4.groovy"
-outputJava="*** Java standard formatting conventions have been applied to folder/"
-outputGroovy="*** Groovy standard formatting conventions have been applied to folder/"
+outputJava="*** Java standard formatting conventions have been applied to "
+outputGroovy="*** Groovy standard formatting conventions have been applied to "
 
-if [[ $(format -g -b folder) == "${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"*"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"*"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"* ]]  ; then
-	echo " - Format recursively: PASSED"
+if [[ $(format -g -b folder) == *"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"*"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"*"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"* ]]  ; then
+	echo " - Format git repo: PASSED"
 else
-	echo " - Format recursively: FAILED"
+	echo " - Format git repo: FAILED"
 fi
 if [ -d folder ]; then
 	numfilesFolder=$(ls -1 folder | wc -l)
