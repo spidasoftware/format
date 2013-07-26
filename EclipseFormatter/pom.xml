@@ -11,10 +11,10 @@
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
    </properties>
    <build>
-      <resources>
-    <resource>
+   <resources>
+      <resource>
         <directory>src/main/resources</directory>
-    </resource>
+      </resource>
     </resources> 
       <plugins>
          <plugin>

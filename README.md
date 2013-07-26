@@ -18,12 +18,16 @@ open source project.
 1. Make a global variable called FORMAT that has the absolute path of format-v[number]
  	as it's value.
 
+1. Add this variable to your path
+
 	To make sure it was correctly installed, enter in the following command:
 
 ```
 	format -h
 ```
-	Which should diplay the following:
+
+Which should diplay the following:
+
 
 ```
 Usage: format [options] <file or directory with relative path>
@@ -63,7 +67,7 @@ can format your files.
 
 We tried to make it as easy as possible for you to have more languages to be formatted. To
 do this, navigate to format-v[number]/conf directory, and you will see two files:
-extension.cfg and hashbang.cfg. If you would to format files with a particular file extension,
+extension.cfg and hashbang.cfg. If you would like to format files with a particular file extension,
 open the extension.cfg file. In there you will see comments as well as two lines, one starting 
 with "java" and the other starting with "groovy". These are the two formatters that have been 
 added to the program when you installed it. observe the line: 
@@ -88,7 +92,7 @@ maven 2.2.1 to build the project. Once you have this installed, navigate yoursel
 EclipseFormatter/src/main/java/com/spidasoftware/EclipseFormatter/Formatter.java file. Above the 
 class declaration, read the comment to determine what you need to do to modify the preferences.
 
-Once you have made changes to the code, navigate yourself to the in format/EclipseFormatter directory
+Once you have made changes to the code, navigate yourself to the format/EclipseFormatter directory
 and run:
 
 ```

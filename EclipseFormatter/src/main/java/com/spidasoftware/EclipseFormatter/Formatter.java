@@ -41,7 +41,7 @@ import java.util.Arrays;
 /**
  * This class, containing a main method, will take in command line arguments and call on the JavaFormat
  * and Groovy Format classes to automatically format java and groovy files. If you would like to make
- * changes to how the formatter formats, see the specified classes.
+ * changes to how the formatter formats, see the JavaFormat class or the GroovyFormat class.
  */
 public class Formatter {
 	private static Logger log = Logger.getRootLogger();
