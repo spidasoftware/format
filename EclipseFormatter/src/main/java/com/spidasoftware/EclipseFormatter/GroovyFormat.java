@@ -26,10 +26,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * The GroovyFormat class that will format groovy source code
- * 
- * spidasoftware
- * @author Nick Joodi
+ * This class formats groovy source code. See the initializeFormatter method to 
+ * modify the formatting preferences
  */
 public class GroovyFormat {
 
@@ -54,12 +52,12 @@ public class GroovyFormat {
 	 */
 	public void format(String fileName, String code) {
 		DefaultGroovyFormatter cf = initializeFormatter(code);
-		TextEdit te = cf.format();
 		IDocument dc = new Document(code.toString());
-		if (te == null || code.length() == 0) {
+		if (dc == null || code.length() == 0) {
 			log.info("!!! Could not format " + fileName + " !!!");
 		} else {
 			try {
+				TextEdit te = cf.format();
 				te.apply(dc);
 
 				PrintWriter out = new PrintWriter(new FileWriter(fileName));
@@ -67,14 +65,16 @@ public class GroovyFormat {
 				out.close();
 
 				log.info("*** Groovy standard formatting conventions have been applied to " + fileName + " ***");
+				correctlyFormatted = true;
 			} catch (MalformedTreeException e) {
 				log.error(e, e);
 			} catch (BadLocationException e) {
 				log.error(e, e);
 			} catch (IOException e) {
 				log.error(e, e);
+			} catch (Exception e) {
+				log.error("!!!Could Not format " + fileName + "!!!");
 			}
-			correctlyFormatted = true;
 		}
 	}
 
@@ -88,8 +88,9 @@ public class GroovyFormat {
 	}
 
 	/**
-	 * A static method that will prepare the JavaFormat object for formatting
-	 * the respective code that was passed in to the format method 	 
+	 * A static method that will prepare the GroovyFormat object for formatting
+	 * the respective code that was passed into the format method. If you would like to changes
+	 * to the preferences, see the FormatterPreferencesOnStore class.	 
 	 */
 	public static DefaultGroovyFormatter initializeFormatter(String code) {
 		IPreferenceStore pref = null;

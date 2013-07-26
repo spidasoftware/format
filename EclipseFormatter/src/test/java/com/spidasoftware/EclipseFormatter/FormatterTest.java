@@ -38,6 +38,7 @@ public class FormatterTest extends TestCase {
 	private String nameWithDate;
 	private File javaFile;
 	private File groovyFile;
+	private File groovyScript;
 
 	public void setUp() throws Exception {
 		super.setUp();
@@ -45,6 +46,7 @@ public class FormatterTest extends TestCase {
 		backUp = new File(fileName);
 		javaFile = new File("javaEclipseFormatterTest13243546.java");
 		groovyFile = new File("groovyEclipseFormatterTest13243546.groovy");
+		groovyScript = new File("groovyEclipseFormatterTest13243546");
 	}
 
 	public void tearDown() {
@@ -54,6 +56,8 @@ public class FormatterTest extends TestCase {
 			javaFile.delete();
 		if (groovyFile.exists())
 			groovyFile.delete();
+		if (groovyScript.exists())
+			groovyScript.delete();
 		if (nameWithDate != null) {
 			readIn = new File(nameWithDate);
 			if (readIn.exists())
@@ -274,22 +278,42 @@ public class FormatterTest extends TestCase {
 	}
 
 	/**
-	 * Test is groovy script false
+	 * Test is groovy script True
 	 */
-	public void testisgroovyScriptFalse() {
+	public void testisgroovyScriptTrue() {
 		log.info("Is a groovy script");
-		String code = "package groovyTest\nclass genericClass " + "{\nstatic main(args) {\n}\n}\n";
-		assertTrue("is a groovy script", Formatter.groovyScript(code) == false);
+		Options options = new Options();
+		options.addOption("b", false, "create a backup file");
+		CommandLine cmd = null;
+		CommandLineParser parser = new BasicParser();
+		try {
+			cmd = parser.parse(options, new String[] { "-b" });
+		} catch (ParseException e) {
+			log.error(e, e);
+		}
+		nameWithDate = Formatter.formatOne("groovyEclipseFormatterTest13243546",
+				"#!/usr/bin/env groovy\npackage groovyTest\nclass genericClass " + "{\nstatic main(args) {\n}\n}\n",
+				cmd);
+		assertTrue("Formatter.formatOne did not return a backup file", nameWithDate != null);
 	}
 
 	/**
-	 * Test is groovy script true
+	 * Test is groovy script False
 	 */
-	public void testisgroovyScriptTrue() {
+	public void testisgroovyScriptFalse() {
 		log.info("Is not a groovy script");
-		String code = "#!/usr/bin/env groovy\npackage groovyTest\nclass genericClass "
-				+ "{\nstatic main(args) {\n}\n}\n";
-		assertTrue("is not a groovy script", Formatter.groovyScript(code) == true);
+		Options options = new Options();
+		options.addOption("b", false, "create a backup file");
+		CommandLine cmd = null;
+		CommandLineParser parser = new BasicParser();
+		try {
+			cmd = parser.parse(options, new String[] { "-b" });
+		} catch (ParseException e) {
+			log.error(e, e);
+		}
+		nameWithDate = Formatter.formatOne("groovyEclipseFormatterTest13243546",
+				"package groovyTest\nclass genericClass " + "{\nstatic main(args) {\n}\n}\n", cmd);
+		assertTrue("Formatter.formatOne did not return a backup file", nameWithDate == null);
 	}
 
 }

@@ -33,6 +33,10 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.text.edits.MalformedTreeException;
 import org.eclipse.text.edits.TextEdit;
 
+/**
+ * This class formats java source code. See the initializeFormatter method to 
+ * modify the formatting preferences
+ */
 public class JavaFormat {
 	private boolean correctlyFormatted;
 	private static Logger log = Logger.getRootLogger();
@@ -74,6 +78,7 @@ public class JavaFormat {
 				out.close();
 
 				log.info("*** Java standard formatting conventions have been applied to " + fileName + " ***");
+				correctlyFormatted = true;
 			} catch (MalformedTreeException e) {
 				log.error(e, e);
 			} catch (BadLocationException e) {
@@ -81,7 +86,6 @@ public class JavaFormat {
 			} catch (IOException e) {
 				log.error(e, e);
 			}
-			correctlyFormatted = true;
 		}
 	}
 
@@ -96,7 +100,11 @@ public class JavaFormat {
 
 	/**
 	 * A static method that will prepare the JavaFormat object for formatting
-	 * the respective code that was passed in to the format method 		 
+	 * the respective code that was passed in to the format method. If you would like
+	 * to add in your own preferences to the java formatter, see the DefaultCodeFormatterConstants
+	 * Eclipse Api. It gives you directions on how to go about adding preferences. I have an example
+	 * below that is commented out that would not allow for a line to be split at the selectors
+	 * in a method invocation.		 
 	 */
 	@SuppressWarnings({ "unchecked", "deprecation" })
 	private static CodeFormatter initializeFormatter() {

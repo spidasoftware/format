@@ -34,15 +34,20 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * This class, containing a main method, will take in command line arguments and call on the JavaFormat
+ * and Groovy Format classes to automatically format java and groovy files. If you would like to make
+ * changes to how the formatter formats, see the specified classes.
+ */
 public class Formatter {
 	private static Logger log = Logger.getRootLogger();
 	private static Options options = new Options();
 	private static boolean java = true;
 	private static boolean groovy = true;
-	private static boolean parseHeader = true;
 
 	public static void main(String[] args) {
 		instantiateLogger();
@@ -74,7 +79,6 @@ public class Formatter {
 			File pathToFile = new File(System.getProperty("user.dir") + File.separator + args[args.length - 1]);
 			if (pathToFile.isDirectory()) {
 				ArrayList<File> files = new ArrayList<File>(Arrays.asList(pathToFile.listFiles()));
-				parseHeader = false;
 				for (File f : files) {
 					if (!f.isDirectory()) {
 						String code = readInFile(f.toString());
@@ -85,8 +89,7 @@ public class Formatter {
 				String code = readInFile(args[args.length - 1]);
 				formatOne(args[args.length - 1], code, cmd);
 			} else {
-				log.info("cannot format: " + args[args.length - 1]
-						+ "\nThe file/directory should be the last arguments");
+				log.info("cannot format: " + args[args.length - 1] + "\nThe file/directory should be the last argument");
 			}
 		}
 	}
@@ -100,24 +103,14 @@ public class Formatter {
 	 * @param code, a string containing the contents of that file
 	 * @param cmd, the list of command line arguments
 	 */
+
 	public static String formatOne(String fileName, String code, CommandLine cmd) {
-		String extension = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length());
 		String nameWithDate = null;
-		boolean isGroovy = groovyScript(code);
-		if (code != null && extension.equals("java") && javaFormatting(cmd)) {
-			JavaFormat javaFormatter = new JavaFormat();
-			javaFormatter.format(fileName, code);
-			if (javaFormatter.isFormatted() && cmd.hasOption("b"))
-				nameWithDate = createBackupFile(fileName, code);
-
-		} else if (code != null && (extension.equals("groovy") || isGroovy) && groovyFormatting(cmd)) {
-			GroovyFormat groovyFormatter = new GroovyFormat();
-			groovyFormatter.format(fileName, code);
-			if (groovyFormatter.isFormatted() && cmd.hasOption("b"))
-				nameWithDate = createBackupFile(fileName, code);
-
+		String extension = FilenameUtils.getExtension(fileName);
+		if (extension.length() > 0) {
+			nameWithDate = formatUsingExtension(fileName, code, cmd);
 		} else {
-			//log.info("Sorry, no formatting could be applied to " + fileName);
+			nameWithDate = formatUsingHashBang(fileName, code, cmd);
 		}
 		return nameWithDate;
 	}
@@ -126,8 +119,7 @@ public class Formatter {
 	 * A one-argument method that will take a filename and return a string containing 
 	 * the contents of that file.
 	 * 
-	 * @param filename
-	 *            The name of that file
+	 * @param filename, The name of that file
 	 * @return String containing the contents of that file
 	 */
 	@SuppressWarnings("resource")
@@ -202,19 +194,45 @@ public class Formatter {
 		log.addAppender(console);
 	}
 
-	/** 
-	 * determine if the file passed in is a groovy script
-	 *
-	 * @param code, the string containing the contents of the file
+	/**
+	 * Format by using the extension of the file
 	 */
-	public static boolean groovyScript(String code) {
-		boolean isGroovy = false;
-		if (code != null && code.indexOf("\n") > -1 && parseHeader) {
-			String firstLine = code.substring(0, code.indexOf("\n"));
-			if (firstLine.indexOf("#!/usr/bin/env groovy") > -1)
-				isGroovy = true;
+	public static String formatUsingExtension(String fileName, String code, CommandLine cmd) {
+		String extension = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length());
+		String nameWithDate = null;
+		if (code != null && extension.equals("java") && javaFormatting(cmd)) {
+			JavaFormat javaFormatter = new JavaFormat();
+			javaFormatter.format(fileName, code);
+			if (javaFormatter.isFormatted() && cmd.hasOption("b"))
+				nameWithDate = createBackupFile(fileName, code);
+
+		} else if (code != null && (extension.equals("groovy")) && groovyFormatting(cmd)) {
+			GroovyFormat groovyFormatter = new GroovyFormat();
+			groovyFormatter.format(fileName, code);
+			if (groovyFormatter.isFormatted() && cmd.hasOption("b"))
+				nameWithDate = createBackupFile(fileName, code);
+
+		} else {
+			//log.info("Sorry, no formatting could be applied to " + fileName);
 		}
-		return isGroovy;
+		return nameWithDate;
+	}
+
+	/**
+	 * Format by using the first line fo the file
+	 */
+	public static String formatUsingHashBang(String fileName, String code, CommandLine cmd) {
+		String nameWithDate = null;
+		if (code != null && code.indexOf("\n") > -1) {
+			String firstLine = code.substring(0, code.indexOf("\n"));
+			if (firstLine.indexOf("#!/usr/bin/env groovy") > -1) {
+				GroovyFormat groovyFormatter = new GroovyFormat();
+				groovyFormatter.format(fileName, code);
+				if (groovyFormatter.isFormatted() && cmd.hasOption("b"))
+					nameWithDate = createBackupFile(fileName, code);
+			}
+		}
+		return nameWithDate;
 	}
 
 	/** 
