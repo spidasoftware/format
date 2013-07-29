@@ -101,7 +101,7 @@ public class GroovyFormat {
 
 	/**
 	 * A static method that will prepare the GroovyFormat object for formatting
-	 * the respective code that was passed into the format method. If you would like to changes
+	 * the respective code that was passed into the format method. If you would like to make changes
 	 * to the preferences, see the FormatterPreferencesOnStore class.	 
 	 */
 	public static DefaultGroovyFormatter initializeFormatter(String code) {

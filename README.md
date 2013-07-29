@@ -40,7 +40,7 @@ If this was shown, you correctly installed the software.
 
 ### Instructions
 
-The help screen that was displayed earlier shows you how to use the formatter in variety of 
+The help screen that was displayed earlier shows you how to use the formatter in a variety of 
   different ways. I.e.
 
 ```
@@ -86,6 +86,7 @@ formatter formats all files that have the first line containing "#!/usr/bin/env 
 
 A few key requirements of the additional formatters you add:
 
+   * The formatters located in the hashBang.cfg file will only be used on files that have no file extension
    * When adding to the extension.cfg file, make sure you do not include the "." with the extension
    * Do not add any comments to the hashBang.cfg file
    * Make sure the formatting command that you add will replace the input file with the new formatted file. That is, it will format the file that you entered in as an argument
@@ -105,6 +106,6 @@ and run:
 ```
 mvn install
 ```
-If all tests pass, this will construct you the jar, "EclipseFormatter/target/EclipseFormatter.jar."" 
+If all tests pass, this will construct you the jar, "EclipseFormatter/target/EclipseFormatter.jar." 
 Replace the jar located in format-v[number]/formatters/ directory with the one created. This will 
 add your changes to the program.

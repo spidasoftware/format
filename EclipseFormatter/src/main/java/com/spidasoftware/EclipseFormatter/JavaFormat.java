@@ -111,7 +111,7 @@ public class JavaFormat {
 
 	/**
 	 * A static method that will prepare the JavaFormat object for formatting
-	 * the respective code that was passed in to the format method. If you would like
+	 * the respective code that was passed into the format method. If you would like
 	 * to add in your own preferences to the java formatter, see the DefaultCodeFormatterConstants
 	 * Eclipse Api. It gives you directions on how to go about adding preferences. I have an example
 	 * below that is commented out that would not allow for a line to be split at the selectors
@@ -128,7 +128,6 @@ public class JavaFormat {
 		//		DefaultCodeFormatterConstants.createAlignmentValue(false, DefaultCodeFormatterConstants.WRAP_NO_SPLIT, DefaultCodeFormatterConstants.INDENT_DEFAULT));
 
 		options.put(DefaultCodeFormatterConstants.FORMATTER_LINE_SPLIT, "120");
-		//	System.out.println(options.toString());
 		final CodeFormatter codeFormatter = ToolFactory.createCodeFormatter(options);
 		return codeFormatter;
 

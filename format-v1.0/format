@@ -19,7 +19,7 @@
 # limitations under the License.
 
 # A command line feature for the formatters
-# To add more languages to be formatter, see extension.cfg located in the conf directory.
+# To add more languages to the formatter, see extension.cfg located in the conf directory.
 
 # Display the options
 usage() { echo "Usage: format [options] <file or directory with relative path>"
