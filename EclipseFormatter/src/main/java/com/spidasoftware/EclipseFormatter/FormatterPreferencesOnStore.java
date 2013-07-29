@@ -44,8 +44,8 @@ import org.eclipse.jface.preference.PreferenceStore;
  * This class is a copy of the FormatterPreferencesOnStore.java class located in the
  * org.codehaus.groovy.eclipse.refactoring.formatter package. A copy of this class
  * is needed to allow the user of this formatter to chooses his or her own
- * desired groovy preferences. Since I did not make any changes, I will
- * not take credit for this class.
+ * desired groovy preferences. Since I did not make any changes besides some of the values
+ * that could be returned for the formatting preferences, I will not take credit for this class.
  */
 
 /**

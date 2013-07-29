@@ -1,12 +1,21 @@
-/**
- * 
- * Extracted various classes from eclipse to create a command line automatic java 
- * and groovy formatter
- * 
- * July of 2013
- * SpidaSoftware
- * @author Nick Joodi
- * 
+/*
+ * Copyright (C) 2013 Nicholas Joodi
+ *
+ * SpidaWeb LLC
+ * 560 Officenter Pl., Gahanna, OH 43230
+ * http://www.spidasoftware.com
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package com.spidasoftware.EclipseFormatter;
@@ -39,9 +48,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
+ * 
+ * Extracted various classes from eclipse to create an automatic java 
+ * and groovy source code formatter
+ *
  * This class, containing a main method, will take in command line arguments and call on the JavaFormat
  * and Groovy Format classes to automatically format java and groovy files. If you would like to make
  * changes to how the formatter formats, see the JavaFormat class or the GroovyFormat class.
+ * 
  */
 public class Formatter {
 	private static Logger log = Logger.getRootLogger();

@@ -10,6 +10,23 @@
    <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
    </properties>
+   <repositories>
+      <repository>
+         <id>external-repo</id>
+         <name>m2</name>
+         <url>http://repo1.maven.org/maven2/</url>
+      </repository>
+      <repository>
+         <id>external2-repo</id>
+         <name>sun</name>
+         <url>http://download.java.net/maven/2/</url>
+      </repository>
+      <repository>
+         <id>spida</id>
+         <name>spida-repo</name>
+         <url>https://www.spidasoftware.com/artifactory/repo</url>
+      </repository>
+   </repositories> 
    <build>
    <resources>
       <resource>
@@ -52,7 +69,7 @@
                </archive>
             </configuration>
          </plugin>
-      </plugins>
+      </plugins>     
    </build>
    <dependencies>
       <dependency>

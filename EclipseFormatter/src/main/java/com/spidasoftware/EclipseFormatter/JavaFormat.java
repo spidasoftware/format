@@ -1,9 +1,21 @@
-/**
- * The JavaFormat class that will format java source code
- * 
- * July of 2013
- * spidasoftware
- * @author Nick Joodi
+/*
+ * Copyright (C) 2013 Nicholas Joodi
+ *
+ * SpidaWeb LLC
+ * 560 Officenter Pl., Gahanna, OH 43230
+ * http://www.spidasoftware.com
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package com.spidasoftware.EclipseFormatter;
@@ -34,8 +46,9 @@ import org.eclipse.text.edits.MalformedTreeException;
 import org.eclipse.text.edits.TextEdit;
 
 /**
- * This class formats java source code. See the initializeFormatter method to 
- * modify the formatting preferences
+ * The JavaFormat class that will format java source code
+ * 
+ * See the initializeFormatter method to modify the formatting preferences
  */
 public class JavaFormat {
 	private boolean correctlyFormatted;
@@ -57,10 +70,8 @@ public class JavaFormat {
 	 * A two-argument method that will take two strings, a filename and its respective code
 	 * and format the code
 	 * 
-	 * @param filename
-	 *            The name of that file
-	 * @param code
-	 *			  The string of code that will be formatted
+	 * @param filename, The name of that file
+	 * @param code, The string of code that will be formatted
 	 */
 	public void format(String fileName, String code) {
 		CodeFormatter cf = initializeFormatter();
