@@ -37,7 +37,7 @@ usage() { echo "Usage: format [options] <file or directory with relative path>"
 initializeArrays() {
     i=0
     while read line; do
-        if [[ "$line" =~ ^[^#]*= ]]; then
+        if [[ "$line" != ^[^#]*= ]]; then
         nameExtension[i]=${line%% =*}
         valueExtension[i]=${line#*= }
         ((i++))
@@ -89,7 +89,7 @@ isGitRepo() {
 formatByExtension() {
     i=0
     while [ $i -lt $(eval "echo ${#nameExtension[@]}") ] ; do
-        if [[ "${1##*.}" = "${nameExtension[$i]}" ]]  && [[  -e "${2}${1}" ]]; then
+        if [[ "${1##*.}" = "${nameExtension[$i]}" ]]  && [[  -f "${2}${1}" ]] && [[  -s "${2}${1}" ]]; then
             $(eval "echo ${valueExtension[$i]}") "${2}${1}"
             backup "${1}" "${2}"
         fi
@@ -104,7 +104,7 @@ formatByHashBang() {
 read -r firstLine<"${2}${1}"
 i=0
 while [ $i -lt $(eval "echo ${#nameHash[@]}") ] ; do
-    if [[ "${firstLine}" == *"${nameHash[$i]}"* ]]  && [[  -e "${2}${1}" ]]; then
+    if [[ "${firstLine}" == *"${nameHash[$i]}"* ]]  && [[  -f "${2}${1}" ]] && [[  -s "${2}${1}" ]]; then
         $(eval "echo ${valueHash[i]}") "${2}${1}"
         backup "${1}" "${2}"
     fi
@@ -120,7 +120,7 @@ format() {
     filename=${i##*/}
     if [[ $filename = [!.]*.* ]] ; then
         formatByExtension "$1" "$2"
-    elif [ ! -d "${2}${1}" ] ; then
+    elif [[ ! -d "${2}${1}" ]] && [[  -f "${2}${1}" ]] && [[  -s "${2}${1}" ]] ; then
         formatByHashBang "$1" "$2"
     fi
 }
@@ -172,7 +172,7 @@ GIT=0
 GROOVY=0
 initializeArrays
 
-# Using getopts to parse the command line arguments
+# Using getopts to parse the command line args
 while getopts ":brg" o; do
     case "${o}" in
         b)
@@ -202,8 +202,8 @@ elif  [ -d "${File}" ] ; then
     if [ ${RECURSIVE} = 1 ] ; then
         recursive "${File}"
     else
-        for entry in $(ls ${File}) ; do
-            format "${entry}" "${File}/"
+        for entry in $(find ${1} -maxdepth 1 ) ; do
+            format "${entry}"
         done
     fi
 else
