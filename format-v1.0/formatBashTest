@@ -1,0 +1,434 @@
+#!/bin/bash
+
+# Copyright (C) 2013 Nicholas Joodi
+#
+# SpidaWeb LLC
+# 560 Officenter Pl., Gahanna, OH 43230
+# http://www.spidasoftware.com
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+ 
+# A bash script to test the format script
+
+echo "Before you run this test, make sure you are in a git repository, and that you have no modified files."
+echo "Otherwise, This may cause undesirable changes to your modified files. Do you wish to continue?"
+echo "(enter y or n)"
+read answer
+if [ ${answer} = n ] ; then
+	exit 1
+fi
+echo ""
+echo "**********************************************************"
+echo "*                Begin Running Tests                     *"
+echo "**********************************************************"
+echo ""
+# format one file with no backup
+echo "Test format <folder/file.groovy>"
+mkdir "folder"
+echo "" > "folder/file.groovy"
+testName[0]="Test format <folder/file.groovy>"
+if [[ $(format folder/file.groovy) = "*** Groovy standard formatting conventions have been applied to "* ]]  ; then
+	echo " - Format on one groovy file: PASSED"
+	testPassed[0]="1"
+else
+	echo " - Format on one groovy file: FAILED"
+	testPassed[0]="0"
+fi
+testName[1]="Test format <folder/file.groovy>, no Backup"
+if [ -d folder ]; then
+	numfiles=$(ls -1 folder | wc -l)
+	if [[ ${#numfiles[@]} = *1 ]] ; then
+		echo " - No Backup file create: PASSED"
+		testPassed[1]="1"
+	else
+		echo " - No Backup file create: FAILED"
+		testPassed[1]="0"
+	fi
+	rm -r folder
+fi
+echo ""
+# format one file with a backup
+
+echo "Test format -b <folder/file.groovy> "
+mkdir "folder"
+echo "" > "folder/file.groovy"
+testName[2]="Test format -b <folder/file.groovy>"
+if [[ $(format -b folder/file.groovy) == "*** Groovy standard formatting conventions have been applied to "* ]]  ; then
+	echo " - Format on one groovy file: PASSED"
+	testPassed[2]="1"
+else
+	echo " - Format on one groovy file: FAILED"
+	testPassed[2]="0"
+fi
+testName[3]="Test format -b <folder/file.groovy>, backup"
+if [ -d folder ]; then
+	numfiles=$(ls -1 folder | wc -l)
+	if [[ ${numfiles} = *2 ]] ; then
+		echo " - Backup file create: PASSED"
+		testPassed[3]="1"
+	else
+		echo " - Backup file create: FAILED"
+		testPassed[3]="0"
+	fi
+	rm -r folder
+fi
+echo ""
+
+# format one groovy script without backup
+
+echo "Test format <folder/file> (groovy script)"
+mkdir "folder"
+echo "#!/usr/bin/env groovy\n\n\n\n\n" > "folder/file"
+testName[4]="Test format <folder/file> (groovy script)"
+if [[ $(format folder/file) = "*** Groovy standard formatting conventions have been applied to"* ]]  ; then
+	echo " - Format on one groovy script: PASSED"
+	testPassed[4]="1"
+else
+	echo " - Format on one groovy script: FAILED"
+	testPassed[4]="0"
+fi
+testName[5]="Test format <folder/file> (groovy script), no backup"
+if [ -d folder ]; then
+	numfiles=$(ls -1 folder | wc -l)
+	if [[ ${numfiles} = *1 ]] ; then
+		echo " - No backup file created: PASSED"
+		testPassed[5]="1"
+	else
+		echo " - No backup file create: FAILED"
+		testPassed[5]="0"
+	fi
+	rm -r folder
+fi
+echo ""
+
+# format one groovy script with a backup
+
+echo "Test format -b <folder/file> (groovy script)"
+mkdir "folder"
+echo "#!/usr/bin/env groovy\n\n\n\n\n" > "folder/file"
+testName[6]="Test format -b <folder/file> (groovy script)"
+if [[ $(format -b folder/file) == "*** Groovy standard formatting conventions have been applied to "* ]]  ; then
+	echo " - Format on one groovy script: PASSED"
+	testPassed[6]="1"
+else
+	echo " - Format on one groovy script: FAILED"
+	testPassed[6]="0"
+fi
+testName[7]="Test format -b <folder/file> (groovy script), backup"
+if [ -d folder ]; then
+	numfiles=$(ls -1 folder | wc -l)
+	if [[ ${numfiles} = *2 ]] ; then
+		echo " - Backup file created: PASSED"
+		testPassed[7]="1"
+	else
+		echo " - Backup file create: FAILED"
+		testPassed[7]="0"
+	fi
+	rm -r folder
+fi
+echo ""
+
+# format a directory of files with no backup (should format groovy scripts)
+
+echo "Test format <folder> (groovy script)"
+mkdir "folder"
+echo "#!/usr/bin/env groovy\n\n\n\n\n" > "folder/file1"
+echo "public class file2 {} " > "folder/file2.java"
+echo "" > "folder/file3.groovy"
+echo "" > "folder/file4.groovy"
+outputJava="*** Java standard formatting conventions have been applied to "
+outputGroovy="*** Groovy standard formatting conventions have been applied to "
+testName[8]="Test format <folder> (groovy script)"
+if [[ $(format folder) == "${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"* ]]  ; then
+	echo " - Format on one folder: PASSED"
+	testPassed[8]="1"
+else
+	echo " - Format on one folder: FAILED"
+	testPassed[8]="0"
+fi
+testName[9]="Test format <folder> (groovy script), no backup"
+if [ -d folder ]; then
+	numfiles=$(ls -1 folder | wc -l)
+	if [[ ${numfiles} = *4 ]] ; then
+		echo " - No Backup file created: PASSED"
+		testPassed[9]="1"
+	else
+		echo " - No Backup file create: FAILED"
+		testPassed[9]="0"
+	fi
+	rm -r folder
+fi
+echo ""
+
+# format a directory of files with a backup (should format groovy scripts)
+
+echo "Test format -b <folder> (groovy script)"
+mkdir "folder"
+echo "#!/usr/bin/env groovy\n\n\n\n\n" > "folder/file1"
+echo "public class file2 {} " > "folder/file2.java"
+echo "" > "folder/file3.groovy"
+echo "" > "folder/file4.groovy"
+outputJava="*** Java standard formatting conventions have been applied to "
+outputGroovy="*** Groovy standard formatting conventions have been applied to "
+testName[10]="Test format -b <folder> (groovy script)"
+if [[ $(format -b folder) == "${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"* ]]  ; then
+	echo " - Format on one folder: PASSED"
+	testPassed[10]="1"
+else
+	echo " - Format on one groovy script: FAILED"
+	testPassed[10]="0"
+fi
+testName[11]="Test format -b <folder> (groovy script), backup"
+if [ -d folder ]; then
+	numfiles=$(ls -1 folder | wc -l)
+	if [[ ${numfiles} = *8 ]] ; then
+		echo " - Backup files created: PASSED"
+		testPassed[11]="1"
+	else
+		echo " - Backup files create: FAILED"
+		testPassed[11]="0"
+	fi
+	rm -r folder
+fi
+echo ""
+
+# format recursively a directory of files with no backup (should format groovy scripts)
+
+echo "Test format -r <folder> (groovy script)"
+mkdir "folder"
+echo "#!/usr/bin/env groovy\n\n\n\n\n" > "folder/file1"
+echo "public class file2 {} " > "folder/file2.java"
+echo "" > "folder/file3.groovy"
+echo "" > "folder/file4.groovy"
+mkdir "folder/inner"
+echo "#!/usr/bin/env groovy\n\n\n\n\n" > "folder/inner/file1"
+echo "public class file2 {} " > "folder/inner/file2.java"
+echo "" > "folder/inner/file3.groovy"
+echo "" > "folder/inner/file4.groovy"
+mkdir "folder/inner/inside"
+echo "#!/usr/bin/env groovy\n\n\n\n\n" > "folder/inner/inside/file1"
+echo "public class file2 {} " > "folder/inner/inside/file2.java"
+echo "" > "folder/inner/inside/file3.groovy"
+echo "" > "folder/inner/inside/file4.groovy"
+outputJava="*** Java standard formatting conventions have been applied to "
+outputGroovy="*** Groovy standard formatting conventions have been applied to "
+testName[12]="Test format -r <folder> (groovy script)"
+if [[ $(printf "y\nn\n" | format -r folder) == *"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"*"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"*"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"* ]]  ; then
+	echo " - Format recursively: PASSED"
+	testPassed[12]="1"
+else
+	echo " - Format recursively: FAILED"
+	testPassed[12]="0"
+fi
+testName[13]="Test format -r <folder> (groovy script), no backup"
+if [ -d folder ]; then
+	numfilesFolder=$(ls -1 folder | wc -l)
+	numfilesInner=$(ls -1 folder/inner | wc -l)
+	numfilesInside=$(ls -1 folder/inner/inside | wc -l)
+	if [[ "${numfilesFolder}${numfilesInner}${numfilesInside}"  = *5*5*4* ]] ; then
+		echo " - No Backup file created: PASSED"
+		testPassed[13]="1"
+	else
+		echo " - No Backup file create: FAILED"
+		testPassed[13]="0"
+	fi
+	rm -r folder
+fi
+echo ""
+
+# format recursively a directory of files with a backup (should format groovy scripts)
+
+echo "Test format -r -b <folder> (groovy script)"
+mkdir "folder"
+echo "#!/usr/bin/env groovy\n\n\n\n\n" > "folder/file1"
+echo "public class file2 {} " > "folder/file2.java"
+echo "" > "folder/file3.groovy"
+echo "" > "folder/file4.groovy"
+mkdir "folder/inner"
+echo "#!/usr/bin/env groovy\n\n\n\n\n" > "folder/inner/file1"
+echo "public class file2 {} " > "folder/inner/file2.java"
+echo "" > "folder/inner/file3.groovy"
+echo "" > "folder/inner/file4.groovy"
+mkdir "folder/inner/inside"
+echo "#!/usr/bin/env groovy\n\n\n\n\n" > "folder/inner/inside/file1"
+echo "public class file2 {} " > "folder/inner/inside/file2.java"
+echo "" > "folder/inner/inside/file3.groovy"
+echo "" > "folder/inner/inside/file4.groovy"
+outputJava="*** Java standard formatting conventions have been applied to "
+outputGroovy="*** Groovy standard formatting conventions have been applied to "
+testName[14]="Test format -r -b <folder> (groovy script)"
+if [[ $(printf "y\nn\n" | format -r -b folder) == *"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"*"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"*"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"* ]]  ; then
+	echo " - Format recursively: PASSED"
+	testPassed[14]="1"
+else
+	echo " - Format recursively: FAILED"
+	testPassed[14]="0"
+fi
+testName[15]="Test format -r -b <folder> (groovy script), backup"
+if [ -d folder ]; then
+	numfilesFolder=$(ls -1 folder | wc -l)
+	numfilesInner=$(ls -1 folder/inner | wc -l)
+	numfilesInside=$(ls -1 folder/inner/inside | wc -l)
+	if [[ "${numfilesFolder}${numfilesInner}${numfilesInside}"  = *9*9*8* ]] ; then
+		echo " - Backup files created: PASSED"
+		testPassed[15]="1"
+	else
+		echo " - Backup files create: FAILED"
+		testPassed[15]="0"
+	fi
+	rm -r folder
+fi
+echo ""
+
+# format a git repo with no backup (should format groovy scripts)
+
+echo "Test -g format <folder> (groovy script)"
+mkdir "folder"
+echo "#!/usr/bin/env groovy\n\n\n\n\n" > "folder/file1"
+echo "public class file2 {} " > "folder/file2.java"
+echo "" > "folder/file3.groovy"
+echo "" > "folder/file4.groovy"
+mkdir "folder/inner"
+echo "#!/usr/bin/env groovy\n\n\n\n\n" > "folder/inner/file1"
+echo "public class file2 {} " > "folder/inner/file2.java"
+echo "" > "folder/inner/file3.groovy"
+echo "" > "folder/inner/file4.groovy"
+mkdir "folder/inner/inside"
+echo "#!/usr/bin/env groovy\n\n\n\n\n" > "folder/inner/inside/file1"
+echo "public class file2 {} " > "folder/inner/inside/file2.java"
+echo "" > "folder/inner/inside/file3.groovy"
+echo "" > "folder/inner/inside/file4.groovy"
+git add .
+echo " " >> "folder/file1"
+echo " " >> "folder/file2.java"
+echo " " >> "folder/file3.groovy"
+echo " " >> "folder/file4.groovy"
+echo " " >> "folder/inner/file1"
+echo " " >> "folder/inner/file2.java"
+echo " " >> "folder/inner/file3.groovy"
+echo " " >> "folder/inner/file4.groovy"
+echo " " >> "folder/inner/inside/file1"
+echo " " >> "folder/inner/inside/file2.java"
+echo " " >> "folder/inner/inside/file3.groovy"
+echo " " >> "folder/inner/inside/file4.groovy"
+outputJava="*** Java standard formatting conventions have been applied to "
+outputGroovy="*** Groovy standard formatting conventions have been applied to "
+testName[16]="Test -g format <folder> (groovy script)"
+ if [[ $(format -g folder) == *"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"*"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"*"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"* ]]  ; then
+ 	echo " - Format git repo: PASSED"
+ 	testPassed[16]="1"
+ else
+	echo " - Format git repo: FAILED"
+	testPassed[16]="0"
+ fi
+ testName[17]="Test -g format <folder> (groovy script), no backup"
+if [ -d folder ]; then
+	numfilesFolder=$(ls -1 folder | wc -l)
+	numfilesInner=$(ls -1 folder/inner | wc -l)
+	numfilesInside=$(ls -1 folder/inner/inside | wc -l)
+	if [[ "${numfilesFolder}${numfilesInner}${numfilesInside}"  = *5*5*4* ]] ; then
+		echo " - No Backup file created: PASSED"
+		testPassed[17]="1"
+	else
+		echo " - No Backup file created: FAILED"
+		testPassed[17]="0"
+	fi
+	rm -r folder
+	git reset HEAD folder/*
+
+fi
+echo ""
+
+# format a git repo with a backup (should format groovy scripts)
+
+echo "Test -g -b format <folder> (groovy script)"
+mkdir "folder"
+echo "#!/usr/bin/env groovy\n\n\n\n\n" > "folder/file1"
+echo "public class file2 {} " > "folder/file2.java"
+echo "" > "folder/file3.groovy"
+echo "" > "folder/file4.groovy"
+mkdir "folder/inner"
+echo "#!/usr/bin/env groovy\n\n\n\n\n" > "folder/inner/file1"
+echo "public class file2 {} " > "folder/inner/file2.java"
+echo "" > "folder/inner/file3.groovy"
+echo "" > "folder/inner/file4.groovy"
+mkdir "folder/inner/inside"
+echo "#!/usr/bin/env groovy\n\n\n\n\n" > "folder/inner/inside/file1"
+echo "public class file2 {} " > "folder/inner/inside/file2.java"
+echo "" > "folder/inner/inside/file3.groovy"
+echo "" > "folder/inner/inside/file4.groovy"
+git add .
+echo " " >> "folder/file1"
+echo " " >> "folder/file2.java"
+echo " " >> "folder/file3.groovy"
+echo " " >> "folder/file4.groovy"
+echo " " >> "folder/inner/file1"
+echo " " >> "folder/inner/file2.java"
+echo " " >> "folder/inner/file3.groovy"
+echo " " >> "folder/inner/file4.groovy"
+echo " " >> "folder/inner/inside/file1"
+echo " " >> "folder/inner/inside/file2.java"
+echo " " >> "folder/inner/inside/file3.groovy"
+echo " " >> "folder/inner/inside/file4.groovy"
+outputJava="*** Java standard formatting conventions have been applied to "
+outputGroovy="*** Groovy standard formatting conventions have been applied to "
+testName[18]="Test -g -b format <folder> (groovy script)"
+if [[ $(format -g -b folder) == *"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"*"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"*"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"* ]]  ; then
+	echo " - Format git repo: PASSED"
+	testPassed[18]="1"
+else
+	echo " - Format git repo: FAILED"
+	testPassed[18]="0"
+fi
+testName[19]="Test -g -b format <folder> (groovy script)"
+if [ -d folder ]; then
+	numfilesFolder=$(ls -1 folder | wc -l)
+	numfilesInner=$(ls -1 folder/inner | wc -l)
+	numfilesInside=$(ls -1 folder/inner/inside | wc -l)
+	if [[ "${numfilesFolder}${numfilesInner}${numfilesInside}"  = *9*9*8*  ]] ; then
+		echo " - Backup files created: PASSED"
+		testPassed[19]="1"
+	else
+		echo " - Backup files created: FAILED"
+		testPassed[19]="0"
+	fi
+	rm -r folder
+	git reset HEAD folder/*
+
+fi
+echo ""
+len=${#testPassed[@]} 
+numFailed=0
+for (( i=0; i<${len}; i++ )); do
+    if  [ ${testPassed[i]} = "0"  ] ; then
+        ((numFailed++))
+    fi
+done
+if [[ ${numFailed}>0 ]] ; then
+	echo "*********************************"
+	echo "           TESTS FAILED"
+	echo "*********************************"
+	len=${#testPassed[@]} 
+	echo ""
+	echo "Tests that failed:"
+	for (( i=0; i<${len}; i++ )); do
+    	if  [ ${testPassed[i]} = "0"  ] ; then
+        	echo "   - ${testName[i]}"
+    	fi
+	done
+
+else
+	echo "*********************************"
+	echo "           TESTS PASSED"
+	echo "*********************************"
+fi
