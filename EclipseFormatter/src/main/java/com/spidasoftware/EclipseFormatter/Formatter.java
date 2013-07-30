@@ -55,7 +55,8 @@ import java.util.Arrays;
  * This class, containing a main method, will take in command line arguments and call on the JavaFormat
  * and Groovy Format classes to automatically format java and groovy files. If you would like to make
  * changes to how the formatter formats, see the JavaFormat class or the GroovyFormat class.
- * 
+ *
+ * @author Nicholas Joodi
  */
 public class Formatter {
 	private static Logger log = Logger.getRootLogger();
@@ -153,8 +154,9 @@ public class Formatter {
 	 * A two-argument method that will take a filename string and the contents of 
 	 * that file (before formatted), and return a backup file.
 	 *
-	 * @param filename, a string representing the name of the file
-	 * @param before, a string containing the contents of that file
+	 * @param filename,  a string representing the name of the file
+	 * @param before,  a string containing the contents of that file
+	 * @return String, the name of the backup file created
 	 *
 	 */
 	public static String createBackupFile(String fileName, String before) {
@@ -178,7 +180,9 @@ public class Formatter {
 	 * A no-argument method that will return the command line arguments as a 
 	 * CommandLine object
 	 *
-	 * @return cmd, the CommandLine object holding the command line arguments
+	 * @param args, the command line arguments 
+	 * @param options, the options that this class can identify
+	 * @return the CommandLine object holding the command line arguments
 	 */
 	public static CommandLine getOptions(String[] args, Options options) {
 		options.addOption("b", false, "create a backup file");
@@ -210,6 +214,11 @@ public class Formatter {
 
 	/**
 	 * Format by using the extension of the file
+	 *
+	 * @param filename, a string representing the name of the file
+	 * @param code, a string containing the contents of that file
+	 * @param cmd, the list of command line arguments
+	 * @return String representing the name of the backup file created, null otherwise
 	 */
 	public static String formatUsingExtension(String fileName, String code, CommandLine cmd) {
 		String extension = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length());
@@ -233,7 +242,12 @@ public class Formatter {
 	}
 
 	/**
-	 * Format by using the first line fo the file
+	 * Format by using the first line of the file
+	 *
+	 * @param filename, a string representing the name of the file
+	 * @param code, a string containing the contents of that file
+	 * @param cmd, the list of command line arguments
+	 * @return String representing the name of the backup file created, null otherwise
 	 */
 	public static String formatUsingHashBang(String fileName, String code, CommandLine cmd) {
 		String nameWithDate = null;
@@ -252,7 +266,8 @@ public class Formatter {
 	/** 
 	 * If groovy option was set, return false
 	 *
-	 * @param CommandLine
+	 * @param cmd which contains the options passed in
+	 * @return a boolean indicating whether or not the groovy option was passed
 	 */
 	public static boolean javaFormatting(CommandLine cmd) {
 		if (cmd.hasOption("groovy"))
@@ -263,7 +278,8 @@ public class Formatter {
 	/** 
 	 * If java option was set, return false
 	 *
-	 * @param CommandLine
+	 * @param cmd which contains the options passed in
+	 * @return a boolean indicating whether or not the java option was passed
 	 */
 	public static boolean groovyFormatting(CommandLine cmd) {
 		if (cmd.hasOption("java"))

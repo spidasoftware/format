@@ -44,6 +44,8 @@ import org.apache.log4j.BasicConfigurator;
 
 /**
  * tests for GroovyFormat and JavaFormat classes
+ *
+ * @author Nicholas Joodi
  */
 public class FormatterTest extends TestCase {
 	private static Logger log = Logger.getLogger(FormatterTest.class);

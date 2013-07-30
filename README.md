@@ -4,7 +4,7 @@ format
 Our general purpose formatter that was pulled together from different projects. The 
 main file for this software is located in format-v[number]/format. This is a command line
 executable that is capable of integrating many other formatters into one application.
-So far, this formatter can automattically format java and groovy files, provided by many
+So far, this formatter can automatically format java and groovy files, provided by many
 of the classes from the Eclipse API, as well as many of the classes from the Groovy-eclipse
 open source project.
 

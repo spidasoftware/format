@@ -42,13 +42,15 @@ import java.util.Date;
  *
  * This class formats groovy source code. See the initializeFormatter method to 
  * modify the formatting preferences
+ *
+ * @author Nicholas Joodi
  */
 public class GroovyFormat {
 
 	private boolean correctlyFormatted;
 	private final static Logger log = Logger.getRootLogger();
 
-	/*
+	/**
 	 * A no argument constructor that will set the correctlyFormatted field to false
 	 */
 	public GroovyFormat() {
@@ -91,9 +93,9 @@ public class GroovyFormat {
 	}
 
 	/**
-	 * A method that will return whether or not code has been formatted
+	 * A no-argument method that will return whether or not code has been formatted
 	 * 
-	 * @return isFormatted	 
+	 * @return a boolean indicating whether the file was formatted or not 
 	 */
 	public boolean isFormatted() {
 		return correctlyFormatted;
@@ -102,7 +104,10 @@ public class GroovyFormat {
 	/**
 	 * A static method that will prepare the GroovyFormat object for formatting
 	 * the respective code that was passed into the format method. If you would like to make changes
-	 * to the preferences, see the FormatterPreferencesOnStore class.	 
+	 * to the preferences, see the FormatterPreferencesOnStore class.
+	 *
+	 * @param code, the string representing the source code of the file	 
+	 * @return a DefaultGroovyFormatter class that will format the source code
 	 */
 	public static DefaultGroovyFormatter initializeFormatter(String code) {
 		IPreferenceStore pref = null;

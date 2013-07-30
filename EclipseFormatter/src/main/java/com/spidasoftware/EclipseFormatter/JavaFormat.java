@@ -49,12 +49,14 @@ import org.eclipse.text.edits.TextEdit;
  * The JavaFormat class that will format java source code
  * 
  * See the initializeFormatter method to modify the formatting preferences
+ *
+ * @author Nicholas Joodi
  */
 public class JavaFormat {
 	private boolean correctlyFormatted;
 	private static Logger log = Logger.getRootLogger();
 
-	/*
+	/**
 	 * A no argument constructor that will set the correctlyFormatted field to false
 	 */
 	public JavaFormat() {
@@ -103,7 +105,7 @@ public class JavaFormat {
 	/**
 	 * A method that will return whether or not code has been formatted
 	 * 
-	 * @return isFormatted		 
+	 * @return a boolean indicating whether the file was formatted or not  
 	 */
 	public boolean isFormatted() {
 		return correctlyFormatted;
@@ -115,7 +117,10 @@ public class JavaFormat {
 	 * to add in your own preferences to the java formatter, see the DefaultCodeFormatterConstants
 	 * Eclipse Api. It gives you directions on how to go about adding preferences. I have an example
 	 * below that is commented out that would not allow for a line to be split at the selectors
-	 * in a method invocation.		 
+	 * in a method invocation.	
+	 *
+	 * @param code, the string representing the source code of the file	 
+	 * @return a CodeFormatter class that will format the source code	 
 	 */
 	@SuppressWarnings({ "unchecked", "deprecation" })
 	private static CodeFormatter initializeFormatter() {
