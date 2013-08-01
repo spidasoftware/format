@@ -11,7 +11,8 @@ open source project.
 ### Setup
 
 1. So far, only a bash script has been made for this program, so if you work on a windows
-	OS, you will need to install a bash terminal (git, cygwin, etc.)
+	OS, you will need to install a bash terminal (git, cygwin, etc.). In addition, make sure you 
+  hava Java installed on your machine.
 
 1. Clone the repo
 
@@ -20,27 +21,23 @@ open source project.
 	To make sure it was correctly installed, enter in the following command:
 
 ```
-	format -h
+	formatBashTest
 ```
 
 Which should display the following:
 
 
-```
-Usage: format [options] <file or directory with relative path>
-    -h:       print this message
-    -b:       create a backup file
-    -r:       format all files recursively starting from the directory specified
-    -g:       format all modified files in the git working directory
-              (r and g can not be set together)
-              (g does not need a filename as an argument)
-```
-
-If this was shown, you correctly installed the software.
+If all tests passed, you correctly installed the software.
 
 ### Instructions
 
-The help screen that was displayed earlier shows you how to use the formatter in a variety of 
+Enter the command:
+
+```
+format -h
+```
+
+This help screen provides you with how to use the formatter in a variety of 
   different ways. I.e.
 
 ```
@@ -57,8 +54,7 @@ Will create a backup for that file
 	format <path/to/directory>
 ```
 
-Will format the contents of that directory. Use "format -h" to find out how else you 
-can format your files.
+Will format the contents of that directory, etc. 
 
 ### Adding additional formatters
 

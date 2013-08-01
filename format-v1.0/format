@@ -31,7 +31,6 @@ usage() { echo "Usage: format [options] <file or directory with relative path>"
           echo "              (g does not need a filename as an argument)"
           exit 1;
 }
-
 # arrays that will contain the identifying marker to determine which formatter to use and also
 # arrays containing the command to use when the identifying marker has been found
 initializeArrays() {
@@ -88,8 +87,11 @@ isGitRepo() {
 # 2 is path/empty string
 formatByExtension() {
     i=0
+   # echo "asd"
     while [ $i -lt $(eval "echo ${#nameExtension[@]}") ] ; do
         if [[ "${1##*.}" = "${nameExtension[$i]}" ]]  && [[  -f "${2}${1}" ]] && [[  -s "${2}${1}" ]]; then
+         #   cd $oldPath
+           # echo "sdfdf"
             $(eval "echo ${valueExtension[$i]}") "${2}${1}"
             backup "${1}" "${2}"
         fi
@@ -155,16 +157,15 @@ recursive() {
 # Format all modified files in a git repository
 gitFormat() {
     isGitRepo
+    path=$(git rev-parse --show-toplevel)
+    cd $path  
     filenames=$(git diff --name-only)
-    for i in $filenames ; do
-        path=$(git rev-parse --show-toplevel)
-        cd $path
-        if  [  -e "${i}"  ] ; then
+    for i in ${filenames} ; do
+         if  [  -e "${i}"  ] ; then
             format "${i}"
-        fi
+         fi
     done
 }
-
 # Flags for the options
 BACKUP=0
 RECURSIVE=0
@@ -190,6 +191,8 @@ while getopts ":brg" o; do
     esac
 done
 shift $((OPTIND-1))
+
+
 
 File=$1
 if [ ${GIT} = 1 ] ; then
