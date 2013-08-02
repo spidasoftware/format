@@ -26,13 +26,13 @@
          <name>spida-repo</name>
          <url>https://www.spidasoftware.com/artifactory/repo</url>
       </repository>
-   </repositories> 
+   </repositories>
    <build>
-   <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-      </resource>
-    </resources> 
+      <resources>
+         <resource>
+            <directory>src/main/resources</directory>
+         </resource>
+      </resources>
       <plugins>
          <plugin>
             <artifactId>maven-compiler-plugin</artifactId>
@@ -45,7 +45,7 @@
                <maxmem>512m</maxmem>
             </configuration>
          </plugin>
-         <plugin>
+    <!-- <plugin>
             <artifactId>maven-assembly-plugin</artifactId>
             <executions>
                <execution>
@@ -68,8 +68,40 @@
                   </manifest>
                </archive>
             </configuration>
+         </plugin> -->
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-shade-plugin</artifactId>
+            <version>1.6</version>
+            <executions>
+               <execution>
+                  <phase>package</phase>
+                  <goals>
+                     <goal>shade</goal>
+                  </goals>
+                  <configuration>
+                     <filters>
+                        <filter>
+                           <artifact>*:*</artifact>
+                           <excludes>
+                              <exclude>META-INF/*.SF</exclude>
+                              <exclude>META-INF/*.DSA</exclude>
+                              <exclude>META-INF/*.RSA</exclude>
+                           </excludes>
+                        </filter>
+                     </filters>
+                     <finalName>EclipseFormatter</finalName>
+                     <appendAssemblyId>false</appendAssemblyId>
+                     <transformers>
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                           <mainClass>com.spidasoftware.EclipseFormatter.Formatter</mainClass>
+                        </transformer>
+                     </transformers>
+                  </configuration>
+               </execution>
+            </executions>
          </plugin>
-      </plugins>     
+      </plugins>
    </build>
    <dependencies>
       <dependency>
@@ -160,7 +192,7 @@
          <artifactId>ui</artifactId>
          <version>3.9.0.v20130605-1748</version>
          <scope>compile</scope>
-      </dependency> 
+      </dependency>
       <dependency>
          <groupId>org.eclipse</groupId>
          <artifactId>jface</artifactId>
