@@ -218,7 +218,7 @@ public class FormatterPreferencesOnStore implements IFormatterPreferences {
 	}
 
 	public int getLongListLength() {
-		return 200; //longListLength;
+		return 120; //longListLength;
 	}
 }
 

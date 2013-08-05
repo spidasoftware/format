@@ -95,6 +95,13 @@ If you would like to make changes to the eclipse formatter preferences, you will
 maven 2.2.1 to build the project. Once you have this installed, navigate yourself to
 EclipseFormatter/src/main/java/com/spidasoftware/EclipseFormatter/Formatter.java file. Above the 
 class declaration, read the comment to determine what you need to do to modify the preferences.
+in addition, use the following links that provide you with the api documentation to change the 
+preferences:
+
+
+[Groovy Formatter](File://format-v1.0\formatters\site\apidocs\com\spidasoftware\EclipseFormatter\SpidaFormatterPreferences "Groovy Formatter Documentation")
+
+[Java Formatter](http://help.eclipse.org/indigo/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fformatter%2FDefaultCodeFormatterConstants.html "Java Formatter Documentation")
 
 Once you have made changes to the code, navigate yourself to the format/EclipseFormatter directory
 and run:

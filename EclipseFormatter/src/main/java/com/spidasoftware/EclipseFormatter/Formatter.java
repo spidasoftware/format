@@ -50,10 +50,10 @@ import java.util.Arrays;
 /**
  * 
  * Extracted various classes from eclipse to create an automatic java 
- * and groovy source code formatter
+ * and groovy source code formatter.
  *
  * This class, containing a main method, will take in command line arguments and call on the JavaFormat
- * and Groovy Format classes to automatically format java and groovy files. If you would like to make
+ * and GroovyFormat classes to automatically format java and groovy files. If you would like to make
  * changes to how the formatter formats, see the JavaFormat class or the GroovyFormat class.
  *
  * @author Nicholas Joodi

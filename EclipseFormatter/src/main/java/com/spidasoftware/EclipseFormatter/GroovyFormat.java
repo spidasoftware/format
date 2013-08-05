@@ -21,7 +21,7 @@
 package com.spidasoftware.EclipseFormatter;
 
 import org.codehaus.groovy.eclipse.refactoring.formatter.DefaultGroovyFormatter;
-import com.spidasoftware.EclipseFormatter.FormatterPreferencesOnStore;
+import com.spidasoftware.EclipseFormatter.SpidaFormatterPreferences;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.Document;
@@ -65,31 +65,34 @@ public class GroovyFormat {
 	 * @param code, The string of code that will be formatted
 	 */
 	public void format(String fileName, String code) {
-		DefaultGroovyFormatter cf = initializeFormatter(code);
-		IDocument dc = new Document(code.toString());
-		if (dc == null || code.length() == 0) {
-			log.info("!!! Could not format " + fileName + " !!!");
-		} else {
 			try {
+				DefaultGroovyFormatter cf = initializeFormatter(code);
+				IDocument dc = new Document(code.toString());
 				TextEdit te = cf.format();
-				te.apply(dc);
+				if (te == null || code.length() == 0) {
+					log.info("!!! Could not format " + fileName + " !!!");
+				} else {
+					te.apply(dc);
 
-				PrintWriter out = new PrintWriter(new FileWriter(fileName));
-				out.println(dc.get());
-				out.close();
+					PrintWriter out = new PrintWriter(new FileWriter(fileName));
+					out.println(dc.get());
+					out.close();
 
-				log.info("*** Groovy standard formatting conventions have been applied to " + fileName + " ***");
-				correctlyFormatted = true;
+					log.info("*** Groovy standard formatting conventions have been applied to " + fileName + " ***");
+					correctlyFormatted = true;
+				}
 			} catch (MalformedTreeException e) {
 				log.error(e, e);
+				log.error("!!!Could Not format " + fileName + "!!!");
 			} catch (BadLocationException e) {
 				log.error(e, e);
+				log.error("!!!Could Not format " + fileName + "!!!");
 			} catch (IOException e) {
 				log.error(e, e);
-			} catch (Exception e) {
 				log.error("!!!Could Not format " + fileName + "!!!");
+			} catch (Exception e) {
+				log.error("Cannot format " + fileName + ", probably due to compilation errors.  Please fix and try again.");
 			}
-		}
 	}
 
 	/**
@@ -111,10 +114,13 @@ public class GroovyFormat {
 	 */
 	public static DefaultGroovyFormatter initializeFormatter(String code) {
 		IPreferenceStore pref = null;
-		FormatterPreferencesOnStore defaultPrefs = new FormatterPreferencesOnStore(pref);
+		SpidaFormatterPreferences customizedPrefs = new SpidaFormatterPreferences(pref);
+		customizedPrefs.setUseTabs(false);
+		customizedPrefs.setLongListLength(120);
+		customizedPrefs.setMaxLineLength(120);
 		IDocument doc = new Document(code.toString());
 		TextSelection sel = new TextSelection(0, code.length());
-		DefaultGroovyFormatter formatter = new DefaultGroovyFormatter(sel, doc, defaultPrefs, false);
+		DefaultGroovyFormatter formatter = new DefaultGroovyFormatter(sel, doc, customizedPrefs, false);
 		return formatter;
 	}
 }

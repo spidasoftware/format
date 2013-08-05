@@ -39,7 +39,7 @@ public class JavaGroovyFormatterTest extends TestCase {
 	private GroovyFormat groovyFormatter;
 	private File javaFile;
 	private File groovyFile;
-	private final static Logger log = Logger.getLogger(GroovyFormat.class);
+	private final static Logger log = Logger.getLogger(JavaGroovyFormatterTest.class);
 
 	public void setUp() throws Exception {
 		super.setUp();
@@ -60,7 +60,6 @@ public class JavaGroovyFormatterTest extends TestCase {
 	 * Test the JavaFormat constructor
 	 */
 	public void testjavaFormatConstruct() {
-		BasicConfigurator.configure();
 		log.info("JavaFormat.isFormatted() method is set to false when initialized");
 		assertTrue("correctlyFormatted is set to false", javaFormatter.isFormatted() == false);
 	}
