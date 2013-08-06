@@ -8,7 +8,7 @@ So far, this formatter can automatically format java and groovy files, provided 
 of the classes from the Eclipse API, as well as many of the classes from the Groovy-eclipse
 open source project.
 
-### Setup
+## Setup
 
 1. So far, only a bash script has been made for this program, so if you work on a windows
 	OS, you will need to install a bash terminal (git, cygwin, etc.). 
@@ -28,7 +28,7 @@ open source project.
 
 If all tests passed, you correctly installed the software.
 
-### Instructions
+## Instructions
 
 Enter the command:
 
@@ -55,7 +55,7 @@ Will create a backup for that file
 
 Will format the contents of that directory, etc. 
 
-### Adding additional formatters
+## Adding additional formatters
 
 The goal of this project is to combine the formatting capabilities of various projects in the open source community 
 into one simple command-line feature. We found that the eclipse java source code formatter worked well, so we decided
@@ -97,18 +97,18 @@ A few key requirements of the additional formatters you add:
    * Make sure the command does not create a backup file. The program already has an option to do that
    * A newline must be the last character of both config files
 
-### Modifying the existing code
+## Modifying the existing code
 
 If you would like to make changes to the eclipse formatter preferences, you will need to install the following on your computer:
    * A recent version of the Java runtime environment and the JDK
    * Maven 2.2.1 to build the project. 
    * You will also need to clone the repo
 
-## For your reference, here's the Javadoc for this project:
+### For your reference, here's the Javadoc for this project:
 
   [Javadoc](http://spidasoftware.github.io/format/index "The project's Javadoc")
 
-## Java formatting preferences
+### Java formatting preferences
 
   In the EclipseFormatter/src/main/java/com/spidasoftware/EclipseFormatter/JavaFormat.java file, there is the initializeFormatter method 
   where you can add or remove preferences of the formatter.
@@ -119,7 +119,7 @@ If you would like to make changes to the eclipse formatter preferences, you will
 
   I give a couple examples of how to add preferences in the method's source code.
 
-## Groovy formatting preferences
+### Groovy formatting preferences
 
   In the EclipseFormatter/src/main/java/com/spidasoftware/EclipseFormatter/GroovyFormat.java file, there is the initializeFormatter method 
   where you can add or remove preferences of the formatter.
