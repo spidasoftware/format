@@ -91,10 +91,8 @@ formatByExtension() {
    # echo "asd"
     while [ $i -lt $(eval "echo ${#nameExtension[@]}") ] ; do
         if [[ "${1##*.}" = "${nameExtension[$i]}" ]]  && [[  -f "${2}${1}" ]] && [[  -s "${2}${1}" ]]; then
-         #   cd $oldPath
-           # echo "sdfdf"
-            $(eval "echo ${valueExtension[$i]}") "${2}${1}"
             backup "${1}" "${2}"
+            $(eval "echo ${valueExtension[$i]}") "${2}${1}"
         fi
         i=$[$i+1]
     done 
@@ -108,8 +106,8 @@ read -r firstLine<"${2}${1}"
 i=0
 while [ $i -lt $(eval "echo ${#nameHash[@]}") ] ; do
     if [[ "${firstLine}" == *"${nameHash[$i]}"* ]]  && [[  -f "${2}${1}" ]] && [[  -s "${2}${1}" ]]; then
-        $(eval "echo ${valueHash[i]}") "${2}${1}"
         backup "${1}" "${2}"
+        $(eval "echo ${valueHash[i]}") "${2}${1}"
     fi
     i=$[$i+1]
 done
