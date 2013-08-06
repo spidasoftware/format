@@ -106,7 +106,7 @@ public class JavaFormat {
 	/**
 	 * A no-argument method that will return a boolean indicating if the code has been formatted.
 	 * 
-	 * @return a boolean indicating if file was formatted.
+	 * @return a boolean indicating if the file was formatted.
 	 */
 	public boolean isFormatted() {
 		return correctlyFormatted;
@@ -114,10 +114,7 @@ public class JavaFormat {
 
 	/**
 	 * A static method that will prepare the JavaFormat object for formatting
-	 * the respective code that was passed into the format method. If you would like
-	 * to add in your own preferences to the java formatter, see the DefaultCodeFormatterConstants
-	 * Eclipse Api. It gives you directions on how to go about adding preferences. Use this api to
-	 * add you preferences to the source code of this method.
+	 * the respective code that was passed into the format method. 
 	 *
 	 * @param code the String representing the source code of the file. 
 	 * @return a CodeFormatter class that will format the source code.	 

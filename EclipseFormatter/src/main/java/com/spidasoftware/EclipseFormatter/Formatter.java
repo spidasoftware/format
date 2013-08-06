@@ -49,7 +49,7 @@ import java.util.Arrays;
 
 /**
  * 
- * Extracted various classes from eclipse to create an automatic java 
+ * Extracted various classes from Eclipse and Groovy-Eclipse to create an automatic java 
  * and groovy source code formatter.
  *
  * This class, containing a main method, will take in command-line arguments and call on the JavaFormat

@@ -95,7 +95,7 @@ public class GroovyFormat {
 	/**
 	 * A no-argument method that will return a boolean indicating if the code has been formatted.
 	 * 
-	 * @return a boolean indicating if file was formatted.
+	 * @return a boolean indicating if the file was formatted.
 	 */
 	public boolean isFormatted() {
 		return correctlyFormatted;
@@ -112,10 +112,9 @@ public class GroovyFormat {
 		IPreferenceStore pref = null;
 		SpidaFormatterPreferences customizedPrefs = new SpidaFormatterPreferences(pref);
 
-		// This is where you will add your own preferences. For example, below there are three modifications made
-		// to the groovy formatter. Tabs will not be used when formatting, a bracket list can have a length of 120 characters,
+		// This is where you will add your own preferences. For example, below there are two modifications made
+		// to the groovy formatter: a bracket list can have a length of 120 characters,
 		// and the maximum line length is now 120 characters. 
-		customizedPrefs.setUseTabs(false);
 		customizedPrefs.setLongListLength(120);
 		customizedPrefs.setMaxLineLength(120);
 

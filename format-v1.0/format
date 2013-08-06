@@ -136,12 +136,8 @@ recursive() {
     echo "*** Are you sure you want to recursively format all files? (enter y to continue) ***"
     read answer
     if [ ${answer} = y ] ; then
-        echo "****************************************************************************"
-        echo "I'd recommend that you (if you haven't already done so) set the backup flag."
-        echo "If you haven't, would you like to terminate this command so that you can add"
-        echo "the backup flag?                                                            "
-        echo "(enter n to continue, enter y to terminate)                                 "
-        echo "****************************************************************************"
+        echo "If you haven't already done so, would you like to terminate this command so "
+        echo "that you can add the backup flag? Enter n to continue, enter y to terminate. "
         read backupFlag
         if [ ${backupFlag} = n ] ; then
             for entry in $(find ${1}) ; do
