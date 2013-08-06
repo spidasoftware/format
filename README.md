@@ -5,7 +5,7 @@ Our general purpose formatter that was pulled together from different projects. 
 main file for this software is located in format-v[number]/format. This is a command line
 executable that is capable of integrating many other formatters into one application.
 So far, this formatter can automatically format java and groovy files, provided by many
-of the classes from the Eclipse API, as well as many of the classes from the Groovy-eclipse
+of the classes from the Eclipse API, as well as many of the classes from the Groovy-Eclipse
 open source project.
 
 ## Setup
@@ -47,7 +47,7 @@ Will format that single file
 ```
 	format -b <path/to/file>
 ```
-Will create a backup for that file
+Will create a backup and format that file
 
 ```
 	format <path/to/directory>
@@ -58,11 +58,10 @@ Will format the contents of that directory, etc.
 ## Adding additional formatters
 
 The goal of this project is to combine the formatting capabilities of various projects in the open source community 
-into one simple command-line feature. We found that the eclipse java source code formatter worked well, so we decided
-to extract those classes and add it to this project. We also found that the groovy-eclipse groovy source code formatter
-worked well, so we also extracted those classes and added them to this project. 
+into one simple command-line feature. We found that the Eclipse java source code formatter and the Groovy-Eclipse groovy source code
+formatter worked well, so we decided to extract those classes and add it to this project. 
 
-We tried to make it as easy as possible for you to have more languages to be formatted. To
+We tried to make it as easy as possible for you to add more languages to this command-line formatter. To
 do this, navigate to format-v[number]/conf directory, and you will see two files:
 extension.cfg and hashbang.cfg. The extension.cfg file is used to format files that have a 
 particular extension. The hashbang.cfg file is used to format files that have a particular string in the first
@@ -97,9 +96,9 @@ A few key requirements of the additional formatters you add:
    * Make sure the command does not create a backup file. The program already has an option to do that
    * A newline must be the last character of both config files
 
-## Modifying the existing code
+## Modifying the java or groovy formatters
 
-If you would like to make changes to the eclipse formatter preferences, you will need to install the following on your computer:
+If you would like to make changes to the Eclipse formatter preferences, you will need to install the following on your computer:
    * A recent version of the Java runtime environment and the JDK
    * Maven 2.2.1 to build the project. 
    * You will also need to clone the repo

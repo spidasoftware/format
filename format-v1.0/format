@@ -128,7 +128,7 @@ format() {
     fi
 }
 
-# A one argument method that takes a directory and formats all files in a directory and the
+# A two-argument method that takes a directory and formats all files in a directory and the
 # files in the respective subdirectories
 # 1 is the filename/filename with path 
 # 2 is path/empty string
@@ -167,7 +167,6 @@ gitFormat() {
 BACKUP=0
 RECURSIVE=0
 GIT=0
-GROOVY=0
 initializeArrays
 
 # Using getopts to parse the command line args

@@ -38,10 +38,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * The GroovyFormat class that will format groovy source code.
- *
- * This class formats groovy source code using the formatter classes from the groovy-eclipse
- * open source project.
+ * The GroovyFormat class that will format groovy source code using the formatter classes 
+ * from the Groovy-Eclipse open source project.
  *
  * @author Nicholas Joodi
  */

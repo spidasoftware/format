@@ -117,7 +117,6 @@ public class Formatter {
 	 * @param code string containing the contents of that file.
 	 * @param cmd the list of command-line arguments.
 	 */
-
 	public static String formatOne(String fileName, String code, CommandLine cmd) {
 		String nameWithDate = null;
 		String extension = FilenameUtils.getExtension(fileName);
@@ -134,7 +133,7 @@ public class Formatter {
 	 * the contents of that file.
 	 * 
 	 * @param fileName The name of that file.
-	 * @return String The contents of that file.
+	 * @return a String that contans the contents of that file.
 	 */
 	@SuppressWarnings("resource")
 	public static String readInFile(String fileName) {
@@ -155,7 +154,7 @@ public class Formatter {
 	 *
 	 * @param fileName  string representing the name of the file.
 	 * @param before  string containing the contents of that file
-	 * @return String the name of the backup file created.
+	 * @return a String that represents the name of the backup file created, null otherwise.
 	 *
 	 */
 	public static String createBackupFile(String fileName, String before) {
@@ -217,7 +216,7 @@ public class Formatter {
 	 * @param fileName String representing the name of the file.
 	 * @param code String containing the contents of that file.
 	 * @param cmd The list of command line arguments
-	 * @return String representing the name of the backup file created, null otherwise
+	 * @return a String that represents the name of the backup file created, null otherwise.
 	 */
 	public static String formatUsingExtension(String fileName, String code, CommandLine cmd) {
 		String extension = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length());
@@ -246,7 +245,7 @@ public class Formatter {
 	 * @param fileName string representing the name of the file.
 	 * @param code string containing the contents of that file.
 	 * @param cmd the list of command line arguments.
-	 * @return String representing the name of the backup file created, null otherwise.
+	 * @return a String that represents the name of the backup file created, null otherwise.
 	 */
 	public static String formatUsingHashBang(String fileName, String code, CommandLine cmd) {
 		String nameWithDate = null;

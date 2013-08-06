@@ -48,10 +48,10 @@ testName[1]="Test format <folder/file.groovy>, no Backup"
 if [ -d folder ]; then
 	numfiles=$(ls -1 folder | wc -l)
 	if [[ ${#numfiles[@]} = *1 ]] ; then
-		echo " - No Backup file create: PASSED"
+		echo " - No Backup file created: PASSED"
 		testPassed[1]="1"
 	else
-		echo " - No Backup file create: FAILED"
+		echo " - No Backup file created: FAILED"
 		testPassed[1]="0"
 	fi
 	rm -r folder
@@ -74,10 +74,10 @@ testName[3]="Test format -b <folder/file.groovy>, backup"
 if [ -d folder ]; then
 	numfiles=$(ls -1 folder | wc -l)
 	if [[ ${numfiles} = *2 ]] ; then
-		echo " - Backup file create: PASSED"
+		echo " - Backup file created: PASSED"
 		testPassed[3]="1"
 	else
-		echo " - Backup file create: FAILED"
+		echo " - Backup file created: FAILED"
 		testPassed[3]="0"
 	fi
 	rm -r folder
@@ -104,7 +104,7 @@ if [ -d folder ]; then
 		echo " - No backup file created: PASSED"
 		testPassed[5]="1"
 	else
-		echo " - No backup file create: FAILED"
+		echo " - No backup file created: FAILED"
 		testPassed[5]="0"
 	fi
 	rm -r folder
@@ -131,7 +131,7 @@ if [ -d folder ]; then
 		echo " - Backup file created: PASSED"
 		testPassed[7]="1"
 	else
-		echo " - Backup file create: FAILED"
+		echo " - Backup file created: FAILED"
 		testPassed[7]="0"
 	fi
 	rm -r folder
@@ -163,7 +163,7 @@ if [ -d folder ]; then
 		echo " - No Backup file created: PASSED"
 		testPassed[9]="1"
 	else
-		echo " - No Backup file create: FAILED"
+		echo " - No Backup file created: FAILED"
 		testPassed[9]="0"
 	fi
 	rm -r folder
@@ -195,7 +195,7 @@ if [ -d folder ]; then
 		echo " - Backup files created: PASSED"
 		testPassed[11]="1"
 	else
-		echo " - Backup files create: FAILED"
+		echo " - Backup files created: FAILED"
 		testPassed[11]="0"
 	fi
 	rm -r folder
@@ -239,7 +239,7 @@ if [ -d folder ]; then
 		echo " - No Backup file created: PASSED"
 		testPassed[13]="1"
 	else
-		echo " - No Backup file create: FAILED"
+		echo " - No Backup file created: FAILED"
 		testPassed[13]="0"
 	fi
 	rm -r folder
@@ -283,7 +283,7 @@ if [ -d folder ]; then
 		echo " - Backup files created: PASSED"
 		testPassed[15]="1"
 	else
-		echo " - Backup files create: FAILED"
+		echo " - Backup files created: FAILED"
 		testPassed[15]="0"
 	fi
 	rm -r folder

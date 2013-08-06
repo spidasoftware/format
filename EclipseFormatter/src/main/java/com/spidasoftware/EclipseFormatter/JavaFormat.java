@@ -46,8 +46,8 @@ import org.eclipse.text.edits.MalformedTreeException;
 import org.eclipse.text.edits.TextEdit;
 
 /**
- * The JavaFormat class that will format java source code using th formatter classes from the 
- * eclipse api.
+ * The JavaFormat class that will format java source code using the formatter classes from the 
+ * Eclipse api.
  *
  * @author Nicholas Joodi
  */
