@@ -11,20 +11,19 @@ open source project.
 ### Setup
 
 1. So far, only a bash script has been made for this program, so if you work on a windows
-	OS, you will need to install a bash terminal (git, cygwin, etc.). In addition, make sure you 
-  hava Java installed on your machine.
+	OS, you will need to install a bash terminal (git, cygwin, etc.). 
 
-1. Clone the repo
+1. You will need a recent version of the Java runtime environment (as well as a complete JDK if you plan to modify the source code).
 
-1. Add the absolute path of the format-v[number] directory to your path
+1. Download this repository (or clone it if you plan to modify the source code).
+
+1. Add the absolute path of the format-v[number] directory to your path.
 
 	To make sure it was correctly installed, enter in the following command:
 
 ```
 	formatBashTest
 ```
-
-Which should display the following:
 
 
 If all tests passed, you correctly installed the software.
@@ -58,6 +57,11 @@ Will format the contents of that directory, etc.
 
 ### Adding additional formatters
 
+The goal of this project is to combine the formatting capabilities of various projects in the open source community 
+into one simple command-line feature. We found that the eclipse java source code formatter worked well, so we decided
+to extract those classes and add it to this project. We also found that the groovy-eclipse groovy source code formatter
+worked well, so we also extracted those classes and added them to this project. 
+
 We tried to make it as easy as possible for you to have more languages to be formatted. To
 do this, navigate to format-v[number]/conf directory, and you will see two files:
 extension.cfg and hashbang.cfg. The extension.cfg file is used to format files that have a 
@@ -71,6 +75,10 @@ java = java -jar $([[ "$( dirname "${BASH_SOURCE[0]}" )" = "." ]] &&  echo "form
 ```
 This line is telling the program to format all files with the extension, "java." This line is also
 telling the program to use the following command line (after the equals sign) to format the file.
+The verbose line of code within the "$(" and the ")" was used to get the path of the "format" bash script file when
+it was ran. Feel free to use this if you decide to place a new formatter in a location that is relative
+to the "format" bash script.
+
 If you would like to add a new formatter to the program, simply add the extension, an "=", followed by
 the command.
 
@@ -91,17 +99,32 @@ A few key requirements of the additional formatters you add:
 
 ### Modifying the existing code
 
-If you would like to make changes to the eclipse formatter preferences, you will need to install
-maven 2.2.1 to build the project. Once you have this installed, navigate yourself to
-EclipseFormatter/src/main/java/com/spidasoftware/EclipseFormatter/Formatter.java file. Above the 
-class declaration, read the comment to determine what you need to do to modify the preferences.
-in addition, use the following resources that provide you with the api documentation to change the 
-preferences:
+If you would like to make changes to the eclipse formatter preferences, you will need to install the following on your computer:
+   * A recent version of the Java runtime environment and the JDK
+   * Maven 2.2.1 to build the project. 
+   * You will also need to clone the repo
 
+## Java formatting preferences
 
-Groovy Formatter preferences located in: format\format-v[number]\site\apidocs\com\spidasoftware\EclipseFormatter\SpidaFormatterPreferences.html "Groovy Formatter Documentation")
+  In the EclipseFormatter/src/main/java/com/spidasoftware/EclipseFormatter/JavaFormat.java file, there is the initializeFormatter method 
+  where you can add or remove preferences of the formatter.
 
-[Java Formatter](http://help.eclipse.org/indigo/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fformatter%2FDefaultCodeFormatterConstants.html "Java Formatter Documentation")
+  The api used to add or remove your own preferences are located at:
+
+  [Java Formatting Preferencs](http://help.eclipse.org/indigo/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fformatter%2FDefaultCodeFormatterConstants.html "Eclipse Api")
+
+  I give a couple examples of how to add preferences in the method's source code.
+
+## Groovy formatting preferences
+
+  In the EclipseFormatter/src/main/java/com/spidasoftware/EclipseFormatter/GroovyFormat.java file, there is the initializeFormatter method 
+  where you can add or remove preferences of the formatter.
+
+  The api used to add or remove your own preferences are located at:
+  [Groovy Formatting Preferences](http://spidasoftware.github.io/format/com/spidasoftware/EclipseFormatter/SpidaFormatterPreferences "Groovy Formatting Preferences")
+
+  I give a couple examples of how to add preferences in the method's source code.
+
 
 Once you have made changes to the code, navigate yourself to the format/EclipseFormatter directory
 and run:

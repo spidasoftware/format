@@ -40,8 +40,8 @@ import java.util.Date;
 /**
  * The GroovyFormat class that will format groovy source code.
  *
- * This class formats groovy source code. See the initializeFormatter method if you would like to 
- * modify the formatting preferences.
+ * This class formats groovy source code using the formatter classes from the groovy-eclipse
+ * open source project.
  *
  * @author Nicholas Joodi
  */
@@ -103,8 +103,7 @@ public class GroovyFormat {
 
 	/**
 	 * A static method that will prepare the GroovyFormat object for formatting
-	 * the respective code that was passed into the format method. If you would like to make changes
-	 * to the preferences, see the SpidaFormatterPreferences class and add the lines of code to this method.
+	 * the respective code that was passed into the format method.
 	 *
 	 * @param code The string representing the source code of the file.	 
 	 * @return a DefaultGroovyFormatter class that will format the source code.

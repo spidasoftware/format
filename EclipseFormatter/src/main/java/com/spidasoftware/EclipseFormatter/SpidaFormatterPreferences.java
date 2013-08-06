@@ -262,3 +262,4 @@ public class SpidaFormatterPreferences extends FormatterPreferencesOnStore {
 		return longListLength;
 	}
 }
+

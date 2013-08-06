@@ -18,7 +18,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# A command line feature for the formatters
+# A command-line feature for the formatters
 # To add more languages to the formatter, see extension.cfg located in the conf directory.
 
 # Display the options
@@ -31,6 +31,7 @@ usage() { echo "Usage: format [options] <file or directory with relative path>"
           echo "              (g does not need a filename as an argument)"
           exit 1;
 }
+
 # arrays that will contain the identifying marker to determine which formatter to use and also
 # arrays containing the command to use when the identifying marker has been found
 initializeArrays() {

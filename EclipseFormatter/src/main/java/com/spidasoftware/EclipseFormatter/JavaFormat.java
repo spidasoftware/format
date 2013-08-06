@@ -46,9 +46,8 @@ import org.eclipse.text.edits.MalformedTreeException;
 import org.eclipse.text.edits.TextEdit;
 
 /**
- * The JavaFormat class that will format java source code.
- * 
- * See the initializeFormatter method if you wuld like to modify the formatting preferences.
+ * The JavaFormat class that will format java source code using th formatter classes from the 
+ * eclipse api.
  *
  * @author Nicholas Joodi
  */
@@ -100,7 +99,7 @@ public class JavaFormat {
 				log.error("!!!Could not format " + fileName + "!!!");
 			} catch (Exception e) {
 				log.error("!!!Could not format " + fileName + "!!!");
-		}
+			}
 		}
 	}
 

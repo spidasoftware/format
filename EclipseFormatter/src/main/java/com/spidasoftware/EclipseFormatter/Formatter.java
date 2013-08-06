@@ -53,8 +53,7 @@ import java.util.Arrays;
  * and groovy source code formatter.
  *
  * This class, containing a main method, will take in command-line arguments and call on the JavaFormat
- * and GroovyFormat classes to automatically format java and groovy files. If you would like to make
- * changes to how the formatter formats, see the JavaFormat class or the GroovyFormat class.
+ * and GroovyFormat classes to automatically format java and groovy files.
  *
  * @author Nicholas Joodi
  */
