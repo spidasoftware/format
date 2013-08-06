@@ -104,30 +104,25 @@ If you would like to make changes to the eclipse formatter preferences, you will
    * Maven 2.2.1 to build the project. 
    * You will also need to clone the repo
 
-### For your reference, here's the Javadoc for this project:
+For your reference, here's the Javadoc for this project:
 
   [Javadoc](http://spidasoftware.github.io/format/index "The project's Javadoc")
 
 ### Java formatting preferences
 
-  In the EclipseFormatter/src/main/java/com/spidasoftware/EclipseFormatter/JavaFormat.java file, there is the initializeFormatter method 
-  where you can add or remove preferences of the formatter.
+   * In the EclipseFormatter/src/main/java/com/spidasoftware/EclipseFormatter/JavaFormat.java file, there is the initializeFormatter method where you can add or remove preferences of the formatter.
 
-  The api used to add or remove your own preferences are located at:
+   * The api used to add or remove your own preferences are located at: [Java Formatting Preferencs](http://help.eclipse.org/indigo/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fformatter%2FDefaultCodeFormatterConstants.html "Eclipse Api")
 
-  [Java Formatting Preferencs](http://help.eclipse.org/indigo/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fformatter%2FDefaultCodeFormatterConstants.html "Eclipse Api")
-
-  I give a couple examples of how to add preferences in the method's source code.
+   * I give a couple examples of how to add preferences in the method's source code.
 
 ### Groovy formatting preferences
 
-  In the EclipseFormatter/src/main/java/com/spidasoftware/EclipseFormatter/GroovyFormat.java file, there is the initializeFormatter method 
-  where you can add or remove preferences of the formatter.
+   * In the EclipseFormatter/src/main/java/com/spidasoftware/EclipseFormatter/GroovyFormat.java file, there is the initializeFormatter method where you can add or remove preferences of the formatter.
 
-  The api used to add or remove your own preferences are located at:
-  [Groovy Formatting Preferences](http://spidasoftware.github.io/format/com/spidasoftware/EclipseFormatter/SpidaFormatterPreferences "Groovy Formatting Preferences")
+   * The api used to add or remove your own preferences are located at: [Groovy Formatting Preferences](http://spidasoftware.github.io/format/com/spidasoftware/EclipseFormatter/SpidaFormatterPreferences "Groovy Formatting Preferences")
 
-  I give a couple examples of how to add preferences in the method's source code.
+   * I give a couple examples of how to add preferences in the method's source code.
 
 
 Once you have made changes to the code, navigate yourself to the format/EclipseFormatter directory
