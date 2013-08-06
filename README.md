@@ -104,6 +104,10 @@ If you would like to make changes to the eclipse formatter preferences, you will
    * Maven 2.2.1 to build the project. 
    * You will also need to clone the repo
 
+## For your reference, here's the Javadoc for this project:
+
+  [Javadoc](http://spidasoftware.github.io/format/index "The project's Javadoc")
+
 ## Java formatting preferences
 
   In the EclipseFormatter/src/main/java/com/spidasoftware/EclipseFormatter/JavaFormat.java file, there is the initializeFormatter method 
