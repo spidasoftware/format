@@ -30,7 +30,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.BasicConfigurator;
 
 /**
- * tests for GroovyFormat and JavaFormat classes
+ * tests for the SpidaFormatterPreferences class
  *
  * @author Nicholas Joodi
  */
@@ -104,7 +104,8 @@ public class SpidaFormatterPreferencesTest extends TestCase {
 	 */
 	public void testRemoveUnnecessarySemicolonsConstruct() {
 		log.info("SpidaFormatterPreferences Constructor, RemoveUnnecessarySemicolons preference was set");
-		assertTrue("Constructor: RemoveUnnecessarySemicolons preferences was set", !customizedPrefs.isRemoveUnnecessarySemicolons());
+		assertTrue("Constructor: RemoveUnnecessarySemicolons preferences was set",
+				!customizedPrefs.isRemoveUnnecessarySemicolons());
 	}
 
 	/**
@@ -112,7 +113,8 @@ public class SpidaFormatterPreferencesTest extends TestCase {
 	 */
 	public void testIndentationMultilineConstruct() {
 		log.info("SpidaFormatterPreferences Constructor, IndentationMultiline preference was set");
-		assertTrue("Constructor: IndentationMultiline preferences was set", customizedPrefs.getIndentationMultiline() == 2);
+		assertTrue("Constructor: IndentationMultiline preferences was set",
+				customizedPrefs.getIndentationMultiline() == 2);
 	}
 
 	/**
@@ -200,7 +202,8 @@ public class SpidaFormatterPreferencesTest extends TestCase {
 	public void testRemoveUnnecessarySemicolonsSet() {
 		log.info("SpidaFormatterPreferences set method, RemoveUnnecessarySemicolons preference was set");
 		customizedPrefs.setRemoveUnnecessarySemicolons(true);
-		assertTrue("Set method: RemoveUnnecessarySemicolons preferences was set", customizedPrefs.isRemoveUnnecessarySemicolons());
+		assertTrue("Set method: RemoveUnnecessarySemicolons preferences was set",
+				customizedPrefs.isRemoveUnnecessarySemicolons());
 	}
 
 	/**

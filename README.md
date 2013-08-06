@@ -67,7 +67,7 @@ open the extension.cfg file. In there you will see comments as well as two lines
 with "java" and the other starting with "groovy". These are the two formatters that have been 
 added to the program when you installed it. observe the line: 
 ```
-java = java -jar ${FORMAT}/formatters/EclipseFormatter.jar -java
+java = java -jar $([[ "$( dirname "${BASH_SOURCE[0]}" )" = "." ]] &&  echo "format-v1.0" || echo "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )")/formatters/EclipseFormatter.jar -java
 ```
 This line is telling the program to format all files with the extension, "java." This line is also
 telling the program to use the following command line (after the equals sign) to format the file.
@@ -95,11 +95,11 @@ If you would like to make changes to the eclipse formatter preferences, you will
 maven 2.2.1 to build the project. Once you have this installed, navigate yourself to
 EclipseFormatter/src/main/java/com/spidasoftware/EclipseFormatter/Formatter.java file. Above the 
 class declaration, read the comment to determine what you need to do to modify the preferences.
-in addition, use the following links that provide you with the api documentation to change the 
+in addition, use the following resources that provide you with the api documentation to change the 
 preferences:
 
 
-[Groovy Formatter](File://format-v1.0\formatters\site\apidocs\com\spidasoftware\EclipseFormatter\SpidaFormatterPreferences "Groovy Formatter Documentation")
+Groovy Formatter preferences located in: format\format-v[number]\site\apidocs\com\spidasoftware\EclipseFormatter\SpidaFormatterPreferences.html "Groovy Formatter Documentation")
 
 [Java Formatter](http://help.eclipse.org/indigo/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fformatter%2FDefaultCodeFormatterConstants.html "Java Formatter Documentation")
 
@@ -107,7 +107,7 @@ Once you have made changes to the code, navigate yourself to the format/EclipseF
 and run:
 
 ```
-mvn install
+mvn clean install
 ```
 If all tests pass, this will construct you the jar, "EclipseFormatter/target/EclipseFormatter.jar." 
 Replace the jar located in format-v[number]/formatters/ directory with the one created. This will 

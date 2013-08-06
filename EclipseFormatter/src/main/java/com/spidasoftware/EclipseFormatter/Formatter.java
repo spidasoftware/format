@@ -52,7 +52,7 @@ import java.util.Arrays;
  * Extracted various classes from eclipse to create an automatic java 
  * and groovy source code formatter.
  *
- * This class, containing a main method, will take in command line arguments and call on the JavaFormat
+ * This class, containing a main method, will take in command-line arguments and call on the JavaFormat
  * and GroovyFormat classes to automatically format java and groovy files. If you would like to make
  * changes to how the formatter formats, see the JavaFormat class or the GroovyFormat class.
  *
@@ -81,11 +81,11 @@ public class Formatter {
 	}
 
 	/**
-	 * A two argument method that takes a CommandLine object, as well as the args string [],
+	 * A two argument method that takes a Command-Line object, as well as the string [], args,
 	 * and initiates the formatting.
 	 *
-	 * @param cmd, the list of command line arguments
-	 * @param args, the command line arguments 
+	 * @param cmd the list of command-line arguments.
+	 * @param args the command-line arguments.
 	 */
 	public static void optionToFormat(CommandLine cmd, String[] args) {
 		if (args.length == 0) {
@@ -111,12 +111,12 @@ public class Formatter {
 
 	/**
 	 * A three-argument method that will take a filename string, the contents of 
-	 * that file as a string (before formatted), and the CommandLine arguments and
+	 * that file as a string (before formatted), and the Command-Line arguments and
 	 * format the respective file.
 	 *
-	 * @param filename, a string representing the name of the file
-	 * @param code, a string containing the contents of that file
-	 * @param cmd, the list of command line arguments
+	 * @param fileName string representing the name of the file.
+	 * @param code string containing the contents of that file.
+	 * @param cmd the list of command-line arguments.
 	 */
 
 	public static String formatOne(String fileName, String code, CommandLine cmd) {
@@ -134,8 +134,8 @@ public class Formatter {
 	 * A one-argument method that will take a filename and return a string containing 
 	 * the contents of that file.
 	 * 
-	 * @param filename, The name of that file
-	 * @return String containing the contents of that file
+	 * @param fileName The name of that file.
+	 * @return String The contents of that file.
 	 */
 	@SuppressWarnings("resource")
 	public static String readInFile(String fileName) {
@@ -151,12 +151,12 @@ public class Formatter {
 	}
 
 	/**
-	 * A two-argument method that will take a filename string and the contents of 
+	 * A two-argument method that will take a fileName string and the contents of 
 	 * that file (before formatted), and return a backup file.
 	 *
-	 * @param filename,  a string representing the name of the file
-	 * @param before,  a string containing the contents of that file
-	 * @return String, the name of the backup file created
+	 * @param fileName  string representing the name of the file.
+	 * @param before  string containing the contents of that file
+	 * @return String the name of the backup file created.
 	 *
 	 */
 	public static String createBackupFile(String fileName, String before) {
@@ -177,12 +177,12 @@ public class Formatter {
 	}
 
 	/**
-	 * A no-argument method that will return the command line arguments as a 
-	 * CommandLine object
+	 * A no-argument method that will return the command-line arguments as a 
+	 * CommandLine object.
 	 *
-	 * @param args, the command line arguments 
-	 * @param options, the options that this class can identify
-	 * @return the CommandLine object holding the command line arguments
+	 * @param args The command line arguments. 
+	 * @param options The options that this class can identify.
+	 * @return the CommandLine object holding the command line arguments.
 	 */
 	public static CommandLine getOptions(String[] args, Options options) {
 		options.addOption("b", false, "create a backup file");
@@ -201,7 +201,7 @@ public class Formatter {
 	}
 
 	/**
-	 * A no-argument method used to intantiate the logger
+	 * A no-argument method used to intantiate the logger.
 	 */
 	public static void instantiateLogger() {
 		ConsoleAppender console = new ConsoleAppender();
@@ -213,11 +213,11 @@ public class Formatter {
 	}
 
 	/**
-	 * Format by using the extension of the file
+	 * Format by using the extension of the file.
 	 *
-	 * @param filename, a string representing the name of the file
-	 * @param code, a string containing the contents of that file
-	 * @param cmd, the list of command line arguments
+	 * @param fileName String representing the name of the file.
+	 * @param code String containing the contents of that file.
+	 * @param cmd The list of command line arguments
 	 * @return String representing the name of the backup file created, null otherwise
 	 */
 	public static String formatUsingExtension(String fileName, String code, CommandLine cmd) {
@@ -242,12 +242,12 @@ public class Formatter {
 	}
 
 	/**
-	 * Format by using the first line of the file
+	 * Format by using the first line of the file.
 	 *
-	 * @param filename, a string representing the name of the file
-	 * @param code, a string containing the contents of that file
-	 * @param cmd, the list of command line arguments
-	 * @return String representing the name of the backup file created, null otherwise
+	 * @param fileName string representing the name of the file.
+	 * @param code string containing the contents of that file.
+	 * @param cmd the list of command line arguments.
+	 * @return String representing the name of the backup file created, null otherwise.
 	 */
 	public static String formatUsingHashBang(String fileName, String code, CommandLine cmd) {
 		String nameWithDate = null;
@@ -267,7 +267,7 @@ public class Formatter {
 	 * If groovy option was set, return false
 	 *
 	 * @param cmd which contains the options passed in
-	 * @return a boolean indicating whether or not the groovy option was passed
+	 * @return a boolean that is false if a groovy option was passed
 	 */
 	public static boolean javaFormatting(CommandLine cmd) {
 		if (cmd.hasOption("groovy"))
@@ -279,7 +279,7 @@ public class Formatter {
 	 * If java option was set, return false
 	 *
 	 * @param cmd which contains the options passed in
-	 * @return a boolean indicating whether or not the java option was passed
+	 * @return a boolean that is false if a java option was passed
 	 */
 	public static boolean groovyFormatting(CommandLine cmd) {
 		if (cmd.hasOption("java"))

@@ -38,10 +38,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * The GroovyFormat class that will format groovy source code
+ * The GroovyFormat class that will format groovy source code.
  *
- * This class formats groovy source code. See the initializeFormatter method to 
- * modify the formatting preferences
+ * This class formats groovy source code. See the initializeFormatter method if you would like to 
+ * modify the formatting preferences.
  *
  * @author Nicholas Joodi
  */
@@ -51,54 +51,51 @@ public class GroovyFormat {
 	private final static Logger log = Logger.getRootLogger();
 
 	/**
-	 * A no argument constructor that will set the correctlyFormatted field to false
+	 * A no argument constructor that will create a GroovyFormat object.
 	 */
 	public GroovyFormat() {
 		correctlyFormatted = false;
 	}
 
 	/**
-	 * A two-argument method that will take two strings, a filename and its respective code
-	 * and format the code
+	 * A two-argument method that will take two strings, a fileName and its respective code
+	 * and format the code.
 	 * 
-	 * @param filename, The name of that file
-	 * @param code, The string of code that will be formatted
+	 * @param fileName The name of that file.
+	 * @param code The string of code that will be formatted.
 	 */
 	public void format(String fileName, String code) {
-			try {
-				DefaultGroovyFormatter cf = initializeFormatter(code);
-				IDocument dc = new Document(code.toString());
-				TextEdit te = cf.format();
-				if (te == null || code.length() == 0) {
-					log.info("!!! Could not format " + fileName + " !!!");
-				} else {
-					te.apply(dc);
+		try {
+			DefaultGroovyFormatter cf = initializeFormatter(code);
+			IDocument dc = new Document(code.toString());
+			TextEdit te = cf.format();
+			if (te == null || code.length() == 0) {
+				log.info("!!! Could not format " + fileName + " !!!");
+			} else {
+				te.apply(dc);
 
-					PrintWriter out = new PrintWriter(new FileWriter(fileName));
-					out.println(dc.get());
-					out.close();
+				PrintWriter out = new PrintWriter(new FileWriter(fileName));
+				out.println(dc.get());
+				out.close();
 
-					log.info("*** Groovy standard formatting conventions have been applied to " + fileName + " ***");
-					correctlyFormatted = true;
-				}
-			} catch (MalformedTreeException e) {
-				log.error(e, e);
-				log.error("!!!Could Not format " + fileName + "!!!");
-			} catch (BadLocationException e) {
-				log.error(e, e);
-				log.error("!!!Could Not format " + fileName + "!!!");
-			} catch (IOException e) {
-				log.error(e, e);
-				log.error("!!!Could Not format " + fileName + "!!!");
-			} catch (Exception e) {
-				log.error("Cannot format " + fileName + ", probably due to compilation errors.  Please fix and try again.");
+				log.info("*** Groovy standard formatting conventions have been applied to " + fileName + " ***");
+				correctlyFormatted = true;
 			}
+		} catch (MalformedTreeException e) {
+			log.error("!!!Could not format " + fileName + "!!!");
+		} catch (BadLocationException e) {
+			log.error("!!!Could not format " + fileName + "!!!");
+		} catch (IOException e) {
+			log.error("!!!Could not format " + fileName + "!!!");
+		} catch (Exception e) {
+			log.error("!!!Could not format " + fileName + "!!!");
+		}
 	}
 
 	/**
-	 * A no-argument method that will return whether or not code has been formatted
+	 * A no-argument method that will return a boolean indicating if the code has been formatted.
 	 * 
-	 * @return a boolean indicating whether the file was formatted or not 
+	 * @return a boolean indicating if file was formatted.
 	 */
 	public boolean isFormatted() {
 		return correctlyFormatted;
@@ -107,17 +104,22 @@ public class GroovyFormat {
 	/**
 	 * A static method that will prepare the GroovyFormat object for formatting
 	 * the respective code that was passed into the format method. If you would like to make changes
-	 * to the preferences, see the FormatterPreferencesOnStore class.
+	 * to the preferences, see the SpidaFormatterPreferences class and add the lines of code to this method.
 	 *
-	 * @param code, the string representing the source code of the file	 
-	 * @return a DefaultGroovyFormatter class that will format the source code
+	 * @param code The string representing the source code of the file.	 
+	 * @return a DefaultGroovyFormatter class that will format the source code.
 	 */
 	public static DefaultGroovyFormatter initializeFormatter(String code) {
 		IPreferenceStore pref = null;
 		SpidaFormatterPreferences customizedPrefs = new SpidaFormatterPreferences(pref);
+
+		// This is where you will add your own preferences. For example, below there are three modifications made
+		// to the groovy formatter. Tabs will not be used when formatting, a bracket list can have a length of 120 characters,
+		// and the maximum line length is now 120 characters. 
 		customizedPrefs.setUseTabs(false);
 		customizedPrefs.setLongListLength(120);
 		customizedPrefs.setMaxLineLength(120);
+
 		IDocument doc = new Document(code.toString());
 		TextSelection sel = new TextSelection(0, code.length());
 		DefaultGroovyFormatter formatter = new DefaultGroovyFormatter(sel, doc, customizedPrefs, false);

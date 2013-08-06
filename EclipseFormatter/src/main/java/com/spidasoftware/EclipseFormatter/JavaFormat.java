@@ -46,9 +46,9 @@ import org.eclipse.text.edits.MalformedTreeException;
 import org.eclipse.text.edits.TextEdit;
 
 /**
- * The JavaFormat class that will format java source code
+ * The JavaFormat class that will format java source code.
  * 
- * See the initializeFormatter method to modify the formatting preferences
+ * See the initializeFormatter method if you wuld like to modify the formatting preferences.
  *
  * @author Nicholas Joodi
  */
@@ -57,7 +57,7 @@ public class JavaFormat {
 	private static Logger log = Logger.getRootLogger();
 
 	/**
-	 * A no argument constructor that will set the correctlyFormatted field to false
+	 * A no argument constructor that will create a JavaFormat object.
 	 */
 	public JavaFormat() {
 		ConsoleAppender console = new ConsoleAppender();
@@ -69,11 +69,11 @@ public class JavaFormat {
 	}
 
 	/**
-	 * A two-argument method that will take two strings, a filename and its respective code
-	 * and format the code
+	 * A two-argument method that will take two strings, a fileName and its respective code
+	 * and format the code.
 	 * 
-	 * @param filename, The name of that file
-	 * @param code, The string of code that will be formatted
+	 * @param fileName The name of that file.
+	 * @param code The string of code that will be formatted.
 	 */
 	public void format(String fileName, String code) {
 		CodeFormatter cf = initializeFormatter();
@@ -93,19 +93,21 @@ public class JavaFormat {
 				log.info("*** Java standard formatting conventions have been applied to " + fileName + " ***");
 				correctlyFormatted = true;
 			} catch (MalformedTreeException e) {
-				log.error(e, e);
+				log.error("!!!Could not format " + fileName + "!!!");
 			} catch (BadLocationException e) {
-				log.error(e, e);
+				log.error("!!!Could not format " + fileName + "!!!");
 			} catch (IOException e) {
-				log.error(e, e);
-			}
+				log.error("!!!Could not format " + fileName + "!!!");
+			} catch (Exception e) {
+				log.error("!!!Could not format " + fileName + "!!!");
+		}
 		}
 	}
 
 	/**
-	 * A method that will return whether or not code has been formatted
+	 * A no-argument method that will return a boolean indicating if the code has been formatted.
 	 * 
-	 * @return a boolean indicating whether the file was formatted or not  
+	 * @return a boolean indicating if file was formatted.
 	 */
 	public boolean isFormatted() {
 		return correctlyFormatted;
@@ -115,24 +117,27 @@ public class JavaFormat {
 	 * A static method that will prepare the JavaFormat object for formatting
 	 * the respective code that was passed into the format method. If you would like
 	 * to add in your own preferences to the java formatter, see the DefaultCodeFormatterConstants
-	 * Eclipse Api. It gives you directions on how to go about adding preferences. I have an example
-	 * below that is commented out that would not allow for a line to be split at the selectors
-	 * in a method invocation.	
+	 * Eclipse Api. It gives you directions on how to go about adding preferences. Use this api to
+	 * add you preferences to the source code of this method.
 	 *
-	 * @param code, the string representing the source code of the file	 
-	 * @return a CodeFormatter class that will format the source code	 
+	 * @param code the String representing the source code of the file. 
+	 * @return a CodeFormatter class that will format the source code.	 
 	 */
 	@SuppressWarnings({ "unchecked", "deprecation" })
 	private static CodeFormatter initializeFormatter() {
 		@SuppressWarnings("rawtypes")
 		Map options = DefaultCodeFormatterConstants.getEclipseDefaultSettings();
-		options.put(JavaCore.COMPILER_COMPLIANCE, JavaCore.VERSION_1_6);
-		options.put(JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM, JavaCore.VERSION_1_6);
-		options.put(JavaCore.COMPILER_SOURCE, JavaCore.VERSION_1_6);
-		//options.put(DefaultCodeFormatterConstants.FORMATTER_ALIGNMENT_FOR_SELECTOR_IN_METHOD_INVOCATION,
-		//		DefaultCodeFormatterConstants.createAlignmentValue(false, DefaultCodeFormatterConstants.WRAP_NO_SPLIT, DefaultCodeFormatterConstants.INDENT_DEFAULT));
+		options.put(JavaCore.COMPILER_COMPLIANCE, JavaCore.VERSION_1_7);
+		options.put(JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM, JavaCore.VERSION_1_7);
+		options.put(JavaCore.COMPILER_SOURCE, JavaCore.VERSION_1_7);
 
+		// This is where you will add your java formatting preferences. I have an example below that 
+		// is commented out that would not allow for a line to be split at the selectors in a method invocation.	
+
+		// options.put(DefaultCodeFormatterConstants.FORMATTER_ALIGNMENT_FOR_SELECTOR_IN_METHOD_INVOCATION,
+		//		DefaultCodeFormatterConstants.createAlignmentValue(false, DefaultCodeFormatterConstants.WRAP_NO_SPLIT, DefaultCodeFormatterConstants.INDENT_DEFAULT));
 		options.put(DefaultCodeFormatterConstants.FORMATTER_LINE_SPLIT, "120");
+
 		final CodeFormatter codeFormatter = ToolFactory.createCodeFormatter(options);
 		return codeFormatter;
 
