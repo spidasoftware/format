@@ -1,0 +1,216 @@
+#!/bin/bash
+
+# Copyright (C) 2013 Nicholas Joodi
+#
+# SpidaWeb LLC
+# 560 Officenter Pl., Gahanna, OH 43230
+# http://www.spidasoftware.com
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# A command-line feature for the formatters
+# To add more languages to the formatter, see extension.cfg located in the conf directory.
+
+# Display the options
+usage() { echo "Usage: format [options] <file or directory with relative path>"
+          echo "    -h:       print this message"
+          echo "    -b:       create a backup file"
+          echo "    -r:       format all files recursively starting from the directory specified" 
+          echo "    -g:       format all modified files in the git working directory"
+          echo "              (r and g can not be set together)"
+          echo "              (g does not need a filename as an argument)"
+          exit 1;
+}
+
+# arrays that will contain the identifying marker to determine which formatter to use and also
+# arrays containing the command to use when the identifying marker has been found
+initializeArrays() {
+    i=0
+    while read line; do
+        if [[ "$line" != ^[^#]*= ]]; then
+        nameExtension[i]=${line%% =*}
+        valueExtension[i]=${line#*= }
+        ((i++))
+    fi
+    done <"$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"/conf/extension.cfg
+
+    i=0
+    while read line; do
+        nameHash[i]=${line%% =*}
+        valueHash[i]=${line#*= }
+        ((i++))
+    done <"$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"/conf/hashBang.cfg
+}
+
+# A two argument method that takes a file and creates a backup file
+# 1 is the filename/filename with path 
+# 2 is path/empty string
+backup() {
+    if [ $BACKUP = 1 ] ; then
+        file="${2}${1}"
+        path=${file%/*}
+        fileName=${file##*/}
+        #DATE=$(date +"%Y_%m_%d_%H_%M_%S")
+        #newName="${2}${1}_BACKUP_${DATE}"
+        newName="${path}/${fileName}~"
+        cp "${2}${1}" ${newName}
+        echo "A backup file was stored in $newName"   
+    fi 
+}
+
+
+# a method to determine if the format command was called in a git repository
+isGitRepo() {
+    if [ -d .git ]; then
+        folder=$(echo .git)
+    else
+        pathFolder="$(git rev-parse --git-dir 2> /dev/null;)"
+        folder=${pathFolder##*/}
+    fi;
+    if [ "${folder}" != ".git" ] ; then
+        echo "*** Need to be located in a git repository ***"
+        exit 1
+    fi
+}
+
+# Format by using the extension of the file
+# 1 is the filename/filename with path 
+# 2 is path/empty string
+formatByExtension() {
+    i=0
+   # echo "asd"
+    while [ $i -lt $(eval "echo ${#nameExtension[@]}") ] ; do
+        if [[ "${1##*.}" = "${nameExtension[$i]}" ]]  && [[  -f "${2}${1}" ]] && [[  -s "${2}${1}" ]]; then
+            backup "${1}" "${2}"
+            [[ "$( dirname "${BASH_SOURCE[0]}" )" = "." ]] &&  echo "format-v1.0" || echo "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+            $(eval "echo ${valueExtension[$i]}") "${2}${1}"
+        fi
+        i=$[$i+1]
+    done 
+}
+
+# format by using the first line of code in the file
+# 1 is the filename/filename with path 
+# 2 is path/empty string
+formatByHashBang() {
+read -r firstLine<"${2}${1}"
+i=0
+while [ $i -lt $(eval "echo ${#nameHash[@]}") ] ; do
+    if [[ "${firstLine}" == *"${nameHash[$i]}"* ]]  && [[  -f "${2}${1}" ]] && [[  -s "${2}${1}" ]]; then
+        backup "${1}" "${2}"
+        [[ "$( dirname "${BASH_SOURCE[0]}" )" = "." ]] &&  echo "format-v1.0" || echo "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+        $(eval "echo ${valueHash[i]}") "${2}${1}"
+    fi
+    i=$[$i+1]
+done
+}
+
+# this method will format one file
+# 1 is the filename/filename with path 
+# 2 is path/empty string
+format() {
+    i=${1}
+    filename=${i##*/}
+    if [[ $filename = [!.]*.* ]] ; then
+        formatByExtension "$1" "$2"
+    elif [[ ! -d "${2}${1}" ]] && [[  -f "${2}${1}" ]] && [[  -s "${2}${1}" ]] ; then
+        formatByHashBang "$1" "$2"
+    fi
+}
+
+# A two-argument method that takes a directory and formats all files in a directory and the
+# files in the respective subdirectories
+# 1 is the filename/filename with path 
+# 2 is path/empty string
+recursive() {
+    echo "*** Are you sure you want to recursively format all files? (enter y to continue) ***"
+    read answer
+    if [ ${answer} = y ] ; then
+        echo "If you haven't already done so, would you like to terminate this command so "
+        echo "that you can add the backup flag? Enter n to continue, enter y to terminate. "
+        read backupFlag
+        if [ ${backupFlag} = n ] ; then
+            for entry in $(find ${1}) ; do
+                format "${2}${entry}"
+            done
+        else
+            exit 1
+        fi
+    else
+        exit 1
+    fi
+}
+
+# Format all modified files in a git repository
+gitFormat() {
+    isGitRepo
+    path=$(git rev-parse --show-toplevel)
+    cd $path  
+    filenames=$(git diff --name-only)
+    for i in ${filenames} ; do
+         if  [  -e "${i}"  ] ; then
+            format "${i}"
+         fi
+    done
+}
+# Flags for the options
+BACKUP=0
+RECURSIVE=0
+GIT=0
+initializeArrays
+
+# Using getopts to parse the command line args
+while getopts ":brg" o; do
+    case "${o}" in
+        b)
+            BACKUP=1
+            ;;
+        r)
+            RECURSIVE=1
+            ;;
+        g)  
+            GIT=1
+            ;;
+        *)
+            usage
+            ;;
+    esac
+done
+shift $((OPTIND-1))
+
+
+
+File=$1
+if [ ${GIT} = 1 ] ; then
+    gitFormat
+elif [ $# != 1 ] ; then 
+    echo "invalid execution of format";
+    usage
+    exit 1
+elif  [ -d "${File}" ] ; then
+    if [ ${RECURSIVE} = 1 ] ; then
+        recursive "${File}"
+    else
+        for entry in $(find ${1} -maxdepth 1 ) ; do
+            format "${entry}"
+        done
+    fi
+else
+    if [ -f "${File}" ]; then
+        format "${File}"
+    else
+        echo "${File} is not valid";
+        usage
+        exit 1
+    fi
+fi
