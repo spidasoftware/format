@@ -214,5 +214,15 @@ public class SpidaFormatterPreferencesTest extends TestCase {
 		customizedPrefs.setLongListLength(100);
 		assertTrue("Set method: LongListLength preferences was set", customizedPrefs.getLongListLength() == 100);
 	}
+
+	/**
+	 * Test the SpidaFormatterPreferences set method, IndentationMultiline was set
+	 */
+	public void testIndentationMultilineSet() {
+		log.info("SpidaFormatterPreferences set method, IndentationMultiline preference was set");
+		customizedPrefs.setIndentationMultiline(1);
+		assertTrue("Set method: IndentationMultiline preferences was set",
+				customizedPrefs.getIndentationMultiline() == 1);
+	}
 }
 

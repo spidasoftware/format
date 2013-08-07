@@ -115,6 +115,7 @@ public class GroovyFormat {
 		// and the maximum line length is now 120 characters. 
 		customizedPrefs.setLongListLength(120);
 		customizedPrefs.setMaxLineLength(120);
+		customizedPrefs.setIndentationMultiline(1);
 
 		IDocument doc = new Document(code.toString());
 		TextSelection sel = new TextSelection(0, code.length());

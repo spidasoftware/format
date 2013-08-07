@@ -44,6 +44,7 @@ public class SpidaFormatterPreferences extends FormatterPreferencesOnStore {
 	private boolean indentEmptyLines;
 	private boolean removeUnnecessarySemicolons;
 	private int longListLength;
+	private int indentationMultiline;
 
 	/**
 	 * A one argument constructor that takes an IPreferenceStore object. If 
@@ -63,6 +64,7 @@ public class SpidaFormatterPreferences extends FormatterPreferencesOnStore {
 		indentEmptyLines = super.isIndentEmptyLines();
 		removeUnnecessarySemicolons = super.isRemoveUnnecessarySemicolons();
 		longListLength = super.getLongListLength();
+		indentationMultiline = super.getIndentationMultiline();
 	}
 
 	/**
@@ -174,6 +176,18 @@ public class SpidaFormatterPreferences extends FormatterPreferencesOnStore {
 	}
 
 	/**
+	 * A one-argument method that sets a new value for the indentation level for a multiLine. 
+	 * The default value is 2.
+	 * 
+	 * @param newValue
+	 * @return int representing the indentation level for a multiline.
+	 */
+	public int setIndentationMultiline(int newValue) {
+		indentationMultiline = newValue;
+		return indentationMultiline;
+	}
+
+	/**
 	 * A no-argument method that will return a value for where the braces will start relative to the 
 	 * method, field, conditional declaration, etc. Default value is 0.
 	 * 
@@ -260,6 +274,17 @@ public class SpidaFormatterPreferences extends FormatterPreferencesOnStore {
 	 */
 	public int getLongListLength() {
 		return longListLength;
+	}
+
+	/**
+	 * A no-argument method that returns the indentation level for a multiLine. 
+	 * The default value is 2.
+	 * 
+	 * @param newValue
+	 * @return int representing the the indentation level for a multiline.
+	 */
+	public int getIndentationMultiline() {
+		return indentationMultiline;
 	}
 }
 

@@ -92,7 +92,6 @@ formatByExtension() {
     while [ $i -lt $(eval "echo ${#nameExtension[@]}") ] ; do
         if [[ "${1##*.}" = "${nameExtension[$i]}" ]]  && [[  -f "${2}${1}" ]] && [[  -s "${2}${1}" ]]; then
             backup "${1}" "${2}"
-            [[ "$( dirname "${BASH_SOURCE[0]}" )" = "." ]] &&  echo "format-v1.0" || echo "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
             $(eval "echo ${valueExtension[$i]}") "${2}${1}"
         fi
         i=$[$i+1]
@@ -105,10 +104,10 @@ formatByExtension() {
 formatByHashBang() {
 read -r firstLine<"${2}${1}"
 i=0
+str="${2}${1}"
 while [ $i -lt $(eval "echo ${#nameHash[@]}") ] ; do
-    if [[ "${firstLine}" == *"${nameHash[$i]}"* ]]  && [[  -f "${2}${1}" ]] && [[  -s "${2}${1}" ]]; then
+    if [[ "${firstLine}" == *"${nameHash[$i]}"* ]]  && [[  -f "${2}${1}" ]] && [[  -s "${2}${1}" ]] && [[ "${str:${#str} - 1 }" != "~" ]]; then
         backup "${1}" "${2}"
-        [[ "$( dirname "${BASH_SOURCE[0]}" )" = "." ]] &&  echo "format-v1.0" || echo "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
         $(eval "echo ${valueHash[i]}") "${2}${1}"
     fi
     i=$[$i+1]
@@ -136,8 +135,8 @@ recursive() {
     echo "*** Are you sure you want to recursively format all files? (enter y to continue) ***"
     read answer
     if [ ${answer} = y ] ; then
-        echo "If you haven't already done so, would you like to terminate this command so "
-        echo "that you can add the backup flag? Enter n to continue, enter y to terminate. "
+        echo "*** If you haven't already done so, would you like to terminate this command so  ***"
+        echo "*** that you can add the backup flag? Enter n to continue, enter y to terminate. ***"
         read backupFlag
         if [ ${backupFlag} = n ] ; then
             for entry in $(find ${1}) ; do
@@ -163,6 +162,9 @@ gitFormat() {
          fi
     done
 }
+
+# location of this bash script
+SCRIPT_LOCATION=$( echo "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )")
 # Flags for the options
 BACKUP=0
 RECURSIVE=0

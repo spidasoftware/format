@@ -70,12 +70,12 @@ open the extension.cfg file. In there you will see comments as well as two lines
 with "java" and the other starting with "groovy". These are the two formatters that have been 
 added to the program when you installed it. observe the line: 
 ```
-java = java -jar $([[ "$( dirname "${BASH_SOURCE[0]}" )" = "." ]] &&  echo "format-v1.0" || echo "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )")/formatters/EclipseFormatter.jar -java
+java = java -jar ${SCRIPT_LOCATION}/formatters/EclipseFormatter.jar -java
 ```
 This line is telling the program to format all files with the extension, "java." This line is also
 telling the program to use the following command line (after the equals sign) to format the file.
-The verbose line of code contained in the outer most "$(" and ")" was used to get the path of the "format" bash script file when
-it was ran. Feel free to use this if you decide to place a new formatter in a location that is relative
+The bash variable, "SCRIPT_LOCATION," was used to get the path of the "format" bash script file when
+it was ran. Feel free to use this variable if you decide to place a new formatter in a location that is relative
 to the "format" bash script.
 
 If you would like to add a new formatter to the program, simply add the extension, an "=", followed by
