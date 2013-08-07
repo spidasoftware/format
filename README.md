@@ -132,4 +132,5 @@ mvn clean install
 ```
 If all tests pass, this will construct you the jar, "EclipseFormatter/target/EclipseFormatter.jar." 
 Replace the jar located in format-v[number]/formatters/ directory with the one created. This will 
-add your changes to the program.
+add your changes to the program. Note: do not replace the jar with the EclipseFormatter-1.0-SNAPSHOT. This
+jar does not have all of the dependencies.

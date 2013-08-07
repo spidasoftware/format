@@ -223,7 +223,7 @@ echo "" > "folder/inner/inside/file4.groovy"
 outputJava="*** Java standard formatting conventions have been applied to "
 outputGroovy="*** Groovy standard formatting conventions have been applied to "
 testName[12]="Test format -r <folder> (groovy script)"
-if [[ $(printf "y\nn\n" | format -r folder) == *"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"*"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"*"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"* ]]  ; then
+if [[ $(printf "y\n" | format -r folder) == *"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"*"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"*"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"* ]]  ; then
 	echo " - Format recursively: PASSED"
 	testPassed[12]="1"
 else
@@ -267,7 +267,7 @@ echo "" > "folder/inner/inside/file4.groovy"
 outputJava="*** Java standard formatting conventions have been applied to "
 outputGroovy="*** Groovy standard formatting conventions have been applied to "
 testName[14]="Test format -r -b <folder> (groovy script)"
-if [[ $(printf "y\nn\n" | format -r -b folder) == *"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"*"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"*"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"* ]]  ; then
+if [[ $(printf "y\n" | format -r -b folder) == *"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"*"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"*"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"* ]]  ; then
 	echo " - Format recursively: PASSED"
 	testPassed[14]="1"
 else

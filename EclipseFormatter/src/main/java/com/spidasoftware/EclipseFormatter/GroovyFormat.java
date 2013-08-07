@@ -110,9 +110,9 @@ public class GroovyFormat {
 		IPreferenceStore pref = null;
 		SpidaFormatterPreferences customizedPrefs = new SpidaFormatterPreferences(pref);
 
-		// This is where you will add your own preferences. For example, below there are two modifications made
+		// This is where you will add your own preferences. For example, below there are three modifications made
 		// to the groovy formatter: a bracket list can have a length of 120 characters,
-		// and the maximum line length is now 120 characters. 
+		// the maximum line length is now 120 characters, and wrapped lines are indented by 1 tab rather than 2. 
 		customizedPrefs.setLongListLength(120);
 		customizedPrefs.setMaxLineLength(120);
 		customizedPrefs.setIndentationMultiline(1);

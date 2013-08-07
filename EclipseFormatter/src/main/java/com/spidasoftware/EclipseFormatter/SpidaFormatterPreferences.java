@@ -176,11 +176,11 @@ public class SpidaFormatterPreferences extends FormatterPreferencesOnStore {
 	}
 
 	/**
-	 * A one-argument method that sets a new value for the indentation level for a multiLine. 
+	 * A one-argument method that sets a new value for the indentation level for a wrapped lines. 
 	 * The default value is 2.
 	 * 
 	 * @param newValue
-	 * @return int representing the indentation level for a multiline.
+	 * @return int representing the indentation level for a wrapped lines.
 	 */
 	public int setIndentationMultiline(int newValue) {
 		indentationMultiline = newValue;
@@ -277,11 +277,11 @@ public class SpidaFormatterPreferences extends FormatterPreferencesOnStore {
 	}
 
 	/**
-	 * A no-argument method that returns the indentation level for a multiLine. 
+	 * A no-argument method that returns the indentation level for a wrapped lines. 
 	 * The default value is 2.
 	 * 
 	 * @param newValue
-	 * @return int representing the the indentation level for a multiline.
+	 * @return int representing the the indentation level for a wrapped lines.
 	 */
 	public int getIndentationMultiline() {
 		return indentationMultiline;
