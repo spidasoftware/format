@@ -10,12 +10,12 @@ open source project.
 
 ## Setup
 
-1. So far, only a bash script has been made for this program, so if you work on a windows
+1. Only a bash script has been made for this program, so if you work on a windows
 	OS, you will need to install a bash terminal (git, cygwin, etc.). 
 
 1. You will need a recent version of the Java runtime environment (as well as a complete JDK if you plan to modify the source code).
 
-1. Download this repository (or clone it if you plan to modify the source code).
+1. Download this repository.
 
 1. Add the absolute path of the format-v[number] directory to your path.
 
@@ -101,7 +101,6 @@ A few key requirements of the additional formatters you add:
 If you would like to make changes to the Eclipse formatter preferences, you will need to install the following on your computer:
    * A recent version of the Java runtime environment and the JDK
    * Maven 2.2.1 to build the project. 
-   * You will also need to clone the repo
 
 For your reference, here's the [Javadoc](http://spidasoftware.github.io/format/index "The project's Javadoc") for this project:
 
