@@ -129,13 +129,13 @@
       <dependency>
          <groupId>org.codehaus.groovy.eclipse</groupId>
          <artifactId>core</artifactId>
-         <version>2.9.0.201308050821</version>
+         <version>2.9.0.201308080901</version>
          <scope>compile</scope>
       </dependency>
       <dependency>
          <groupId>org.codehaus.groovy.eclipse</groupId>
          <artifactId>refactoring</artifactId>
-         <version>2.9.0.201308050819</version>
+         <version>2.9.0.201308080901</version>
          <scope>compile</scope>
       </dependency>
       <dependency>
@@ -189,7 +189,7 @@
       <dependency>
          <groupId>org.eclipse.jdt.groovy</groupId>
          <artifactId>core</artifactId>
-         <version>2.9.0.201308050824</version>
+         <version>2.9.0.201308080900</version>
          <scope>compile</scope>
       </dependency>
       <dependency>
