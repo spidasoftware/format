@@ -58,13 +58,9 @@ initializeArrays() {
 backup() {
     if [ $BACKUP = 1 ] ; then
         file="${2}${1}"
-        path=${file%/*}
-        fileName=${file##*/}
-        #DATE=$(date +"%Y_%m_%d_%H_%M_%S")
-        #newName="${2}${1}_BACKUP_${DATE}"
-        newName="${path}/${fileName}~"
-        cp "${2}${1}" ${newName}
-        echo "A backup file was stored in $newName"   
+        newName="${file}~"
+        echo "${3}" > "${newName}"
+        echo "   -A backup file was stored in $newName"   
     fi 
 }
 
@@ -83,6 +79,19 @@ isGitRepo() {
     fi
 }
 
+# a method to determine if any changes were made to the file. If there were changes and the backup flag was set,
+# then a backup file will be created.
+wereChangesMade() {
+    file="${1}"
+    path="${2}"
+    before="${3}"
+    after="${4}"
+    if [[ "${before}" != "${after}" ]]; then
+        backup "${file}" "${path}" "${before}"
+    else
+        echo "   -No changes were made to ${path}${file}"
+    fi
+}
 # Format by using the extension of the file
 # 1 is the filename/filename with path 
 # 2 is path/empty string
@@ -91,8 +100,10 @@ formatByExtension() {
    # echo "asd"
     while [ $i -lt $(eval "echo ${#nameExtension[@]}") ] ; do
         if [[ "${1##*.}" = "${nameExtension[$i]}" ]]  && [[  -f "${2}${1}" ]] && [[  -s "${2}${1}" ]]; then
-            backup "${1}" "${2}"
+            before=$(cat ${2}${1})
             $(eval "echo ${valueExtension[$i]}") "${2}${1}"
+            after=$(cat ${2}${1})
+            wereChangesMade "${1}" "${2}" "${before}" "${after}"
         fi
         i=$[$i+1]
     done 
@@ -107,8 +118,10 @@ i=0
 str="${2}${1}"
 while [ $i -lt $(eval "echo ${#nameHash[@]}") ] ; do
     if [[ "${firstLine}" == *"${nameHash[$i]}"* ]]  && [[  -f "${2}${1}" ]] && [[  -s "${2}${1}" ]] && [[ "${str:${#str} - 1 }" != "~" ]]; then
-        backup "${1}" "${2}"
+        before=$(cat ${2}${1})
         $(eval "echo ${valueHash[i]}") "${2}${1}"
+        after=$(cat ${2}${1})
+        wereChangesMade "${1}" "${2}" "${before}" "${after}"
     fi
     i=$[$i+1]
 done

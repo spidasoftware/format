@@ -46,8 +46,8 @@ format -h
 ```
 
 As you can see, there are four options provided with the formatter: "-h" (the last command you ran), "-b", "-r", and
-"-g." "-b" will create a backup file for the file that is ran on. "-r" will format all files
-in the directory and subdirectories of the directory that is ran on. "-g" will format all files modified in your current
+"-g." "-b" will create a backup file for the file that was ran on. "-r" will format all files
+in the directory and subdirectories of the directory that was ran on. "-g" will format all files modified in your current
 working directory on github. 
 
 For example, running the following command in your bash shell will format all files and provide backup files in the directory
