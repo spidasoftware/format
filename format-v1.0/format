@@ -134,7 +134,7 @@ format() {
 recursive() {
     echo "*** Are you sure you want to recursively format all files? (enter y to continue) ***"
     read answer
-    if [ ${answer} = y ] ; then
+    if [[ ${answer} != "" ]] && [[ ${answer} = y ]] ; then
         for entry in $(find ${1}) ; do
             format "${2}${entry}"
         done
