@@ -32,7 +32,6 @@ import org.codehaus.groovy.eclipse.refactoring.formatter.FormatterPreferencesOnS
  * @author Nicholas Joodi
  *
  */
-
 public class SpidaFormatterPreferences extends FormatterPreferencesOnStore {
 
 	private boolean useTabs;

@@ -80,13 +80,19 @@ public class GroovyFormat {
 				correctlyFormatted = true;
 			}
 		} catch (MalformedTreeException e) {
-			log.error("!!!Could not format " + fileName + "!!!");
+			log.error("!!!Could not format " + fileName + "!!!", e);
 		} catch (BadLocationException e) {
-			log.error("!!!Could not format " + fileName + "!!!");
+			log.error("!!!Could not format " + fileName + "!!!", e);
 		} catch (IOException e) {
-			log.error("!!!Could not format " + fileName + "!!!");
+			log.error("!!!Could not format " + fileName + "!!!", e);
+		} catch (NullPointerException e) {
+			// This is Probably due to the formatter having trouble parsing through 
+			// the source code. Instead of printing the stack trace,
+			// the lines containg the unrecognizable syntax will be printed and the message 
+			// below will be printed as well.
+			log.info("!!!Could not format " + fileName + "!!!");
 		} catch (Exception e) {
-			log.error("!!!Could not format " + fileName + "!!!");
+			log.error("!!!Could not format " + fileName + "!!!", e);
 		}
 	}
 

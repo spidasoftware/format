@@ -92,13 +92,13 @@ public class JavaFormat {
 				log.info("*** Java standard formatting conventions have been applied to " + fileName + " ***");
 				correctlyFormatted = true;
 			} catch (MalformedTreeException e) {
-				log.error("!!!Could not format " + fileName + "!!!");
+				log.error("!!!Could not format " + fileName + "!!!", e);
 			} catch (BadLocationException e) {
-				log.error("!!!Could not format " + fileName + "!!!");
+				log.error("!!!Could not format " + fileName + "!!!", e);
 			} catch (IOException e) {
-				log.error("!!!Could not format " + fileName + "!!!");
+				log.error("!!!Could not format " + fileName + "!!!", e);
 			} catch (Exception e) {
-				log.error("!!!Could not format " + fileName + "!!!");
+				log.error("!!!Could not format " + fileName + "!!!", e);
 			}
 		}
 	}
