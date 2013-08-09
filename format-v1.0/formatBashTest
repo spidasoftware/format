@@ -32,19 +32,19 @@ echo "**********************************************************"
 echo "*                Begin Running Tests                     *"
 echo "**********************************************************"
 echo ""
-# format one file with no backup 
-echo "Test format <formatBashScriptTest162846folder/file.groovy>"
+# format one file with no backup, No changes in files
+echo "Test format <formatBashScriptTest162846folder/file.groovy> (No changes in files)"
 mkdir "formatBashScriptTest162846folder"
 echo "" > "formatBashScriptTest162846folder/file.groovy"
-testName[0]="Test format <formatBashScriptTest162846folder/file.groovy>"
-if [[ $(format formatBashScriptTest162846folder/file.groovy) = "*** Groovy standard formatting conventions have been applied to "*"-No changes were made to"* ]]  ; then
+testName[0]="Test format <formatBashScriptTest162846folder/file.groovy> (No changes in files)"
+if [[ $(format formatBashScriptTest162846folder/file.groovy) = "*** Groovy standard formatting conventions have been applied to "* ]]  ; then
 	echo " - Format on one groovy file: PASSED"
 	testPassed[0]="1"
 else
 	echo " - Format on one groovy file: FAILED"
 	testPassed[0]="0"
 fi
-testName[1]="Test format <formatBashScriptTest162846folder/file.groovy>, no Backup"
+testName[1]="Test format <formatBashScriptTest162846folder/file.groovy> (No changes in files),  no Backup"
 if [ -d formatBashScriptTest162846folder ]; then
 	numfiles=$(ls -1 formatBashScriptTest162846folder | wc -l)
 	if [[ ${#numfiles[@]} = *1 ]] ; then
@@ -57,47 +57,47 @@ if [ -d formatBashScriptTest162846folder ]; then
 	rm -r formatBashScriptTest162846folder
 fi
 echo ""
-# format one file with a backup
+# format one file with no backup (No changes in files)
 
-echo "Test format -b <formatBashScriptTest162846folder/file.groovy> "
+echo "Test format -b <formatBashScriptTest162846folder/file.groovy> (No changes in files)"
 mkdir "formatBashScriptTest162846folder"
 echo "" > "formatBashScriptTest162846folder/file.groovy"
-testName[2]="Test format -b <formatBashScriptTest162846folder/file.groovy>"
-if [[ $(format -b formatBashScriptTest162846folder/file.groovy) == *"*** Groovy standard formatting conventions have been applied to "*"-No changes were made to"* ]]  ; then
+testName[2]="Test format -b <formatBashScriptTest162846folder/file.groovy> (No changes in files)"
+if [[ $(format -b formatBashScriptTest162846folder/file.groovy) == *"*** Groovy standard formatting conventions have been applied to "* ]]  ; then
 	echo " - Format on one groovy file: PASSED"
 	testPassed[2]="1"
 else
 	echo " - Format on one groovy file: FAILED"
 	testPassed[2]="0"
 fi
-testName[3]="Test format -b <formatBashScriptTest162846folder/file.groovy>, backup"
+testName[3]="Test format -b <formatBashScriptTest162846folder/file.groovy> (No changes in files), no backup"
 if [ -d formatBashScriptTest162846folder ]; then
 	numfiles=$(ls -1 formatBashScriptTest162846folder | wc -l)
 	if [[ ${numfiles} = *1 ]] ; then
-		echo " - Backup file created: PASSED"
+		echo " - No Backup file created: PASSED"
 		testPassed[3]="1"
 	else
-		echo " - Backup file created: FAILED"
+		echo " - No Backup file created: FAILED"
 		testPassed[3]="0"
 	fi
 	rm -r formatBashScriptTest162846folder
 fi
 echo ""
 
-# format one groovy script without backup
+# format one groovy script without backup (No changes in files)
 
-echo "Test format <formatBashScriptTest162846folder/file> (groovy script)"
+echo "Test format <formatBashScriptTest162846folder/file> (groovy script) (No changes in files)"
 mkdir "formatBashScriptTest162846folder"
 echo "#!/usr/bin/env groovy" > "formatBashScriptTest162846folder/file"
-testName[4]="Test format <formatBashScriptTest162846folder/file> (groovy script)"
-if [[ $(format formatBashScriptTest162846folder/file) = "*** Groovy standard formatting conventions have been applied to"*"-No changes were made to"* ]]  ; then
+testName[4]="Test format <formatBashScriptTest162846folder/file> (groovy script) (No changes in files)"
+if [[ $(format formatBashScriptTest162846folder/file) = "*** Groovy standard formatting conventions have been applied to"* ]]  ; then
 	echo " - Format on one groovy script: PASSED"
 	testPassed[4]="1"
 else
 	echo " - Format on one groovy script: FAILED"
 	testPassed[4]="0"
 fi
-testName[5]="Test format <formatBashScriptTest162846folder/file> (groovy script), no backup"
+testName[5]="Test format <formatBashScriptTest162846folder/file> (groovy script) (No changes in files), no backup"
 if [ -d formatBashScriptTest162846folder ]; then
 	numfiles=$(ls -1 formatBashScriptTest162846folder | wc -l)
 	if [[ ${numfiles} = *1 ]] ; then
@@ -111,36 +111,36 @@ if [ -d formatBashScriptTest162846folder ]; then
 fi
 echo ""
 
-# format one groovy script with a backup
+# format one groovy script with no backup (No changes in files)
 
-echo "Test format -b <formatBashScriptTest162846folder/file> (groovy script)"
+echo "Test format -b <formatBashScriptTest162846folder/file> (groovy script) (No changes in files)"
 mkdir "formatBashScriptTest162846folder"
 echo "#!/usr/bin/env groovy" > "formatBashScriptTest162846folder/file"
-testName[6]="Test format -b <formatBashScriptTest162846folder/file> (groovy script)"
-if [[ $(format -b formatBashScriptTest162846folder/file) == *"*** Groovy standard formatting conventions have been applied to "*"-No changes were made to"* ]]  ; then
+testName[6]="Test format -b <formatBashScriptTest162846folder/file> (groovy script) (No changes in files)"
+if [[ $(format -b formatBashScriptTest162846folder/file) == *"*** Groovy standard formatting conventions have been applied to "* ]]  ; then
 	echo " - Format on one groovy script: PASSED"
 	testPassed[6]="1"
 else
 	echo " - Format on one groovy script: FAILED"
 	testPassed[6]="0"
 fi
-testName[7]="Test format -b <formatBashScriptTest162846folder/file> (groovy script), backup"
+testName[7]="Test format -b <formatBashScriptTest162846folder/file> (groovy script) (No changes in files), no backup "
 if [ -d formatBashScriptTest162846folder ]; then
 	numfiles=$(ls -1 formatBashScriptTest162846folder | wc -l)
 	if [[ ${numfiles} = *1 ]] ; then
-		echo " - Backup file created: PASSED"
+		echo " - No Backup file created: PASSED"
 		testPassed[7]="1"
 	else
-		echo " - Backup file created: FAILED"
+		echo " - No Backup file created: FAILED"
 		testPassed[7]="0"
 	fi
 	rm -r formatBashScriptTest162846folder
 fi
 echo ""
 
-# format a directory of files with no backup (should format groovy scripts)
+# format a directory of files with no backup (should format groovy scripts) (No changes in files)
 
-echo "Test format <formatBashScriptTest162846folder> (groovy script)"
+echo "Test format <formatBashScriptTest162846folder> (groovy script) (No changes in files)"
 mkdir "formatBashScriptTest162846folder"
 echo "#!/usr/bin/env groovy" > "formatBashScriptTest162846folder/file1"
 echo "public class file2 {
@@ -150,16 +150,16 @@ echo "" > "formatBashScriptTest162846folder/file3.groovy"
 echo "" > "formatBashScriptTest162846folder/file4.groovy"
 outputJava="*** Java standard formatting conventions have been applied to "
 outputGroovy="*** Groovy standard formatting conventions have been applied to "
-testName[8]="Test format <formatBashScriptTest162846folder> (groovy script)"
-nC="-No changes were made to" 
-if [[ $(format formatBashScriptTest162846folder) == "${outputGroovy}"*"${nC}"*"${outputJava}"*"${nC}"*"${outputGroovy}"*"${nC}"*"${outputGroovy}"*"${nC}"* ]]  ; then
+testName[8]="Test format <formatBashScriptTest162846folder> (groovy script) (No changes in files)"
+
+if [[ $(format formatBashScriptTest162846folder) == "${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"* ]]  ; then
 	echo " - Format on one formatBashScriptTest162846folder: PASSED"
 	testPassed[8]="1"
 else
 	echo " - Format on one formatBashScriptTest162846folder: FAILED"
 	testPassed[8]="0"
 fi
-testName[9]="Test format <formatBashScriptTest162846folder> (groovy script), no backup"
+testName[9]="Test format <formatBashScriptTest162846folder> (groovy script) (No changes in files), no backup"
 if [ -d formatBashScriptTest162846folder ]; then
 	numfiles=$(ls -1 formatBashScriptTest162846folder | wc -l)
 	if [[ ${numfiles} = *4 ]] ; then
@@ -173,9 +173,9 @@ if [ -d formatBashScriptTest162846folder ]; then
 fi
 echo ""
 
-# format a directory of files with a backup (should format groovy scripts)
+# format a directory of files with a backup (should format groovy scripts) (No changes in files)
 
-echo "Test format -b <formatBashScriptTest162846folder> (groovy script)"
+echo "Test format -b <formatBashScriptTest162846folder> (groovy script) (No changes in files)"
 mkdir "formatBashScriptTest162846folder"
 echo "#!/usr/bin/env groovy" > "formatBashScriptTest162846folder/file1"
 echo "public class file2 {
@@ -185,32 +185,31 @@ echo "" > "formatBashScriptTest162846folder/file3.groovy"
 echo "" > "formatBashScriptTest162846folder/file4.groovy"
 outputJava="*** Java standard formatting conventions have been applied to "
 outputGroovy="*** Groovy standard formatting conventions have been applied to "
-testName[10]="Test format -b <formatBashScriptTest162846folder> (groovy script)"
-nC="-No changes were made to" 
-if [[ $(format -b formatBashScriptTest162846folder) == *"${outputGroovy}"*"${nC}"*"${outputJava}"*"${nC}"*"${outputGroovy}"*"${nC}"*"${outputGroovy}"*"${nC}"* ]]  ; then
+testName[10]="Test format -b <formatBashScriptTest162846folder> (groovy script) (No changes in files)"
+if [[ $(format -b formatBashScriptTest162846folder) == *"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"* ]]  ; then
 	echo " - Format on one formatBashScriptTest162846folder: PASSED"
 	testPassed[10]="1"
 else
 	echo " - Format on one groovy script: FAILED"
 	testPassed[10]="0"
 fi
-testName[11]="Test format -b <formatBashScriptTest162846folder> (groovy script), backup"
+testName[11]="Test format -b <formatBashScriptTest162846folder> (groovy script) (No changes in files), backup"
 if [ -d formatBashScriptTest162846folder ]; then
 	numfiles=$(ls -1 formatBashScriptTest162846folder | wc -l)
 	if [[ ${numfiles} = *4 ]] ; then
-		echo " - Backup files created: PASSED"
+		echo " - No Backup files created: PASSED"
 		testPassed[11]="1"
 	else
-		echo " - Backup files created: FAILED"
+		echo " - No Backup files created: FAILED"
 		testPassed[11]="0"
 	fi
 	rm -r formatBashScriptTest162846folder
 fi
 echo ""
 
-# format recursively a directory of files with no backup (should format groovy scripts)
+# format recursively a directory of files with no backup (should format groovy scripts) (No changes in files)
 
-echo "Test format -r <formatBashScriptTest162846folder> (groovy script)"
+echo "Test format -r <formatBashScriptTest162846folder> (groovy script) (No changes in files)"
 mkdir "formatBashScriptTest162846folder"
 echo "#!/usr/bin/env groovy" > "formatBashScriptTest162846folder/file1"
 echo "public class file2 {
@@ -234,16 +233,15 @@ echo "" > "formatBashScriptTest162846folder/inner/inside/file3.groovy"
 echo "" > "formatBashScriptTest162846folder/inner/inside/file4.groovy"
 oJ="*** Java standard formatting conventions have been applied to "
 oG="*** Groovy standard formatting conventions have been applied to "
-testName[12]="Test format -r <formatBashScriptTest162846folder> (groovy script)"
-nC="-No changes were made to" 
-if [[ $(printf "y\n" | format -r formatBashScriptTest162846folder) == *"${oG}"*"${nC}"*"${oJ}"*"${nC}"*"${oG}"*"${nC}"*"${oG}"*"${nC}"*"${oG}"*"${nC}"*"${oJ}"*"${nC}"*"${oG}"*"${nC}"*"${oG}"*"${nC}"*"${oG}"*"${nC}"*"${oJ}"*"${nC}"*"${oG}"*"${nC}"*"${oG}"* ]]  ; then
+testName[12]="Test format -r <formatBashScriptTest162846folder> (groovy script) (No changes in files)"
+if [[ $(printf "y\n" | format -r formatBashScriptTest162846folder) == *"${oG}"*"${oJ}"*"${oG}"*"${oG}"*"${oG}"*"${oJ}"*"${oG}"*"${oG}"*"${oG}"*"${oJ}"*"${oG}"*"${oG}"* ]]  ; then
 	echo " - Format recursively: PASSED"
 	testPassed[12]="1"
 else
 	echo " - Format recursively: FAILED"
 	testPassed[12]="0"
 fi
-testName[13]="Test format -r <formatBashScriptTest162846folder> (groovy script), no backup"
+testName[13]="Test format -r <formatBashScriptTest162846folder> (groovy script) (No changes in files), no backup"
 if [ -d formatBashScriptTest162846folder ]; then
 	numfilesformatBashScriptTest162846folder=$(ls -1 formatBashScriptTest162846folder | wc -l)
 	numfilesInner=$(ls -1 formatBashScriptTest162846folder/inner | wc -l)
@@ -259,9 +257,9 @@ if [ -d formatBashScriptTest162846folder ]; then
 fi
 echo ""
 
-# format recursively a directory of files with a backup (should format groovy scripts)
+# format recursively a directory of files with a backup (should format groovy scripts) (No changes in files)
 
-echo "Test format -r -b <formatBashScriptTest162846folder> (groovy script)"
+echo "Test format -r -b <formatBashScriptTest162846folder> (groovy script) (No changes in files)"
 mkdir "formatBashScriptTest162846folder"
 echo "#!/usr/bin/env groovy" > "formatBashScriptTest162846folder/file1"
 echo "public class file2 {
@@ -285,32 +283,30 @@ echo "" > "formatBashScriptTest162846folder/inner/inside/file3.groovy"
 echo "" > "formatBashScriptTest162846folder/inner/inside/file4.groovy"
 oJ="*** Java standard formatting conventions have been applied to "
 oG="*** Groovy standard formatting conventions have been applied to "
-testName[14]="Test format -r -b <formatBashScriptTest162846folder> (groovy script)"
-nC="-No changes were made to" 
-if [[ $(printf "y\n" | format -r -b formatBashScriptTest162846folder) == *"${oG}"*"${nC}"*"${oJ}"*"${nC}"*"${oG}"*"${nC}"*"${oG}"*"${nC}"*"${oG}"*"${nC}"*"${oJ}"*"${nC}"*"${oG}"*"${nC}"*"${oG}"*"${nC}"*"${oG}"*"${nC}"*"${oJ}"*"${nC}"*"${oG}"*"${nC}"*"${oG}"* ]]  ; then
+testName[14]="Test format -r -b <formatBashScriptTest162846folder> (groovy script) (No changes in files)"
+if [[ $(printf "y\n" | format -r -b formatBashScriptTest162846folder) == *"${oG}"*"${oJ}"*"${oG}"*"${oG}"*"${oG}"*"${oJ}"*"${oG}"*"${oG}"*"${oG}"*"${oJ}"*"${oG}"*"${oG}"* ]]  ; then
 	echo " - Format recursively: PASSED"
 	testPassed[14]="1"
 else
 	echo " - Format recursively: FAILED"
 	testPassed[14]="0"
 fi
-testName[15]="Test format -r -b <formatBashScriptTest162846folder> (groovy script), backup"
+testName[15]="Test format -r -b <formatBashScriptTest162846folder> (groovy script) (No changes in files), backup"
 if [ -d formatBashScriptTest162846folder ]; then
 	numfilesformatBashScriptTest162846folder=$(ls -1 formatBashScriptTest162846folder | wc -l)
 	numfilesInner=$(ls -1 formatBashScriptTest162846folder/inner | wc -l)
 	numfilesInside=$(ls -1 formatBashScriptTest162846folder/inner/inside | wc -l)
 	if [[ "${numfilesformatBashScriptTest162846folder}${numfilesInner}${numfilesInside}"  = *5*5*4* ]] ; then
-		echo " - Backup files created: PASSED"
+		echo " - No Backup files created: PASSED"
 		testPassed[15]="1"
 	else
-		echo " - Backup files created: FAILED"
+		echo " - No Backup files created: FAILED"
 		testPassed[15]="0"
 	fi
 	rm -r formatBashScriptTest162846folder
 fi
 echo ""
-
-# format a git repo with no backup (should format groovy scripts)
+# format a git repo with no backup (should format groovy scripts) (No changes in files)
 
 echo "Test -g format <formatBashScriptTest162846folder> (groovy script)"
 mkdir "formatBashScriptTest162846folder"
@@ -349,8 +345,7 @@ echo " " >> "formatBashScriptTest162846folder/inner/inside/file3.groovy"
 echo " " >> "formatBashScriptTest162846folder/inner/inside/file4.groovy"
 oJ="*** Java standard formatting conventions have been applied to "
 oG="*** Groovy standard formatting conventions have been applied to "
-nC="-No changes were made to" 
-testName[16]="Test -g format (groovy script)"
+testName[16]="Test format -g (groovy script) (No changes in files)"
  if [[ $(format -g ) == *"${oG}"*"${oJ}"*"${oG}"*"${oG}"*"${oG}"*"${oJ}"*"${oG}"*"${oG}"*"${oG}"*"${oJ}"*"${oG}"*"${oG}"* ]]  ; then
  	echo " - Format git repo: PASSED"
  	testPassed[16]="1"
@@ -358,7 +353,7 @@ testName[16]="Test -g format (groovy script)"
 	echo " - Format git repo: FAILED"
 	testPassed[16]="0"
  fi
- testName[17]="Test -g format <formatBashScriptTest162846folder> (groovy script), no backup"
+ testName[17]="Test format -g (groovy script) (No changes in files), no backup"
 if [ -d formatBashScriptTest162846folder ]; then
 	numfilesformatBashScriptTest162846folder=$(ls -1 formatBashScriptTest162846folder | wc -l)
 	numfilesInner=$(ls -1 formatBashScriptTest162846folder/inner | wc -l)
@@ -381,17 +376,23 @@ echo ""
 echo "Test -g -b format <formatBashScriptTest162846folder> (groovy script)"
 mkdir "formatBashScriptTest162846folder"
 echo "#!/usr/bin/env groovy" > "formatBashScriptTest162846folder/file1"
-echo -e "public class file2 {\r\n}\r\n" > "formatBashScriptTest162846folder/file2.java"
+echo "public class file2 {
+}
+" > "formatBashScriptTest162846folder/file2.java"
 echo "" > "formatBashScriptTest162846folder/file3.groovy"
 echo "" > "formatBashScriptTest162846folder/file4.groovy"
 mkdir "formatBashScriptTest162846folder/inner"
 echo "#!/usr/bin/env groovy" > "formatBashScriptTest162846folder/inner/file1"
-echo -e "public class file2 {\r\n}\r\n" > "formatBashScriptTest162846folder/inner/file2.java"
+echo "public class file2 {
+}
+" > "formatBashScriptTest162846folder/inner/file2.java"
 echo "" > "formatBashScriptTest162846folder/inner/file3.groovy"
 echo "" > "formatBashScriptTest162846folder/inner/file4.groovy"
 mkdir "formatBashScriptTest162846folder/inner/inside"
 echo "#!/usr/bin/env groovy" > "formatBashScriptTest162846folder/inner/inside/file1"
-echo -e "public class file2 {\r\n}\r\n" > "formatBashScriptTest162846folder/inner/inside/file2.java"
+echo "public class file2 {
+}
+" > "formatBashScriptTest162846folder/inner/inside/file2.java"
 echo "" > "formatBashScriptTest162846folder/inner/inside/file3.groovy"
 echo "" > "formatBashScriptTest162846folder/inner/inside/file4.groovy"
 git add .
@@ -409,7 +410,7 @@ echo " " >> "formatBashScriptTest162846folder/inner/inside/file3.groovy"
 echo " " >> "formatBashScriptTest162846folder/inner/inside/file4.groovy"
 oJ="*** Java standard formatting conventions have been applied to "
 oG="*** Groovy standard formatting conventions have been applied to "
-testName[18]="Test -g -b format <formatBashScriptTest162846folder> (groovy script)"
+testName[18]="Test format -g -b (groovy script)"
 if [[ $(format -g -b ) == *"${oG}"*"${oJ}"*"${oG}"*"${oG}"*"${oG}"*"${oJ}"*"${oG}"*"${oG}"*"${oG}"*"${oJ}"*"${oG}"*"${oG}"* ]]  ; then
 	echo " - Format git repo: PASSED"
 	testPassed[18]="1"
@@ -417,13 +418,13 @@ else
 	echo " - Format git repo: FAILED"
 	testPassed[18]="0"
 fi
-testName[19]="Test -g -b format <formatBashScriptTest162846folder> (groovy script), no Backup"
+testName[19]="Test format -g -b (groovy script), Backup"
 if [ -d formatBashScriptTest162846folder ]; then
 	numfilesformatBashScriptTest162846folder=$(ls -1 formatBashScriptTest162846folder | wc -l)
 	numfilesInner=$(ls -1 formatBashScriptTest162846folder/inner | wc -l)
 	numfilesInside=$(ls -1 formatBashScriptTest162846folder/inner/inside | wc -l)
-	if [[ "${numfilesformatBashScriptTest162846folder}${numfilesInner}${numfilesInside}"  = *5*5*4*  ]] ; then
-		echo " - Backup files created: PASSED"
+	if [[ "${numfilesformatBashScriptTest162846folder}${numfilesInner}${numfilesInside}"  = *9*9*8*  ]] ; then
+		echo " - No Backup files created: PASSED"
 		testPassed[19]="1"
 	else
 		echo " - Backup files created: FAILED"
@@ -434,10 +435,361 @@ if [ -d formatBashScriptTest162846folder ]; then
 
 fi
 echo ""
+
+# format one file with no backup
+echo "Test format <formatBashScriptTest162846folder/file.groovy>"
+mkdir "formatBashScriptTest162846folder"
+echo "public class word{}" > "formatBashScriptTest162846folder/file.groovy"
+testName[20]="Test format <formatBashScriptTest162846folder/file.groovy>"
+if [[ $(format formatBashScriptTest162846folder/file.groovy) = "*** Groovy standard formatting conventions have been applied to "* ]]  ; then
+	echo " - Format on one groovy file: PASSED"
+	testPassed[20]="1"
+else
+	echo " - Format on one groovy file: FAILED"
+	testPassed[20]="0"
+fi
+testName[21]="Test format <formatBashScriptTest162846folder/file.groovy>,  no Backup"
+if [ -d formatBashScriptTest162846folder ]; then
+	numfiles=$(ls -1 formatBashScriptTest162846folder | wc -l)
+	if [[ ${#numfiles[@]} = *1 ]] ; then
+		echo " - No Backup file created: PASSED"
+		testPassed[21]="1"
+	else
+		echo " - No Backup file created: FAILED"
+		testPassed[21]="0"
+	fi
+	rm -r formatBashScriptTest162846folder
+fi
+echo ""
+# format one file with a backup
+
+echo "Test format -b <formatBashScriptTest162846folder/file.groovy>"
+mkdir "formatBashScriptTest162846folder"
+echo "public class word{}" > "formatBashScriptTest162846folder/file.groovy"
+testName[22]="Test format -b <formatBashScriptTest162846folder/file.groovy>"
+if [[ $(format -b formatBashScriptTest162846folder/file.groovy) == *"*** Groovy standard formatting conventions have been applied to "* ]]  ; then
+	echo " - Format on one groovy file: PASSED"
+	testPassed[22]="1"
+else
+	echo " - Format on one groovy file: FAILED"
+	testPassed[22]="0"
+fi
+testName[23]="Test format -b <formatBashScriptTest162846folder/file.groovy>, backup"
+if [ -d formatBashScriptTest162846folder ]; then
+	numfiles=$(ls -1 formatBashScriptTest162846folder | wc -l)
+	if [[ ${numfiles} = *2 ]] ; then
+		echo " - Backup file created: PASSED"
+		testPassed[23]="1"
+	else
+		echo " - Backup file created: FAILED"
+		testPassed[23]="0"
+	fi
+	rm -r formatBashScriptTest162846folder
+fi
+echo ""
+
+# format one groovy script without backup
+echo "Test format <formatBashScriptTest162846folder/file> (groovy script)"
+mkdir "formatBashScriptTest162846folder"
+echo "#!/usr/bin/env groovy" > "formatBashScriptTest162846folder/file"
+testName[24]="Test format <formatBashScriptTest162846folder/file> (groovy script)"
+if [[ $(format formatBashScriptTest162846folder/file) = "*** Groovy standard formatting conventions have been applied to"* ]]  ; then
+	echo " - Format on one groovy script: PASSED"
+	testPassed[24]="1"
+else
+	echo " - Format on one groovy script: FAILED"
+	testPassed[24]="0"
+fi
+testName[5]="Test format <formatBashScriptTest162846folder/file> (groovy script), no backup"
+if [ -d formatBashScriptTest162846folder ]; then
+	numfiles=$(ls -1 formatBashScriptTest162846folder | wc -l)
+	if [[ ${numfiles} = *1 ]] ; then
+		echo " - No backup file created: PASSED"
+		testPassed[25]="1"
+	else
+		echo " - No backup file created: FAILED"
+		testPassed[25]="0"
+	fi
+	rm -r formatBashScriptTest162846folder
+fi
+echo ""
+
+# format one groovy script with no backup 
+echo "Test format -b <formatBashScriptTest162846folder/file> (groovy script)"
+mkdir "formatBashScriptTest162846folder"
+echo "#!/usr/bin/env groovy
+public class file2 {}" > "formatBashScriptTest162846folder/file"
+testName[26]="Test format -b <formatBashScriptTest162846folder/file> (groovy script)"
+if [[ $(format -b formatBashScriptTest162846folder/file) == *"*** Groovy standard formatting conventions have been applied to "* ]]  ; then
+	echo " - Format on one groovy script: PASSED"
+	testPassed[26]="1"
+else
+	echo " - Format on one groovy script: FAILED"
+	testPassed[26]="0"
+fi
+testName[27]="Test format -b <formatBashScriptTest162846folder/file> (groovy script), no backup "
+if [ -d formatBashScriptTest162846folder ]; then
+	numfiles=$(ls -1 formatBashScriptTest162846folder | wc -l)
+	if [[ ${numfiles} = *2 ]] ; then
+		echo " - Backup file created: PASSED"
+		testPassed[27]="1"
+	else
+		echo " - Backup file created: FAILED"
+		testPassed[27]="0"
+	fi
+	rm -r formatBashScriptTest162846folder
+fi
+echo ""
+
+# format a directory of files with no backup (should format groovy scripts)
+
+echo "Test format <formatBashScriptTest162846folder> (groovy script)"
+mkdir "formatBashScriptTest162846folder"
+echo "#!/usr/bin/env groovy
+public class file2 {} "> "formatBashScriptTest162846folder/file1"
+echo "public class file2 {}" > "formatBashScriptTest162846folder/file2.java"
+echo "#!/usr/bin/env groovy
+public class file2 {}" > "formatBashScriptTest162846folder/file3.groovy"
+echo "#!/usr/bin/env groovy
+public class file2 {}" > "formatBashScriptTest162846folder/file4.groovy"
+outputJava="*** Java standard formatting conventions have been applied to "
+outputGroovy="*** Groovy standard formatting conventions have been applied to "
+testName[28]="Test format <formatBashScriptTest162846folder> (groovy script)"
+
+if [[ $(format formatBashScriptTest162846folder) == "${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"* ]]  ; then
+	echo " - Format on one formatBashScriptTest162846folder: PASSED"
+	testPassed[28]="1"
+else
+	echo " - Format on one formatBashScriptTest162846folder: FAILED"
+	testPassed[28]="0"
+fi
+testName[29]="Test format <formatBashScriptTest162846folder> (groovy script), no backup"
+if [ -d formatBashScriptTest162846folder ]; then
+	numfiles=$(ls -1 formatBashScriptTest162846folder | wc -l)
+	if [[ ${numfiles} = *4 ]] ; then
+		echo " - No Backup file created: PASSED"
+		testPassed[29]="1"
+	else
+		echo " - No Backup file created: FAILED"
+		testPassed[29]="0"
+	fi
+	rm -r formatBashScriptTest162846folder
+fi
+echo ""
+
+# format a directory of files with a backup (should format groovy scripts)
+
+echo "Test format -b <formatBashScriptTest162846folder> (groovy script)"
+mkdir "formatBashScriptTest162846folder"
+echo "#!/usr/bin/env groovy
+public class file2 {} "> "formatBashScriptTest162846folder/file1"
+echo "public class file2 {}" > "formatBashScriptTest162846folder/file2.java"
+echo "#!/usr/bin/env groovy
+public class file2 {}" > "formatBashScriptTest162846folder/file3.groovy"
+echo "#!/usr/bin/env groovy
+public class file2 {}" > "formatBashScriptTest162846folder/file4.groovy"
+outputJava="*** Java standard formatting conventions have been applied to "
+outputGroovy="*** Groovy standard formatting conventions have been applied to "
+testName[30]="Test format -b <formatBashScriptTest162846folder> (groovy script) "
+if [[ $(format -b formatBashScriptTest162846folder) == *"${outputGroovy}"*"${outputJava}"*"${outputGroovy}"*"${outputGroovy}"* ]]  ; then
+	echo " - Format on one formatBashScriptTest162846folder: PASSED"
+	testPassed[30]="1"
+else
+	echo " - Format on one groovy script: FAILED"
+	testPassed[30]="0"
+fi
+testName[31]="Test format -b <formatBashScriptTest162846folder> (groovy script), backup"
+if [ -d formatBashScriptTest162846folder ]; then
+	numfiles=$(ls -1 formatBashScriptTest162846folder | wc -l)
+	if [[ ${numfiles} = *8 ]] ; then
+		echo " - Backup files created: PASSED"
+		testPassed[31]="1"
+	else
+		echo " - Backup files created: FAILED"
+		testPassed[31]="0"
+	fi
+	rm -r formatBashScriptTest162846folder
+fi
+echo ""
+
+# format recursively a directory of files with no backup (should format groovy scripts)
+
+echo "Test format -r <formatBashScriptTest162846folder> (groovy script)"
+mkdir "formatBashScriptTest162846folder"
+echo "#!/usr/bin/env groovy
+public class file2 {} "> "formatBashScriptTest162846folder/file1"
+echo "public class file2 {}" > "formatBashScriptTest162846folder/file2.java"
+echo "#!/usr/bin/env groovy
+public class file2 {}" > "formatBashScriptTest162846folder/file3.groovy"
+echo "#!/usr/bin/env groovy
+public class file2 {}" > "formatBashScriptTest162846folder/file4.groovy"
+mkdir "formatBashScriptTest162846folder/inner"
+echo "#!/usr/bin/env groovy
+public class file2 {} "> "formatBashScriptTest162846folder/inner/file1"
+echo "public class file2 {}" > "formatBashScriptTest162846folder/inner/file2.java"
+echo "#!/usr/bin/env groovy
+public class file2 {}" > "formatBashScriptTest162846folder/inner/file3.groovy"
+echo "#!/usr/bin/env groovy
+public class file2 {}" > "formatBashScriptTest162846folder/inner/file4.groovy"
+mkdir "formatBashScriptTest162846folder/inner/inside"
+echo "#!/usr/bin/env groovy
+public class file2 {} " > "formatBashScriptTest162846folder/inner/inside/file1"
+echo "public class file2 {}" > "formatBashScriptTest162846folder/inner/inside/file2.java"
+echo "#!/usr/bin/env groovy
+public class file2 {}" > "formatBashScriptTest162846folder/inner/inside/file3.groovy"
+echo "#!/usr/bin/env groovy
+public class file2 {}" > "formatBashScriptTest162846folder/inner/inside/file4.groovy"
+oJ="*** Java standard formatting conventions have been applied to "
+oG="*** Groovy standard formatting conventions have been applied to "
+testName[32]="Test format -r <formatBashScriptTest162846folder> (groovy script)"
+if [[ $(printf "y\n" | format -r formatBashScriptTest162846folder) == *"${oG}"*"${oJ}"*"${oG}"*"${oG}"*"${oG}"*"${oJ}"*"${oG}"*"${oG}"*"${oG}"*"${oJ}"*"${oG}"*"${oG}"* ]]  ; then
+	echo " - Format recursively: PASSED"
+	testPassed[32]="1"
+else
+	echo " - Format recursively: FAILED"
+	testPassed[32]="0"
+fi
+testName[33]="Test format -r <formatBashScriptTest162846folder> (groovy script, no backup"
+if [ -d formatBashScriptTest162846folder ]; then
+	numfilesformatBashScriptTest162846folder=$(ls -1 formatBashScriptTest162846folder | wc -l)
+	numfilesInner=$(ls -1 formatBashScriptTest162846folder/inner | wc -l)
+	numfilesInside=$(ls -1 formatBashScriptTest162846folder/inner/inside | wc -l)
+	if [[ "${numfilesformatBashScriptTest162846folder}${numfilesInner}${numfilesInside}"  = *5*5*4* ]] ; then
+		echo " - No Backup file created: PASSED"
+		testPassed[33]="1"
+	else
+		echo " - No Backup file created: FAILED"
+		testPassed[33]="0"
+	fi
+	rm -r formatBashScriptTest162846folder
+fi
+echo ""
+
+# format recursively a directory of files with a backup (should format groovy scripts)
+
+echo "Test format -r -b <formatBashScriptTest162846folder> (groovy script)"
+mkdir "formatBashScriptTest162846folder"
+echo "#!/usr/bin/env groovy
+public class file2 {} "> "formatBashScriptTest162846folder/file1"
+echo "public class file2 {}" > "formatBashScriptTest162846folder/file2.java"
+echo "#!/usr/bin/env groovy
+public class file2 {}" > "formatBashScriptTest162846folder/file3.groovy"
+echo "#!/usr/bin/env groovy
+public class file2 {}" > "formatBashScriptTest162846folder/file4.groovy"
+mkdir "formatBashScriptTest162846folder/inner"
+echo "#!/usr/bin/env groovy
+public class file2 {} "> "formatBashScriptTest162846folder/inner/file1"
+echo "public class file2 {}" > "formatBashScriptTest162846folder/inner/file2.java"
+echo "#!/usr/bin/env groovy
+public class file2 {}" > "formatBashScriptTest162846folder/inner/file3.groovy"
+echo "#!/usr/bin/env groovy
+public class file2 {}" > "formatBashScriptTest162846folder/inner/file4.groovy"
+mkdir "formatBashScriptTest162846folder/inner/inside"
+echo "#!/usr/bin/env groovy
+public class file2 {} " > "formatBashScriptTest162846folder/inner/inside/file1"
+echo "public class file2 {}" > "formatBashScriptTest162846folder/inner/inside/file2.java"
+echo "#!/usr/bin/env groovy
+public class file2 {}" > "formatBashScriptTest162846folder/inner/inside/file3.groovy"
+echo "#!/usr/bin/env groovy
+public class file2 {}" > "formatBashScriptTest162846folder/inner/inside/file4.groovy"
+oJ="*** Java standard formatting conventions have been applied to "
+oG="*** Groovy standard formatting conventions have been applied to "
+testName[33]="Test format -r -b <formatBashScriptTest162846folder> (groovy script)"
+if [[ $(printf "y\n" | format -r -b formatBashScriptTest162846folder) == *"${oG}"*"${oJ}"*"${oG}"*"${oG}"*"${oG}"*"${oJ}"*"${oG}"*"${oG}"*"${oG}"*"${oJ}"*"${oG}"*"${oG}"* ]]  ; then
+	echo " - Format recursively: PASSED"
+	testPassed[33]="1"
+else
+	echo " - Format recursively: FAILED"
+	testPassed[33]="0"
+fi
+testName[34]="Test format -r <formatBashScriptTest162846folder> (groovy script, backup"
+if [ -d formatBashScriptTest162846folder ]; then
+	numfilesformatBashScriptTest162846folder=$(ls -1 formatBashScriptTest162846folder | wc -l)
+	numfilesInner=$(ls -1 formatBashScriptTest162846folder/inner | wc -l)
+	numfilesInside=$(ls -1 formatBashScriptTest162846folder/inner/inside | wc -l)
+	if [[ "${numfilesformatBashScriptTest162846folder}${numfilesInner}${numfilesInside}"  = *9*9*8* ]] ; then
+		echo " - Backup file created: PASSED"
+		testPassed[34]="1"
+	else
+		echo " - Backup file created: FAILED"
+		testPassed[34]="0"
+	fi
+	rm -r formatBashScriptTest162846folder
+fi
+echo ""
+
+# format a git repo with no backup (should format groovy scripts)
+
+echo "Test format -g <formatBashScriptTest162846folder> (groovy script)"
+mkdir "formatBashScriptTest162846folder"
+echo "#!/usr/bin/env groovy
+public class file2 {} "> "formatBashScriptTest162846folder/file1"
+echo "public class file2 {}" > "formatBashScriptTest162846folder/file2.java"
+echo "#!/usr/bin/env groovy
+public class file2 {}" > "formatBashScriptTest162846folder/file3.groovy"
+echo "#!/usr/bin/env groovy
+public class file2 {}" > "formatBashScriptTest162846folder/file4.groovy"
+mkdir "formatBashScriptTest162846folder/inner"
+echo "#!/usr/bin/env groovy
+public class file2 {} "> "formatBashScriptTest162846folder/inner/file1"
+echo "public class file2 {}" > "formatBashScriptTest162846folder/inner/file2.java"
+echo "#!/usr/bin/env groovy
+public class file2 {}" > "formatBashScriptTest162846folder/inner/file3.groovy"
+echo "#!/usr/bin/env groovy
+public class file2 {}" > "formatBashScriptTest162846folder/inner/file4.groovy"
+mkdir "formatBashScriptTest162846folder/inner/inside"
+echo "#!/usr/bin/env groovy
+public class file2 {} " > "formatBashScriptTest162846folder/inner/inside/file1"
+echo "public class file2 {}" > "formatBashScriptTest162846folder/inner/inside/file2.java"
+echo "#!/usr/bin/env groovy
+public class file2 {}" > "formatBashScriptTest162846folder/inner/inside/file3.groovy"
+echo "#!/usr/bin/env groovy
+public class file2 {}" > "formatBashScriptTest162846folder/inner/inside/file4.groovy"
+git add .
+echo " " >> "formatBashScriptTest162846folder/file1"
+echo " " >> "formatBashScriptTest162846folder/file2.java"
+echo " " >> "formatBashScriptTest162846folder/file3.groovy"
+echo " " >> "formatBashScriptTest162846folder/file4.groovy"
+echo " " >> "formatBashScriptTest162846folder/inner/file1"
+echo " " >> "formatBashScriptTest162846folder/inner/file2.java"
+echo " " >> "formatBashScriptTest162846folder/inner/file3.groovy"
+echo " " >> "formatBashScriptTest162846folder/inner/file4.groovy"
+echo " " >> "formatBashScriptTest162846folder/inner/inside/file1"
+echo " " >> "formatBashScriptTest162846folder/inner/inside/file2.java"
+echo " " >> "formatBashScriptTest162846folder/inner/inside/file3.groovy"
+echo " " >> "formatBashScriptTest162846folder/inner/inside/file4.groovy"
+oJ="*** Java standard formatting conventions have been applied to "
+oG="*** Groovy standard formatting conventions have been applied to "
+testName[35]="Test format -g (groovy script)"
+ if [[ $(format -g ) == *"${oG}"*"${oJ}"*"${oG}"*"${oG}"*"${oG}"*"${oJ}"*"${oG}"*"${oG}"*"${oG}"*"${oJ}"*"${oG}"*"${oG}"* ]]  ; then
+ 	echo " - Format git repo: PASSED"
+ 	testPassed[35]="1"
+ else
+	echo " - Format git repo: FAILED"
+	testPassed[35]="0"
+ fi
+ testName[36]="Test format -g (groovy script), no backup"
+if [ -d formatBashScriptTest162846folder ]; then
+	numfilesformatBashScriptTest162846folder=$(ls -1 formatBashScriptTest162846folder | wc -l)
+	numfilesInner=$(ls -1 formatBashScriptTest162846folder/inner | wc -l)
+	numfilesInside=$(ls -1 formatBashScriptTest162846folder/inner/inside | wc -l)
+	if [[ "${numfilesformatBashScriptTest162846folder}${numfilesInner}${numfilesInside}"  = *5*5*4* ]] ; then
+		echo " - No Backup file created: PASSED"
+		testPassed[36]="1"
+	else
+		echo " - No Backup file created: FAILED"
+		testPassed[36]="0"
+	fi
+	rm -r formatBashScriptTest162846folder
+	git reset HEAD formatBashScriptTest162846folder/*
+
+fi
+echo ""
+
 len=${#testPassed[@]} 
 numFailed=0
 for (( i=0; i<${len}; i++ )); do
-	if  [ ${testPassed[i]} = "0"  ] ; then
+	if  [[ ${testPassed[i]} = "0"  ]] ; then
 		((numFailed++))
 	fi
 done
@@ -449,7 +801,7 @@ if [[ ${numFailed}>0 ]] ; then
 	echo ""
 	echo "Tests that failed:"
 	for (( i=0; i<${len}; i++ )); do
-		if  [ ${testPassed[i]} = "0"  ] ; then
+		if  [[ ${testPassed[i]} = "0"  ]] ; then
 			echo "   - ${testName[i]}"
 	fi
 	done

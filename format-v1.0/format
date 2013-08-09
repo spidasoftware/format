@@ -35,7 +35,7 @@ usage() { echo "Usage: format [options] <file or directory with relative path>"
 # arrays that will contain the identifying marker to determine which formatter to use and also
 # arrays containing the command to use when the identifying marker has been found
 initializeArrays() {
-    i=0
+    local i=0
     while read line; do
         if [[ "$line" != ^[^#]*= ]]; then
         nameExtension[i]=${line%% =*}
@@ -44,7 +44,7 @@ initializeArrays() {
     fi
     done <"$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"/conf/extension.cfg
 
-    i=0
+    local i=0
     while read line; do
         nameHash[i]=${line%% =*}
         valueHash[i]=${line#*= }
@@ -57,8 +57,8 @@ initializeArrays() {
 # 2 is path/empty string
 backup() {
     if [ $BACKUP = 1 ] ; then
-        file="${2}${1}"
-        newName="${file}~"
+        local file="${2}${1}"
+        local newName="${file}~"
         echo "${3}" > "${newName}"
         echo "   -A backup file was stored in $newName"   
     fi 
@@ -68,10 +68,10 @@ backup() {
 # a method to determine if the format command was called in a git repository
 isGitRepo() {
     if [ -d .git ]; then
-        folder=$(echo .git)
+        local folder=$(echo .git)
     else
-        pathFolder="$(git rev-parse --git-dir 2> /dev/null;)"
-        folder=${pathFolder##*/}
+        local pathFolder="$(git rev-parse --git-dir 2> /dev/null;)"
+        local folder=${pathFolder##*/}
     fi;
     if [ "${folder}" != ".git" ] ; then
         echo "*** Need to be located in a git repository ***"
@@ -82,10 +82,10 @@ isGitRepo() {
 # a method to determine if any changes were made to the file. If there were changes and the backup flag was set,
 # then a backup file will be created.
 wereChangesMade() {
-    file="${1}"
-    path="${2}"
-    before="${3}"
-    after="${4}"
+    local file="${1}"
+    local path="${2}"
+    local before="${3}"
+    local after="${4}"
     if [[ "${before}" != "${after}" ]]; then
         backup "${file}" "${path}" "${before}"
     else
@@ -96,7 +96,7 @@ wereChangesMade() {
 # 1 is the filename/filename with path 
 # 2 is path/empty string
 formatByExtension() {
-    i=0
+    local i=0
    # echo "asd"
     while [ $i -lt $(eval "echo ${#nameExtension[@]}") ] ; do
         if [[ "${1##*.}" = "${nameExtension[$i]}" ]]  && [[  -f "${2}${1}" ]] && [[  -s "${2}${1}" ]]; then
@@ -114,13 +114,13 @@ formatByExtension() {
 # 2 is path/empty string
 formatByHashBang() {
 read -r firstLine<"${2}${1}"
-i=0
-str="${2}${1}"
+local i=0
+local str="${2}${1}"
 while [ $i -lt $(eval "echo ${#nameHash[@]}") ] ; do
     if [[ "${firstLine}" == *"${nameHash[$i]}"* ]]  && [[  -f "${2}${1}" ]] && [[  -s "${2}${1}" ]] && [[ "${str:${#str} - 1 }" != "~" ]]; then
-        before=$(cat ${2}${1})
+        local before=$(cat ${2}${1})
         $(eval "echo ${valueHash[i]}") "${2}${1}"
-        after=$(cat ${2}${1})
+        local after=$(cat ${2}${1})
         wereChangesMade "${1}" "${2}" "${before}" "${after}"
     fi
     i=$[$i+1]
@@ -131,8 +131,8 @@ done
 # 1 is the filename/filename with path 
 # 2 is path/empty string
 format() {
-    i=${1}
-    filename=${i##*/}
+    local i=${1}
+    local filename=${i##*/}
     if [[ $filename = [!.]*.* ]] ; then
         formatByExtension "$1" "$2"
     elif [[ ! -d "${2}${1}" ]] && [[  -f "${2}${1}" ]] && [[  -s "${2}${1}" ]] ; then
@@ -159,9 +159,9 @@ recursive() {
 # Format all modified files in a git repository
 gitFormat() {
     isGitRepo
-    path=$(git rev-parse --show-toplevel)
+    local path=$(git rev-parse --show-toplevel)
     cd $path  
-    filenames=$(git diff --name-only)
+    local filenames=$(git diff --name-only)
     for i in ${filenames} ; do
          if  [  -e "${i}"  ] ; then
             format "${i}"
