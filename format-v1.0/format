@@ -97,7 +97,7 @@ wereChangesMade() {
 # 2 is path/empty string
 formatByExtension() {
     local i=0
-   # echo "asd"
+    # echo "asd"
     while [ $i -lt $(eval "echo ${#nameExtension[@]}") ] ; do
         if [[ "${1##*.}" = "${nameExtension[$i]}" ]]  && [[  -f "${2}${1}" ]] && [[  -s "${2}${1}" ]]; then
             before=$(cat ${2}${1})
