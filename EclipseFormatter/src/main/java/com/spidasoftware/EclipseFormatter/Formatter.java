@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Nicholas Joodi
+ * Copyright (C) 2013 the original author or authors.
  *
  * SpidaWeb LLC
  * 560 Officenter Pl., Gahanna, OH 43230
@@ -222,13 +222,13 @@ public class Formatter {
 		String extension = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length());
 		String nameWithDate = null;
 		if (code != null && extension.equals("java") && javaFormatting(cmd)) {
-			JavaFormat javaFormatter = new JavaFormat();
+			Format javaFormatter = new JavaFormat();
 			javaFormatter.format(fileName, code);
 			if (javaFormatter.isFormatted() && cmd.hasOption("b"))
 				nameWithDate = createBackupFile(fileName, code);
 
 		} else if (code != null && (extension.equals("groovy")) && groovyFormatting(cmd)) {
-			GroovyFormat groovyFormatter = new GroovyFormat();
+			Format groovyFormatter = new GroovyFormat();
 			groovyFormatter.format(fileName, code);
 			if (groovyFormatter.isFormatted() && cmd.hasOption("b"))
 				nameWithDate = createBackupFile(fileName, code);

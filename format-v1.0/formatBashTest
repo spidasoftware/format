@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright (C) 2013 Nicholas Joodi
+# Copyright (C) 2013 the original author or authors.
 #
 # SpidaWeb LLC
 # 560 Officenter Pl., Gahanna, OH 43230
@@ -19,6 +19,7 @@
 # limitations under the License.
 
 # A bash script to test the format script
+# Nicholas Joodi
 
 echo "Before you run this test, make sure you are in a git repository, and that you have no modified files."
 echo "Otherwise, This may cause undesirable changes to your modified files. Also, this testing script"

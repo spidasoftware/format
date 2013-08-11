@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Nicholas Joodi
+ * Copyright (C) 2013 the original author or authors.
  *
  * SpidaWeb LLC
  * 560 Officenter Pl., Gahanna, OH 43230

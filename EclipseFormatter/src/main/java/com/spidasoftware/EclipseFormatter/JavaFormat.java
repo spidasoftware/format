@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Nicholas Joodi
+ * Copyright (C) 2013 the original author or authors.
  *
  * SpidaWeb LLC
  * 560 Officenter Pl., Gahanna, OH 43230
@@ -30,10 +30,6 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.ConsoleAppender;
-import org.apache.log4j.Level;
-import org.apache.log4j.Appender;
-import org.apache.log4j.PatternLayout;
 
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.ToolFactory;
@@ -51,29 +47,16 @@ import org.eclipse.text.edits.TextEdit;
  *
  * @author Nicholas Joodi
  */
-public class JavaFormat {
-	private boolean correctlyFormatted;
+public class JavaFormat extends Format{
 	private static Logger log = Logger.getRootLogger();
 
 	/**
 	 * A no argument constructor that will create a JavaFormat object.
 	 */
 	public JavaFormat() {
-		ConsoleAppender console = new ConsoleAppender();
-		String PATTERN = "%m%n";
-		console.setLayout(new PatternLayout(PATTERN));
-		console.setThreshold(Level.DEBUG);
-		console.activateOptions();
-		correctlyFormatted = false;
+		super();
 	}
 
-	/**
-	 * A two-argument method that will take two strings, a fileName and its respective code
-	 * and format the code.
-	 * 
-	 * @param fileName The name of that file.
-	 * @param code The string of code that will be formatted.
-	 */
 	public void format(String fileName, String code) {
 		CodeFormatter cf = initializeFormatter();
 		TextEdit te = cf.format(CodeFormatter.K_UNKNOWN, code, 0, code.length(), 0,
@@ -103,22 +86,6 @@ public class JavaFormat {
 		}
 	}
 
-	/**
-	 * A no-argument method that will return a boolean indicating if the code has been formatted.
-	 * 
-	 * @return a boolean indicating if the file was formatted.
-	 */
-	public boolean isFormatted() {
-		return correctlyFormatted;
-	}
-
-	/**
-	 * A static method that will prepare the JavaFormat object for formatting
-	 * the respective code that was passed into the format method. 
-	 *
-	 * @param code the String representing the source code of the file. 
-	 * @return a CodeFormatter class that will format the source code.	 
-	 */
 	@SuppressWarnings({ "unchecked", "deprecation" })
 	private static CodeFormatter initializeFormatter() {
 		@SuppressWarnings("rawtypes")

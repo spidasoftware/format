@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Nicholas Joodi
+ * Copyright (C) 2013 the original author or authors.
  *
  * SpidaWeb LLC
  * 560 Officenter Pl., Gahanna, OH 43230
@@ -43,25 +43,16 @@ import java.util.Date;
  *
  * @author Nicholas Joodi
  */
-public class GroovyFormat {
-
-	private boolean correctlyFormatted;
+public class GroovyFormat extends Format {
 	private final static Logger log = Logger.getRootLogger();
 
 	/**
 	 * A no argument constructor that will create a GroovyFormat object.
 	 */
 	public GroovyFormat() {
-		correctlyFormatted = false;
+		super();
 	}
 
-	/**
-	 * A two-argument method that will take two strings, a fileName and its respective code
-	 * and format the code.
-	 * 
-	 * @param fileName The name of that file.
-	 * @param code The string of code that will be formatted.
-	 */
 	public void format(String fileName, String code) {
 		try {
 			DefaultGroovyFormatter cf = initializeFormatter(code);
@@ -86,6 +77,7 @@ public class GroovyFormat {
 		} catch (IOException e) {
 			log.error("!!!Could not format " + fileName + "!!!", e);
 		} catch (NullPointerException e) {
+			
 			// This is Probably due to the formatter having trouble parsing through 
 			// the source code. Instead of printing the stack trace,
 			// the lines containg the unrecognizable syntax will be printed and the message 
@@ -96,32 +88,15 @@ public class GroovyFormat {
 		}
 	}
 
-	/**
-	 * A no-argument method that will return a boolean indicating if the code has been formatted.
-	 * 
-	 * @return a boolean indicating if the file was formatted.
-	 */
-	public boolean isFormatted() {
-		return correctlyFormatted;
-	}
-
-	/**
-	 * A static method that will prepare the GroovyFormat object for formatting
-	 * the respective code that was passed into the format method.
-	 *
-	 * @param code The string representing the source code of the file.	 
-	 * @return a DefaultGroovyFormatter class that will format the source code.
-	 */
-	public static DefaultGroovyFormatter initializeFormatter(String code) {
+	private static DefaultGroovyFormatter initializeFormatter(String code) {
 		IPreferenceStore pref = null;
 		SpidaFormatterPreferences customizedPrefs = new SpidaFormatterPreferences(pref);
 
-		// This is where you will add your own preferences. For example, below there are three modifications made
-		// to the groovy formatter: a bracket list can have a length of 120 characters,
-		// the maximum line length is now 120 characters, and wrapped lines are indented by 1 tab rather than 2. 
+		// This is where you will add your own preferences. For example, below there are two modifications made
+		// to the groovy formatter: a bracket list can have a length of 120 characters, and
 		customizedPrefs.setLongListLength(120);
 		customizedPrefs.setMaxLineLength(120);
-		customizedPrefs.setIndentationMultiline(1);
+		//customizedPrefs.setIndentationMultiline(1);
 
 		IDocument doc = new Document(code.toString());
 		TextSelection sel = new TextSelection(0, code.length());

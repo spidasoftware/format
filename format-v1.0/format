@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright (C) 2013 Nicholas Joodi
+# Copyright (C) 2013 the original author or authors.
 #
 # SpidaWeb LLC
 # 560 Officenter Pl., Gahanna, OH 43230
@@ -20,6 +20,7 @@
 
 # A command-line feature for the formatters
 # To add more languages to the formatter, see extension.cfg located in the conf directory.
+# Nicholas Joodi
 
 # Display the options
 usage() { echo "Usage: format [options] <file or directory with relative path>"

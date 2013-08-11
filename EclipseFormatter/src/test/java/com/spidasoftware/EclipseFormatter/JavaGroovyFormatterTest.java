@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Nicholas Joodi
+ * Copyright (C) 2013 the original author or authors.
  *
  * SpidaWeb LLC
  * 560 Officenter Pl., Gahanna, OH 43230
@@ -35,8 +35,8 @@ import org.apache.log4j.BasicConfigurator;
  * @author Nicholas Joodi
  */
 public class JavaGroovyFormatterTest extends TestCase {
-	private JavaFormat javaFormatter;
-	private GroovyFormat groovyFormatter;
+	private Format javaFormatter;
+	private Format groovyFormatter;
 	private File javaFile;
 	private File groovyFile;
 	private final static Logger log = Logger.getLogger(JavaGroovyFormatterTest.class);
