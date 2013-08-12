@@ -142,7 +142,8 @@ if there happens to be any unrecognizable syntax. I've only made significant cha
    * org.codehaus.groovy.eclipse.refactoring.formatter.DefaultGroovyFormatter.java
    * org.codehaus.groovy.eclipse.refactoring.core.utils.ASTTools
 
-You can see the changes [here](https://github.com/nickjoodi/groovy-eclipse/commit/789988fae5dee4e4dbde72e924d6bb1dd7679d87 "Groovy-Eclipse Changes")
+You can see the changes [here](https://github.com/nickjoodi/groovy-eclipse/commit/789988fae5dee4e4dbde72e924d6bb1dd7679d87 "Groovy-Eclipse Changes"). Please
+do not pay attention to the last three classes added. They were just written to verify the changes before testing.
 
 ## Useful Links
 
