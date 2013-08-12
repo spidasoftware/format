@@ -3,7 +3,7 @@ format
 
 The goal of this project is to combine the formatting capabilities of various projects in the open source community 
 into one easy-to-use command-line feature. The Eclipse IDE and The Groovy-Eclipse plugin provide effective java and groovy source code formatters respectively,
-so it was decided to extract those classes and add it to this project. However, this project has the potential to format an unlimited number of languages. Below are directions on how to setup and use this formatter, but also included is information on how to add more formatters to this project. Feel free to download this repository and add formatters of your own. In addition, there are instructions on how to add your own preferences to 
+so it was decided to extract those classes and add them to this project. However, this project has the potential to format an unlimited number of languages. Below are directions on how to setup and use this formatter, but also included is information on how to add more formatters to this project. Feel free to download this repository and add formatters of your own. In addition, there are instructions on how to add your own preferences to 
 the java and groovy formatters incase you prefer different standards.
 
 ## Disclaimer
