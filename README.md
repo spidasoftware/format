@@ -132,7 +132,7 @@ Replace the jar located in format-v[number]/formatters/ directory with the one c
 add your changes to the program. Note: do not replace the jar with the EclipseFormatter-1.0-SNAPSHOT. This
 jar does not have all of the dependencies.
 
-### Modifications to Groovy-Eclipse
+## Modifications to Groovy-Eclipse
 
 As mentioned in the disclaimer, changes were made to Groovy-Eclipse's code formatter inorder to cancel all formatting of a file 
 if there happens to be any unrecognizable syntax. I've only made significant changes to the following classes:
