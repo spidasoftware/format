@@ -1,9 +1,6 @@
 /*
- * Copyright (C) 2013 the original author or authors.
+ * Copyright (C) 2013 SpidaWeb LLC, http://www.spidasoftware.com
  *
- * SpidaWeb LLC
- * 560 Officenter Pl., Gahanna, OH 43230
- * http://www.spidasoftware.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -92,11 +89,12 @@ public class GroovyFormat extends Format {
 		IPreferenceStore pref = null;
 		SpidaFormatterPreferences customizedPrefs = new SpidaFormatterPreferences(pref);
 
-		// This is where you will add your own preferences. For example, below there are two modifications made
-		// to the groovy formatter: a bracket list can have a length of 120 characters, and
+		// This is where you will add your own preferences. For example, below there are three modifications made
+		// to the groovy formatter: a bracket list can have a length of 120 characters, the maximum line length is
+		// 120 characters, and the indention level for a wrapped line is set to 1 rather than 2.
 		customizedPrefs.setLongListLength(120);
 		customizedPrefs.setMaxLineLength(120);
-		//customizedPrefs.setIndentationMultiline(1);
+		customizedPrefs.setIndentationMultiline(1);
 
 		IDocument doc = new Document(code.toString());
 		TextSelection sel = new TextSelection(0, code.length());

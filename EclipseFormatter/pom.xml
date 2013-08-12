@@ -45,6 +45,7 @@
                <maxmem>512m</maxmem>
             </configuration>
          </plugin>
+         <!--Substitute this plugin for the one below if we decide to switch to maven 3 -->
     <!-- <plugin>
             <artifactId>maven-assembly-plugin</artifactId>
             <executions>
@@ -129,13 +130,13 @@
       <dependency>
          <groupId>org.codehaus.groovy.eclipse</groupId>
          <artifactId>core</artifactId>
-         <version>2.9.0.201308080901</version>
+         <version>2.9.0.201308121111</version>
          <scope>compile</scope>
       </dependency>
       <dependency>
          <groupId>org.codehaus.groovy.eclipse</groupId>
          <artifactId>refactoring</artifactId>
-         <version>2.9.0.201308080901</version>
+         <version>2.9.0.201308121109</version>
          <scope>compile</scope>
       </dependency>
       <dependency>
@@ -189,7 +190,7 @@
       <dependency>
          <groupId>org.eclipse.jdt.groovy</groupId>
          <artifactId>core</artifactId>
-         <version>2.9.0.201308080900</version>
+         <version>2.9.0.201308121110</version>
          <scope>compile</scope>
       </dependency>
       <dependency>
