@@ -8,7 +8,7 @@ the java and groovy formatters incase you prefer different standards.
 
 ## Disclaimer
 
-This formatter has been tested on over a 1000 groovy and java files. In addition, the groovy formatter has been modified so that it would 
+This formatter has been tested on over 1000 groovy and java files. In addition, the groovy formatter has been modified so that it would 
 cancel any formatting of source code that contained unrecognizable syntax. That being said, all software associated with this program is
 covered under the [Apache](http://www.apache.org/licenses/LICENSE-2.0 "Apache License, Version 2.0") and [Eclipse Public](http://www.eclipse.org/legal/epl-v10.html "Eclipse Public License - v 1.0") licenses.
 
