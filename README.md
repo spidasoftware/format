@@ -136,9 +136,11 @@ jar does not have all of the dependencies.
 
 As mentioned in the disclaimer, changes were made to Groovy-Eclipse's code formatter inorder to cancel all formatting of a file 
 if there happens to be any unrecognizable syntax. I've only made significant changes to the following classes:
+
    * org.codehaus.jdt.groovy.internal.compiler.ast.GroovyParser.java
    * org.codehaus.groovy.eclipse.core.compiler.GroovySnippetParser.java
    * org.codehaus.groovy.eclipse.refactoring.formatter.DefaultGroovyFormatter.java
+
 You can see the changes [here](https://github.com/nickjoodi/groovy-eclipse/commit/789988fae5dee4e4dbde72e924d6bb1dd7679d87 "Groovy-Eclipse Changes")
 
 ## Useful Links
