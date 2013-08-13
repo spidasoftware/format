@@ -182,6 +182,104 @@ public class FormatterTest extends TestCase {
 	}
 
 	/**
+	 * OptionToFormat on a file that does not exist
+	 */
+	public void testoptionToFormatJavaAbsolutePathDoesNotExist() {
+		log.info("Formatter.OptionToFormat on a file that does not exist");
+		fileName = System.getProperty("user.dir") + File.separator+ "javaEclipseFormatterTest13243546dfg.java";
+		Options options = new Options();
+		options.addOption("b", false, "create a backup file");
+		CommandLine cmd = null;
+		CommandLineParser parser = new BasicParser();
+		try {
+			cmd = parser.parse(options, new String[] {"-b", fileName});
+		} catch (ParseException e) {
+			log.error(e, e);
+		}
+		String[] args = new String[] {"-b", fileName};
+		boolean exists = Formatter.optionToFormat(cmd, args);
+		assertTrue("Formatter.OptionToFormat on a file that does not exist", exists == false);
+	}
+
+	/**
+	 * OptionToFormat on a file that does exist
+	 */
+	public void testoptionToFormatJavaAbsolutePathDoesExist() {
+		log.info("Formatter.OptionToFormat on a file that does exist");
+		fileName = System.getProperty("user.dir") + File.separator+ "javaEclipseFormatterTest13243546.java";
+		
+		CommandLine cmd = null;
+		CommandLineParser parser = new BasicParser();
+		Options options = new Options();
+		File absolutePathFile = new File(fileName);
+		try {
+			absolutePathFile.createNewFile();
+			options.addOption("b", false, "create a backup file");
+			cmd = parser.parse(options, new String[] {"-b", fileName});
+		} catch (ParseException e) {
+			log.error(e, e);
+		} catch (IOException e) {
+			log.error(e,e);
+		}
+		String[] args = new String[] {"-b", fileName};
+		boolean exists = Formatter.optionToFormat(cmd, args);
+		assertTrue("Formatter.OptionToFormat on a file that does exist", exists);
+		if (absolutePathFile.exists())
+		 	absolutePathFile.delete();
+	}
+
+	/**
+	 * OptionToFormat on a file that does exist
+	 */
+	public void testoptionToFormatDirectoryAbsolutePathDoesExist() {
+		log.info("Formatter.OptionToFormat on a directory that does exist");
+		String dirName = System.getProperty("user.dir") + File.separator+ "test";
+		CommandLine cmd = null;
+		CommandLineParser parser = new BasicParser();
+		Options options = new Options();
+		File absolutePathFile = new File(dirName);
+		try {
+			absolutePathFile.mkdir();
+			options.addOption("b", false, "create a backup file");
+			cmd = parser.parse(options, new String[] {"-b", dirName});
+		} catch (ParseException e) {
+			log.error(e, e);
+		} catch (SecurityException e) {
+			log.error(e,e);
+		}
+		String[] args = new String[] {"-b", dirName};
+		boolean exists = Formatter.optionToFormat(cmd, args);
+		assertTrue("Formatter.OptionToFormat on a directory that does exist", exists);
+		if (absolutePathFile.exists())
+		 	absolutePathFile.delete();
+	}
+
+
+	/**
+	 * Test where Formatter.formatOne does not return a backup file when ran on a java file
+	 */
+	public void testformatOneBackupFileJavaAbsolutePath() {
+		log.info("Formatter.formatOne returns no backup file when ran on a java file with it's absolute path when the option is not set");
+		fileName = System.getProperty("user.dir") + File.separator+ "javaEclipseFormatterTest13243546.java";
+		File absolutePathFile = new File(fileName);
+		Options options = new Options();
+		options.addOption("b", false, "create a backup file");
+		CommandLine cmd = null;
+		CommandLineParser parser = new BasicParser();
+		try {
+			cmd = parser.parse(options, new String[] {"-b"});
+		} catch (ParseException e) {
+			log.error(e, e);
+		}
+		nameWithDate = Formatter.formatOne(fileName,
+				"package groovyTest;\npublic class genericJavaClass"
+						+ "{\npublic static void main(String[] args) {\n// TODO Auto-generated method stub\n}\n}", cmd);
+		assertTrue("Formatter.formatOne did not return a backup file when ran on a java file with it's absolute path when the option is not set", nameWithDate != null);
+		if (absolutePathFile.exists())
+			absolutePathFile.delete();
+	}
+
+	/**
 	 * Test where Formatter.formatOne returned a backup file when ran on a groovy file
 	 */
 	public void testformatOneBackupFileGroovy() {

@@ -82,16 +82,19 @@ public class Formatter {
 	 *
 	 * @param cmd the list of command-line arguments.
 	 * @param args the command-line arguments.
+	 * @return  boolean indicating if the file exists
 	 */
-	public static void optionToFormat(CommandLine cmd, String[] args) {
+	public static boolean optionToFormat(CommandLine cmd, String[] args) {
+		boolean exists = false;
 		if (args.length == 0) {
 			log.info("Need to provide a file to format");
 		} else {
-			File pathToFile = new File(System.getProperty("user.dir") + File.separator + args[args.length - 1]);
+			File pathToFile = new File(args[args.length - 1]);
 			if (pathToFile.isDirectory()) {
+				exists = true;
 				ArrayList<File> files = new ArrayList<File>(Arrays.asList(pathToFile.listFiles()));
 				for (File f : files) {
-					if (!f.isDirectory()) {
+					if (!f.isDirectory() && f.isFile()) {
 						String code = readInFile(f.toString());
 						formatOne(f.toString(), code, cmd);
 					}
@@ -99,10 +102,12 @@ public class Formatter {
 			} else if (pathToFile.exists()) {
 				String code = readInFile(args[args.length - 1]);
 				formatOne(args[args.length - 1], code, cmd);
+				exists = true;
 			} else {
 				log.info("cannot format: " + args[args.length - 1] + "\nThe file/directory should be the last argument");
 			}
 		}
+		return exists;
 	}
 
 	/**
