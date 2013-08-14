@@ -44,7 +44,7 @@ import org.eclipse.text.edits.TextEdit;
  *
  * @author Nicholas Joodi
  */
-public class JavaFormat extends Format{
+public class JavaFormat extends Format {
 	private static Logger log = Logger.getRootLogger();
 
 	/**

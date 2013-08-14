@@ -95,13 +95,11 @@ public class Formatter {
 				ArrayList<File> files = new ArrayList<File>(Arrays.asList(pathToFile.listFiles()));
 				for (File f : files) {
 					if (!f.isDirectory() && f.isFile()) {
-						String code = readInFile(f.toString());
-						formatOne(f.toString(), code, cmd);
+						formatOne(f, cmd);
 					}
 				}
 			} else if (pathToFile.exists()) {
-				String code = readInFile(args[args.length - 1]);
-				formatOne(args[args.length - 1], code, cmd);
+				formatOne(pathToFile, cmd);
 				exists = true;
 			} else {
 				log.info("cannot format: " + args[args.length - 1] + "\nThe file/directory should be the last argument");
@@ -115,17 +113,16 @@ public class Formatter {
 	 * that file as a string (before formatted), and the Command-Line arguments and
 	 * format the respective file.
 	 *
-	 * @param fileName string representing the name of the file.
-	 * @param code string containing the contents of that file.
+	 * @param file File that will be formatted
 	 * @param cmd the list of command-line arguments.
 	 */
-	public static String formatOne(String fileName, String code, CommandLine cmd) {
+	public static String formatOne(File file, CommandLine cmd) {
 		String nameWithDate = null;
-		String extension = FilenameUtils.getExtension(fileName);
+		String extension = FilenameUtils.getExtension(file.getName());
 		if (extension.length() > 0) {
-			nameWithDate = formatUsingExtension(fileName, code, cmd);
+			nameWithDate = formatUsingExtension(file, cmd);
 		} else {
-			nameWithDate = formatUsingHashBang(fileName, code, cmd);
+			nameWithDate = formatUsingHashBang(file, cmd);
 		}
 		return nameWithDate;
 	}
@@ -215,21 +212,24 @@ public class Formatter {
 	/**
 	 * Format by using the extension of the file.
 	 *
-	 * @param fileName String representing the name of the file.
-	 * @param code String containing the contents of that file.
+	 * @param file File that will be formatted
 	 * @param cmd The list of command line arguments
 	 * @return a String that represents the name of the backup file created, null otherwise.
 	 */
-	public static String formatUsingExtension(String fileName, String code, CommandLine cmd) {
+	public static String formatUsingExtension(File file, CommandLine cmd) {
+		String fileName = file.getName();
 		String extension = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length());
 		String nameWithDate = null;
-		if (code != null && extension.equals("java") && javaFormatting(cmd)) {
+		String code = null;
+		if (extension.equals("java") && javaFormatting(cmd)) {
+			code = readInFile(fileName);
 			Format javaFormatter = new JavaFormat();
 			javaFormatter.format(fileName, code);
 			if (javaFormatter.isFormatted() && cmd.hasOption("b"))
 				nameWithDate = createBackupFile(fileName, code);
 
-		} else if (code != null && (extension.equals("groovy")) && groovyFormatting(cmd)) {
+		} else if ((extension.equals("groovy")) && groovyFormatting(cmd)) {
+			code = readInFile(fileName);
 			Format groovyFormatter = new GroovyFormat();
 			groovyFormatter.format(fileName, code);
 			if (groovyFormatter.isFormatted() && cmd.hasOption("b"))
@@ -244,14 +244,15 @@ public class Formatter {
 	/**
 	 * Format by using the first line of the file.
 	 *
-	 * @param fileName string representing the name of the file.
-	 * @param code string containing the contents of that file.
+	 * @param file File that will be formatted
 	 * @param cmd the list of command line arguments.
 	 * @return a String that represents the name of the backup file created, null otherwise.
 	 */
-	public static String formatUsingHashBang(String fileName, String code, CommandLine cmd) {
+	public static String formatUsingHashBang(File file, CommandLine cmd) {
+		String fileName = file.getName();
 		String nameWithDate = null;
-		if (code != null && code.indexOf("\n") > -1) {
+		String code = readInFile(fileName);
+		if (code.indexOf("\n") > -1) {
 			String firstLine = code.substring(0, code.indexOf("\n"));
 			if (firstLine.indexOf("#!/usr/bin/env groovy") > -1) {
 				GroovyFormat groovyFormatter = new GroovyFormat();

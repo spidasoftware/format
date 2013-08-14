@@ -74,7 +74,7 @@ public class GroovyFormat extends Format {
 		} catch (IOException e) {
 			log.error("!!!Could not format " + fileName + "!!!", e);
 		} catch (NullPointerException e) {
-			
+
 			// This is Probably due to the formatter having trouble parsing through 
 			// the source code. Instead of printing the stack trace,
 			// the lines containg the unrecognizable syntax will be printed and the message 

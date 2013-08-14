@@ -27,6 +27,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
@@ -58,9 +59,13 @@ public class FormatterTest extends TestCase {
 		super.setUp();
 		fileName = "backUp";
 		backUp = new File(fileName);
+		backUp.createNewFile();
 		javaFile = new File("javaEclipseFormatterTest13243546.java");
+		javaFile.createNewFile();
 		groovyFile = new File("groovyEclipseFormatterTest13243546.groovy");
+		groovyFile.createNewFile();
 		groovyScript = new File("groovyEclipseFormatterTest13243546");
+		groovyScript.createNewFile();
 	}
 
 	public void tearDown() {
@@ -153,12 +158,14 @@ public class FormatterTest extends TestCase {
 		CommandLineParser parser = new BasicParser();
 		try {
 			cmd = parser.parse(options, new String[] { "-b" });
+			FileUtils.writeStringToFile(javaFile, "package groovyTest;\npublic class genericJavaClass"
+					+ "{\npublic static void main(String[] args) {\n// TODO Auto-generated method stub\n}\n}");
 		} catch (ParseException e) {
 			log.error(e, e);
+		} catch (IOException e) {
+			log.error(e, e);
 		}
-		nameWithDate = Formatter.formatOne("javaEclipseFormatterTest13243546.java",
-				"package groovyTest;\npublic class genericJavaClass"
-						+ "{\npublic static void main(String[] args) {\n// TODO Auto-generated method stub\n}\n}", cmd);
+		nameWithDate = Formatter.formatOne(javaFile, cmd);
 		assertTrue("Formatter.formatOne returned a backup file", nameWithDate != null);
 	}
 
@@ -172,12 +179,14 @@ public class FormatterTest extends TestCase {
 		CommandLineParser parser = new BasicParser();
 		try {
 			cmd = parser.parse(options, new String[] {});
+			FileUtils.writeStringToFile(javaFile, "package groovyTest;\npublic class genericJavaClass"
+					+ "{\npublic static void main(String[] args) {\n// TODO Auto-generated method stub\n}\n}");
 		} catch (ParseException e) {
 			log.error(e, e);
+		} catch (IOException e) {
+			log.error(e, e);
 		}
-		nameWithDate = Formatter.formatOne("javaEclipseFormatterTest13243546.java",
-				"package groovyTest;\npublic class genericJavaClass"
-						+ "{\npublic static void main(String[] args) {\n// TODO Auto-generated method stub\n}\n}", cmd);
+		nameWithDate = Formatter.formatOne(javaFile, cmd);
 		assertTrue("Formatter.formatOne did not return a backup file", nameWithDate == null);
 	}
 
@@ -186,17 +195,17 @@ public class FormatterTest extends TestCase {
 	 */
 	public void testoptionToFormatJavaAbsolutePathDoesNotExist() {
 		log.info("Formatter.OptionToFormat on a file that does not exist");
-		fileName = System.getProperty("user.dir") + File.separator+ "javaEclipseFormatterTest13243546dfg.java";
+		fileName = System.getProperty("user.dir") + File.separator + "javaEclipseFormatterTest13243546dfg.java";
 		Options options = new Options();
 		options.addOption("b", false, "create a backup file");
 		CommandLine cmd = null;
 		CommandLineParser parser = new BasicParser();
 		try {
-			cmd = parser.parse(options, new String[] {"-b", fileName});
+			cmd = parser.parse(options, new String[] { "-b", fileName });
 		} catch (ParseException e) {
 			log.error(e, e);
 		}
-		String[] args = new String[] {"-b", fileName};
+		String[] args = new String[] { "-b", fileName };
 		boolean exists = Formatter.optionToFormat(cmd, args);
 		assertTrue("Formatter.OptionToFormat on a file that does not exist", exists == false);
 	}
@@ -206,8 +215,8 @@ public class FormatterTest extends TestCase {
 	 */
 	public void testoptionToFormatJavaAbsolutePathDoesExist() {
 		log.info("Formatter.OptionToFormat on a file that does exist");
-		fileName = System.getProperty("user.dir") + File.separator+ "javaEclipseFormatterTest13243546.java";
-		
+		fileName = System.getProperty("user.dir") + File.separator + "javaEclipseFormatterTest13243546.java";
+
 		CommandLine cmd = null;
 		CommandLineParser parser = new BasicParser();
 		Options options = new Options();
@@ -215,17 +224,17 @@ public class FormatterTest extends TestCase {
 		try {
 			absolutePathFile.createNewFile();
 			options.addOption("b", false, "create a backup file");
-			cmd = parser.parse(options, new String[] {"-b", fileName});
+			cmd = parser.parse(options, new String[] { "-b", fileName });
 		} catch (ParseException e) {
 			log.error(e, e);
 		} catch (IOException e) {
-			log.error(e,e);
+			log.error(e, e);
 		}
-		String[] args = new String[] {"-b", fileName};
+		String[] args = new String[] { "-b", fileName };
 		boolean exists = Formatter.optionToFormat(cmd, args);
 		assertTrue("Formatter.OptionToFormat on a file that does exist", exists);
 		if (absolutePathFile.exists())
-		 	absolutePathFile.delete();
+			absolutePathFile.delete();
 	}
 
 	/**
@@ -233,7 +242,7 @@ public class FormatterTest extends TestCase {
 	 */
 	public void testoptionToFormatDirectoryAbsolutePathDoesExist() {
 		log.info("Formatter.OptionToFormat on a directory that does exist");
-		String dirName = System.getProperty("user.dir") + File.separator+ "test";
+		String dirName = System.getProperty("user.dir") + File.separator + "test";
 		CommandLine cmd = null;
 		CommandLineParser parser = new BasicParser();
 		Options options = new Options();
@@ -241,40 +250,43 @@ public class FormatterTest extends TestCase {
 		try {
 			absolutePathFile.mkdir();
 			options.addOption("b", false, "create a backup file");
-			cmd = parser.parse(options, new String[] {"-b", dirName});
+			cmd = parser.parse(options, new String[] { "-b", dirName });
 		} catch (ParseException e) {
 			log.error(e, e);
 		} catch (SecurityException e) {
-			log.error(e,e);
+			log.error(e, e);
 		}
-		String[] args = new String[] {"-b", dirName};
+		String[] args = new String[] { "-b", dirName };
 		boolean exists = Formatter.optionToFormat(cmd, args);
 		assertTrue("Formatter.OptionToFormat on a directory that does exist", exists);
 		if (absolutePathFile.exists())
-		 	absolutePathFile.delete();
+			absolutePathFile.delete();
 	}
-
 
 	/**
 	 * Test where Formatter.formatOne does not return a backup file when ran on a java file
 	 */
 	public void testformatOneBackupFileJavaAbsolutePath() {
 		log.info("Formatter.formatOne returns no backup file when ran on a java file with it's absolute path when the option is not set");
-		fileName = System.getProperty("user.dir") + File.separator+ "javaEclipseFormatterTest13243546.java";
+		fileName = System.getProperty("user.dir") + File.separator + "javaEclipseFormatterTest13243546.java";
 		File absolutePathFile = new File(fileName);
 		Options options = new Options();
 		options.addOption("b", false, "create a backup file");
 		CommandLine cmd = null;
 		CommandLineParser parser = new BasicParser();
 		try {
-			cmd = parser.parse(options, new String[] {"-b"});
+			cmd = parser.parse(options, new String[] { "-b" });
+			FileUtils.writeStringToFile(absolutePathFile, "package groovyTest;\npublic class genericJavaClass"
+					+ "{\npublic static void main(String[] args) {\n// TODO Auto-generated method stub\n}\n}");
 		} catch (ParseException e) {
 			log.error(e, e);
+		} catch (IOException e) {
+			log.error(e, e);
 		}
-		nameWithDate = Formatter.formatOne(fileName,
-				"package groovyTest;\npublic class genericJavaClass"
-						+ "{\npublic static void main(String[] args) {\n// TODO Auto-generated method stub\n}\n}", cmd);
-		assertTrue("Formatter.formatOne did not return a backup file when ran on a java file with it's absolute path when the option is not set", nameWithDate != null);
+		nameWithDate = Formatter.formatOne(absolutePathFile, cmd);
+		assertTrue(
+				"Formatter.formatOne did not return a backup file when ran on a java file with it's absolute path when the option is not set",
+				nameWithDate != null);
 		if (absolutePathFile.exists())
 			absolutePathFile.delete();
 	}
@@ -290,11 +302,14 @@ public class FormatterTest extends TestCase {
 		CommandLine cmd = null;
 		try {
 			cmd = parser.parse(options, new String[] { "-b" });
+			FileUtils.writeStringToFile(groovyFile, "package groovyTest\nclass genericClass "
+					+ "{\nstatic main(args) {\n}\n}\n");
 		} catch (ParseException e) {
 			log.error(e, e);
+		} catch (IOException e) {
+			log.error(e, e);
 		}
-		nameWithDate = Formatter.formatOne("groovyEclipseFormatterTest13243546.groovy",
-				"package groovyTest\nclass genericClass " + "{\nstatic main(args) {\n}\n}\n", cmd);
+		nameWithDate = Formatter.formatOne(groovyFile, cmd);
 		assertTrue("Formatter.formatOne returned a backup file", nameWithDate != null);
 
 	}
@@ -309,11 +324,14 @@ public class FormatterTest extends TestCase {
 		CommandLineParser parser = new BasicParser();
 		try {
 			cmd = parser.parse(options, new String[] {});
+			FileUtils.writeStringToFile(groovyFile, "package groovyTest\nclass genericClass "
+					+ "{\nstatic main(args) {\n}\n}\n");
 		} catch (ParseException e) {
 			log.error(e, e);
+		} catch (IOException e) {
+			log.error(e, e);
 		}
-		nameWithDate = Formatter.formatOne("groovyEclipseFormatterTest13243546.groovy",
-				"package groovyTest\nclass genericClass " + "{\nstatic main(args) {\n}\n}\n", cmd);
+		nameWithDate = Formatter.formatOne(groovyFile, cmd);
 		assertTrue("Formatter.formatOne did not return a backup file", nameWithDate == null);
 	}
 
@@ -400,12 +418,14 @@ public class FormatterTest extends TestCase {
 		CommandLineParser parser = new BasicParser();
 		try {
 			cmd = parser.parse(options, new String[] { "-b" });
+			FileUtils.writeStringToFile(groovyScript, "#!/usr/bin/env groovy\npackage groovyTest\nclass genericClass "
+					+ "{\nstatic main(args) {\n}\n}\n");
 		} catch (ParseException e) {
 			log.error(e, e);
+		} catch (IOException e) {
+			log.error(e, e);
 		}
-		nameWithDate = Formatter.formatOne("groovyEclipseFormatterTest13243546",
-				"#!/usr/bin/env groovy\npackage groovyTest\nclass genericClass " + "{\nstatic main(args) {\n}\n}\n",
-				cmd);
+		nameWithDate = Formatter.formatOne(groovyScript, cmd);
 		assertTrue("Formatter.formatOne did not return a backup file", nameWithDate != null);
 	}
 
@@ -420,11 +440,14 @@ public class FormatterTest extends TestCase {
 		CommandLineParser parser = new BasicParser();
 		try {
 			cmd = parser.parse(options, new String[] { "-b" });
+			FileUtils.writeStringToFile(groovyScript, "\npackage groovyTest\nclass genericClass "
+					+ "{\nstatic main(args) {\n}\n}\n");
 		} catch (ParseException e) {
 			log.error(e, e);
+		} catch (IOException e) {
+			log.error(e, e);
 		}
-		nameWithDate = Formatter.formatOne("groovyEclipseFormatterTest13243546",
-				"package groovyTest\nclass genericClass " + "{\nstatic main(args) {\n}\n}\n", cmd);
+		nameWithDate = Formatter.formatOne(groovyScript, cmd);
 		assertTrue("Formatter.formatOne did not return a backup file", nameWithDate == null);
 	}
 
