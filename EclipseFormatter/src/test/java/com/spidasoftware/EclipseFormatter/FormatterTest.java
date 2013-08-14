@@ -214,7 +214,6 @@ public class FormatterTest extends TestCase {
 	 * OptionToFormat on a file that does exist
 	 */
 	public void testoptionToFormatJavaAbsolutePathDoesExist() {
-		log.info("Formatter.OptionToFormat on a file that does exist");
 		fileName = System.getProperty("user.dir") + File.separator + "javaEclipseFormatterTest13243546.java";
 
 		CommandLine cmd = null;

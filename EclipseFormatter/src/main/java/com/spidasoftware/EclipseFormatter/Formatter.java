@@ -60,6 +60,9 @@ public class Formatter {
 	private static boolean java = true;
 	private static boolean groovy = true;
 
+	/**
+	* This main mehod will parse the command line arguments and format the file(s)
+	*/
 	public static void main(String[] args) {
 		instantiateLogger();
 		CommandLine cmd = getOptions(args, options);
@@ -118,7 +121,7 @@ public class Formatter {
 	 */
 	public static String formatOne(File file, CommandLine cmd) {
 		String nameWithDate = null;
-		String extension = FilenameUtils.getExtension(file.getName());
+		String extension = FilenameUtils.getExtension(file.getPath());
 		if (extension.length() > 0) {
 			nameWithDate = formatUsingExtension(file, cmd);
 		} else {
@@ -217,7 +220,7 @@ public class Formatter {
 	 * @return a String that represents the name of the backup file created, null otherwise.
 	 */
 	public static String formatUsingExtension(File file, CommandLine cmd) {
-		String fileName = file.getName();
+		String fileName = file.getPath();
 		String extension = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length());
 		String nameWithDate = null;
 		String code = null;
@@ -249,7 +252,7 @@ public class Formatter {
 	 * @return a String that represents the name of the backup file created, null otherwise.
 	 */
 	public static String formatUsingHashBang(File file, CommandLine cmd) {
-		String fileName = file.getName();
+		String fileName = file.getPath();
 		String nameWithDate = null;
 		String code = readInFile(fileName);
 		if (code.indexOf("\n") > -1) {
