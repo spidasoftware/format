@@ -57,7 +57,7 @@ and subdirectories of the directory that was specified.
 	format -r -b <path/to/directory>
 ```
 
-## Other format information
+## Other `format` information
 
   * [Add Additional Formatters](https://github.com/spidasoftware/format/wiki/Adding-Additional-Formatters)
   * [Technical Notes on Groovy and Java Formatter](https://github.com/spidasoftware/format/wiki/Included-Groovy-and-Java-Formatters)
@@ -65,7 +65,7 @@ and subdirectories of the directory that was specified.
   * [The Javadocs for this project](http://spidasoftware.github.io/format/index "The project's Javadoc")
 
 
-## Useful Links
+## External Links
 
    * [The Eclipse Api for formatting Java code](http://help.eclipse.org/indigo/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fformatter%2FDefaultCodeFormatterConstants.html "DefaultCodeFormatterConstants API")
    * [The Apache license](http://www.apache.org/licenses/LICENSE-2.0 "Apache License, Version 2.0")
