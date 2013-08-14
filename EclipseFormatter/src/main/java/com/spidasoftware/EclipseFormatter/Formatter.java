@@ -61,8 +61,8 @@ public class Formatter {
 	private static boolean groovy = true;
 
 	/**
-	* This main mehod will parse the command line arguments and format the file(s)
-	*/
+	 * This main mehod will parse the command line arguments and format the file(s)
+	 */
 	public static void main(String[] args) {
 		instantiateLogger();
 		CommandLine cmd = getOptions(args, options);
@@ -97,11 +97,11 @@ public class Formatter {
 				exists = true;
 				ArrayList<File> files = new ArrayList<File>(Arrays.asList(pathToFile.listFiles()));
 				for (File f : files) {
-					if (!f.isDirectory() && f.isFile()) {
+					if (f.isFile()) {
 						formatOne(f, cmd);
 					}
 				}
-			} else if (pathToFile.exists()) {
+			} else if (pathToFile.isFile()) {
 				formatOne(pathToFile, cmd);
 				exists = true;
 			} else {
