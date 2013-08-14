@@ -56,57 +56,6 @@ and subdirectories of the directory that was specified.
 ```
 	format -r -b <path/to/directory>
 ```
-
-## Modifying the Java or Groovy Formatters
-
-If you would like to make changes to the Eclipse formatter preferences, you will need to install the following on your computer:
-   * A recent version of the Java runtime environment and the JDK
-   * Maven 2.2.1 to build the project. 
-
-For your reference, here's the [Javadoc](http://spidasoftware.github.io/format/index "The project's Javadoc") for this project:
-
-### Java formatting preferences
-
-   * In the EclipseFormatter/src/main/java/com/spidasoftware/EclipseFormatter/JavaFormat.java file, there is the initializeFormatter method where you can add or remove preferences of the formatter.
-
-   * The api used to add or remove your own preferences are located [here](http://help.eclipse.org/indigo/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fformatter%2FDefaultCodeFormatterConstants.html "Eclipse Api")
-
-   * I give a couple examples of how to add preferences in the method's source code.
-
-### Groovy formatting preferences
-
-   * In the EclipseFormatter/src/main/java/com/spidasoftware/EclipseFormatter/GroovyFormat.java file, there is the initializeFormatter method where you can add or remove preferences of the formatter.
-
-   * The api used to add or remove your own preferences are located [here](http://spidasoftware.github.io/format/com/spidasoftware/EclipseFormatter/SpidaFormatterPreferences "Groovy Formatting Preferences")
-
-   * I give a couple examples of how to add preferences in the method's source code.
-
-======
-
-Once you have made changes to the code, navigate yourself to the format/EclipseFormatter directory
-and run:
-
-```
-mvn clean install
-```
-If all tests pass, this will construct you the jar, "EclipseFormatter/target/EclipseFormatter.jar." 
-Replace the jar located in format-v[number]/formatters/ directory with the one created. This will 
-add your changes to the program. Note: do not replace the jar with the EclipseFormatter-1.0-SNAPSHOT. This
-jar does not have all of the dependencies.
-
-## Modifications to Groovy-Eclipse
-
-As mentioned in the disclaimer, changes were made to Groovy-Eclipse's code formatter inorder to cancel all formatting of a file 
-if there happens to be any unrecognizable syntax. I've only made significant changes to the following classes:
-
-   * org.codehaus.jdt.groovy.internal.compiler.ast.GroovyParser.java
-   * org.codehaus.groovy.eclipse.core.compiler.GroovySnippetParser.java
-   * org.codehaus.groovy.eclipse.refactoring.formatter.DefaultGroovyFormatter.java
-   * org.codehaus.groovy.eclipse.refactoring.core.utils.ASTTools
-
-You can see the changes [here](https://github.com/nickjoodi/groovy-eclipse/commit/789988fae5dee4e4dbde72e924d6bb1dd7679d87 "Groovy-Eclipse Changes"). Please
-do not pay attention to the last three classes added. They were just written to verify the changes before testing.
-
 ## Useful Links
 
    * [The Javadocs for this project](http://spidasoftware.github.io/format/index "The project's Javadoc")
