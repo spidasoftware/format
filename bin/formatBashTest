@@ -789,6 +789,93 @@ if [ -d formatBashScriptTest162846folder ]; then
 fi
 echo ""
 
+# Glob testing
+
+echo "Test format *.java <formatBashScriptTest9992folder>. Formatting not needed on the files."
+mkdir "formatBashScriptTest9992folder"
+echo "public class file1 {}" > "formatBashScriptTest9992folder/file1.java"
+echo "public class file2 {}" > "formatBashScriptTest9992folder/file2.java"
+echo "#!/usr/bin/env groovy
+public class file2 {}" > "formatBashScriptTest9992folder/file3.groovy"
+echo "#!/usr/bin/env groovy
+public class file2 {}" > "formatBashScriptTest9992folder/file4.groovy"
+oJ="*** Java standard formatting conventions have been applied to "
+oG="*** Groovy standard formatting conventions have been applied to "
+cd formatBashScriptTest9992folder/
+testName[37]="Test format *.java"
+RESULTS=$( format *.java )
+if [[ "${RESULTS}" == *"${oJ}"*"${oJ}"* ]] && [[ ! RESULTS == *"${oG}"* ]] ; then
+	echo " - Format *.java: PASSED"
+	testPassed[37]="1"
+else
+	echo " - Format *.java: FAILED"
+	testPassed[37]="0"
+fi
+echo ""
+echo "Test format *.groovy <formatBashScriptTest9992folder>. Formatting not needed on the files."
+testName[38]="Test format *.groovy"
+RESULTS=$( format *.groovy )
+if [[ "${RESULTS}" == *"${oG}"*"${oG}"* ]] && [[ ! RESULTS == *"${oJ}"* ]] ; then
+	echo " - Format *.groovy: PASSED"
+	testPassed[38]="1"
+else
+	echo " - Format *.groovy: FAILED"
+	testPassed[38]="0"
+fi
+echo ""
+echo "Test format *.* <formatBashScriptTest9992folder>. Formatting not needed on the files."
+testName[39]="Test format *.*"
+RESULTS=$( format *.* )
+if [[ "${RESULTS}" == *"${oJ}"*"${oJ}"*"${oG}"*"${oG}"* ]] ; then
+	echo " - Format *.*: PASSED"
+	testPassed[39]="1"
+else
+	echo " - Format *.*: FAILED"
+	testPassed[39]="0"
+fi
+echo ""
+echo "Test format . <formatBashScriptTest9992folder>. Formatting not needed on the files."
+testName[40]="Test format ."
+RESULTS=$( format . )
+if [[ "${RESULTS}" == *"${oJ}"*"${oJ}"*"${oG}"*"${oG}"* ]] ; then
+	echo " - Format .: PASSED"
+	testPassed[40]="1"
+else
+	echo " - Format .: FAILED"
+	testPassed[40]="0"
+fi
+echo ""
+echo "Test format [list] <formatBashScriptTest9992folder>. Formatting not needed on the files."
+testName[41]="Test format [list]"
+RESULTS=$( format file1.java file3.groovy )
+if [[ "${RESULTS}" == *"${oJ}"*"${oG}"* ]] && [[ ! RESULTS == *"${oJ}"*"${oJ}"*"${oG}"*"${oG}"* ]] ; then
+	echo " - Format [list]: PASSED"
+	testPassed[41]="1"
+else
+	echo " - Format [list]: FAILED"
+	testPassed[41]="0"
+fi
+echo ""
+echo "Test format [list with fail] <formatBashScriptTest9992folder>. Formatting not needed on the files."
+testName[42]="Test format [list with fail]"
+RESULTS=$( format file1.java file4.java file3.groovy )
+oError="Usage: format [options] <file or directory with relative path>
+    -h:       print this message
+    -b:       create a backup file
+    -r:       format all files recursively starting from the directory specified
+    -g:       format all modified files in the git working directory
+              (r and g can not be set together)
+              (g does not need a filename as an argument)"
+if [[ "${RESULTS}" == *"${oJ}"*"${oError}"*"${oG}"* ]] ; then
+	echo " - Format [list with fail]: PASSED"
+	testPassed[42]="1"
+else
+	echo " - Format [list with fail]: FAILED"
+	testPassed[42]="0"
+fi
+cd ..
+rm -r formatBashScriptTest9992folder
+
 len=${#testPassed[@]} 
 numFailed=0
 for (( i=0; i<${len}; i++ )); do

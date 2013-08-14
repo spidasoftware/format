@@ -27,7 +27,6 @@ usage() { echo "Usage: format [options] <file or directory with relative path>"
           echo "    -g:       format all modified files in the git working directory"
           echo "              (r and g can not be set together)"
           echo "              (g does not need a filename as an argument)"
-          exit 1;
 }
 
 # arrays that will contain the identifying marker to determine which formatter to use and also
@@ -189,34 +188,41 @@ while getopts ":brg" o; do
             ;;
         *)
             usage
+            exit 1
             ;;
     esac
 done
 shift $((OPTIND-1))
 
-
-
-File=$1
 if [ ${GIT} = 1 ] ; then
-    gitFormat
-elif [ $# != 1 ] ; then 
-    echo "invalid execution of format";
+        gitFormat
+        if [[ $# > 0 ]] ; then
+            echo "Listed files were not formatted.  Git repo is only run when using -g.";
+        fi
+        exit 1
+fi
+
+if [[ ! $# > 0 ]] ; then
+    echo "Invalid execution of format";
     usage
     exit 1
-elif  [ -d "${File}" ] ; then
-    if [ ${RECURSIVE} = 1 ] ; then
-        recursive "${File}"
-    else
-        for entry in $(find ${1} -maxdepth 1 ) ; do
-            format "${entry}"
-        done
-    fi
-else
-    if [ -f "${File}" ]; then
-        format "${File}"
-    else
-        echo "${File} is not valid";
-        usage
-        exit 1
-    fi
 fi
+
+for File in $@ ; do
+    if  [ -d "${File}" ] ; then
+        if [ ${RECURSIVE} = 1 ] ; then
+            recursive "${File}"
+        else
+            for entry in $(find ${1} -maxdepth 1 ) ; do
+                format "${entry}"
+            done
+        fi
+    else
+        if [ -f "${File}" ]; then
+            format "${File}"
+        else
+            echo "${File} is not valid";
+            usage
+        fi
+    fi
+done
