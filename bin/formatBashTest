@@ -893,7 +893,7 @@ if [[ ${numFailed}>0 ]] ; then
 	for (( i=0; i<${len}; i++ )); do
 		if  [[ ${testPassed[i]} = "0"  ]] ; then
 			echo "   - ${testName[i]}"
-	fi
+		fi
 	done
 
 else
