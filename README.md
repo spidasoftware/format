@@ -57,44 +57,6 @@ and subdirectories of the directory that was specified.
 	format -r -b <path/to/directory>
 ```
 
-
-## Adding Additional Formatters
-
-Adding additional languages to this command-line formatter is relatively easy. To
-do this, navigate to format-v[number]/conf directory and there will be two files:
-extension.cfg and hashbang.cfg. The extension.cfg file is used to format files that have a 
-particular extension. The hashbang.cfg file is used to format files that have a particular string in the first
-line of the source code. To add a formatter that will identify files with a particular file extension,
-open the extension.cfg file. Inside, there will be comments as well as two lines, one starting 
-with "java" and the other starting with "groovy." These are the two formatters that have already been 
-added to the program. Observe the line: 
-```
-java = java -jar ${SCRIPT_LOCATION}/formatters/EclipseFormatter.jar -java
-```
-This line is telling the program to format all files with the extension, "java." This line is also
-telling the program to use the following command-line (after the equals sign) to format the file. 
-The bash variable, "SCRIPT_LOCATION," was used to get the path of the "format" bash script file when
-it was ran. Use this variable if you decide to place the source code of the new formatter in a location that is relative
-to the "format" bash script. In the example above, the java formatter is located in the formatters folder relative to
-to the "format" bash script. To add a new formatter to this program, follow this outline. I.e. simply
-add the extension, an "=", followed by the command.
-
-Now to format files based on the first line of code in the source rather than using the file extension,
-navigate yourself to the hashBang.cfg file. Inside you will see the same structure; however, instead of
-a file extension being used to indicate which files to format, enter in the contents that the first line
-of code the program must have. For instance, there is one formatter located in the file already. this 
-formatter formats all files that have the first line containing "#!/usr/bin/env groovy".
-
-A few requirements of the additional formatters you add:
-
-   * The formatter that you add must take a file to format as the last argument on the command-line.
-   * The formatters located in the hashBang.cfg file will only be used on files that have no file extension.
-   * When adding to the extension.cfg file, make sure you do not include the "." with the extension.
-   * Do not add any comments to the hashBang.cfg file.
-   * Make sure the formatting command that you add will replace the input file with the new formatted file. That is, it will format the file that you entered in as an argument.
-   * Make sure the command does not create a backup file. The program already has an option to do that.
-   * A newline must be the last character of both config files.
-
 ## Modifying the Java or Groovy Formatters
 
 If you would like to make changes to the Eclipse formatter preferences, you will need to install the following on your computer:
