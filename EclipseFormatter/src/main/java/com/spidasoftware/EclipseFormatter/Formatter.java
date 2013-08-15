@@ -57,13 +57,22 @@ import java.util.Arrays;
 public class Formatter {
 	private static Logger log = Logger.getRootLogger();
 	private static Options options = new Options();
+	private static boolean instantiateLoggerOnlyOnce = true;
 
 	/**
-	 * This main mehod will parse the command line arguments and format the file(s)
+	 * This method will parse the command line arguments and format the file(s). 
+	 * @param args the command-line arguments
 	 */
 	public static void main(String[] args) {
-		instantiateLogger();
+
+		// This conditional is incase clients of this class call this object more than once, the logger
+		// will only be instantiated once.
+		if (instantiateLoggerOnlyOnce) {
+			instantiateLogger();
+			instantiateLoggerOnlyOnce = false;
+		}
 		CommandLine cmd = getOptions(args, options);
+		args = cmd.getArgs();
 		if (cmd.hasOption("help")) {
 			HelpFormatter formatter = new HelpFormatter();
 			formatter.printHelp("format [option] <directory or file with relative path>", options);
@@ -74,7 +83,6 @@ public class Formatter {
 		} else {
 			optionToFormat(cmd, args);
 		}
-
 	}
 
 	/**
@@ -83,17 +91,17 @@ public class Formatter {
 	 *
 	 * @param cmd the list of command-line arguments.
 	 * @param args the command-line arguments.
-	 * @return  boolean indicating if the file exists
+	 * @return  boolean indicating if the file/directory exists
 	 */
 	public static boolean optionToFormat(CommandLine cmd, String[] args) {
 		boolean exists = false;
-		if (args.length == 0) {
-			log.info("Need to provide a file to format");
+		if (args.length != 1) {
+			log.info("Exactly one file can be formatted");
 		} else {
-			File pathToFile = new File(args[args.length - 1]);
+			File pathToFile = new File(args[0]);
 			if (pathToFile.isDirectory()) {
 				exists = true;
-				ArrayList<File> files = new ArrayList<File>(Arrays.asList(pathToFile.listFiles()));	
+				ArrayList<File> files = new ArrayList<File>(Arrays.asList(pathToFile.listFiles()));
 				for (File f : files) {
 					if (f.isFile()) {
 						formatOne(f, cmd);
@@ -103,7 +111,7 @@ public class Formatter {
 				formatOne(pathToFile, cmd);
 				exists = true;
 			} else {
-				log.info("cannot format: " + args[args.length - 1] + "\nThe file/directory should be the last argument");
+				log.info("cannot format: " + args[0] + "\nThe file/directory should be the last argument");
 			}
 		}
 		return exists;
