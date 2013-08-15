@@ -57,8 +57,6 @@ import java.util.Arrays;
 public class Formatter {
 	private static Logger log = Logger.getRootLogger();
 	private static Options options = new Options();
-	private static boolean java = true;
-	private static boolean groovy = true;
 
 	/**
 	 * This main mehod will parse the command line arguments and format the file(s)
@@ -95,7 +93,7 @@ public class Formatter {
 			File pathToFile = new File(args[args.length - 1]);
 			if (pathToFile.isDirectory()) {
 				exists = true;
-				ArrayList<File> files = new ArrayList<File>(Arrays.asList(pathToFile.listFiles()));
+				ArrayList<File> files = new ArrayList<File>(Arrays.asList(pathToFile.listFiles()));	
 				for (File f : files) {
 					if (f.isFile()) {
 						formatOne(f, cmd);
@@ -274,8 +272,10 @@ public class Formatter {
 	 * @return a boolean that is false if a groovy option was passed
 	 */
 	public static boolean javaFormatting(CommandLine cmd) {
-		if (cmd.hasOption("groovy"))
+		boolean java = true;
+		if (cmd.hasOption("groovy")) {
 			java = false;
+		}
 		return java;
 	}
 
@@ -286,8 +286,10 @@ public class Formatter {
 	 * @return a boolean that is false if a java option was passed
 	 */
 	public static boolean groovyFormatting(CommandLine cmd) {
-		if (cmd.hasOption("java"))
+		boolean groovy = true;
+		if (cmd.hasOption("java")) {
 			groovy = false;
+		}
 		return groovy;
 	}
 

@@ -20,7 +20,7 @@
 # Nicholas Joodi
 
 # Display the options
-usage() { echo "Usage: format [options] <file or directory with relative path>"
+usage() { echo "Usage: format [options] <file(s) or director(y/ies) with relative path>"
           echo "    -h:       print this message"
           echo "    -b:       create a backup file"
           echo "    -r:       format all files recursively starting from the directory specified" 
@@ -51,12 +51,12 @@ initializeArrays() {
 
 # A two argument method that takes a file and creates a backup file
 # 1 is the filename/filename with path 
-# 2 is path/empty string
+# 2 is the code before being formatted
 backup() {
     if [ $BACKUP = 1 ] ; then
-        local file="${2}${1}"
+        local file="${1}"
         local newName="${file}~"
-        echo "${3}" > "${newName}"
+        echo "${2}" > "${newName}"
         echo "   -A backup file was stored in $newName"   
     fi 
 }
@@ -80,27 +80,24 @@ isGitRepo() {
 # then a backup file will be created.
 wereChangesMade() {
     local file="${1}"
-    local path="${2}"
-    local before="${3}"
-    local after="${4}"
+    local before="${2}"
+    local after="${3}"
     if [[ "${before}" != "${after}" ]]; then
-        backup "${file}" "${path}" "${before}"
+        backup "${file}" "${before}"
     else
         echo "   -No changes were made to ${path}${file}"
     fi
 }
 # Format by using the extension of the file
 # 1 is the filename/filename with path 
-# 2 is path/empty string
 formatByExtension() {
     local i=0
-    # echo "asd"
     while [ $i -lt $(eval "echo ${#nameExtension[@]}") ] ; do
-        if [[ "${1##*.}" = "${nameExtension[$i]}" ]]  && [[  -f "${2}${1}" ]] && [[  -s "${2}${1}" ]]; then
-            before=$(cat ${2}${1})
-            $(eval "echo ${valueExtension[$i]}") "${2}${1}"
-            after=$(cat ${2}${1})
-            wereChangesMade "${1}" "${2}" "${before}" "${after}"
+        if [[ "${1##*.}" = "${nameExtension[$i]}" ]]  && [[  -f "${1}" ]] && [[  -s "${1}" ]]; then
+            before=$(cat ${1})
+            $(eval "echo ${valueExtension[$i]}") "${1}"
+            after=$(cat ${1})
+            wereChangesMade "${1}" "${before}" "${after}"
         fi
         i=$[$i+1]
     done 
@@ -108,17 +105,16 @@ formatByExtension() {
 
 # format by using the first line of code in the file
 # 1 is the filename/filename with path 
-# 2 is path/empty string
 formatByHashBang() {
-read -r firstLine<"${2}${1}"
+read -r firstLine<"${1}"
 local i=0
-local str="${2}${1}"
+local str="${1}"
 while [ $i -lt $(eval "echo ${#nameHash[@]}") ] ; do
-    if [[ "${firstLine}" == *"${nameHash[$i]}"* ]]  && [[  -f "${2}${1}" ]] && [[  -s "${2}${1}" ]] && [[ "${str:${#str} - 1 }" != "~" ]]; then
-        local before=$(cat ${2}${1})
-        $(eval "echo ${valueHash[i]}") "${2}${1}"
-        local after=$(cat ${2}${1})
-        wereChangesMade "${1}" "${2}" "${before}" "${after}"
+    if [[ "${firstLine}" == *"${nameHash[$i]}"* ]]  && [[  -f "${1}" ]] && [[  -s "${1}" ]] && [[ "${str:${#str} - 1 }" != "~" ]]; then
+        local before=$(cat ${1})
+        $(eval "echo ${valueHash[i]}") "${1}"
+        local after=$(cat ${1})
+        wereChangesMade "${1}" "${before}" "${after}"
     fi
     i=$[$i+1]
 done
@@ -126,30 +122,30 @@ done
 
 # this method will format one file
 # 1 is the filename/filename with path 
-# 2 is path/empty string
 format() {
     local i=${1}
     local filename=${i##*/}
     if [[ $filename = [!.]*.* ]] ; then
-        formatByExtension "$1" "$2"
-    elif [[ ! -d "${2}${1}" ]] && [[  -f "${2}${1}" ]] && [[  -s "${2}${1}" ]] ; then
-        formatByHashBang "$1" "$2"
+        formatByExtension "$1"
+    elif [[ ! -d "${1}" ]] && [[  -f "${1}" ]] && [[  -s "${1}" ]] ; then
+        formatByHashBang "$1"
     fi
 }
 
 # A two-argument method that takes a directory and formats all files in a directory and the
 # files in the respective subdirectories
 # 1 is the filename/filename with path 
-# 2 is path/empty string
 recursive() {
-    echo "*** Are you sure you want to recursively format all files? (enter y to continue) ***"
+    DIRECTORY="${1}"
+    if [[ "${DIRECTORY}" = "." ]] ; then
+        DIRECTORY="your current directory"
+    fi
+    echo "*** Are you sure you want to recursively format all files in ${DIRECTORY}? (enter y to continue) ***"
     read answer
     if [[ ${answer} != "" ]] && [[ ${answer} = y ]] ; then
         for entry in $(find ${1}) ; do
-            format "${2}${entry}"
+            format "${entry}"
         done
-    else
-        exit 1
     fi
 }
 
@@ -168,10 +164,13 @@ gitFormat() {
 
 # location of this bash script
 SCRIPT_LOCATION=$( echo "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )")
+
 # Flags for the options
 BACKUP=0
 RECURSIVE=0
 GIT=0
+
+# Get the formatters
 initializeArrays
 
 # Using getopts to parse the command line args
@@ -195,11 +194,11 @@ done
 shift $((OPTIND-1))
 
 if [ ${GIT} = 1 ] ; then
-        gitFormat
-        if [[ $# > 0 ]] ; then
-            echo "Listed files were not formatted.  Git repo is only run when using -g.";
-        fi
-        exit 1
+    gitFormat
+    if [[ $# > 0 ]] ; then
+        echo "   -Listed files were not formatted.  Only the Git option was executed...";
+    fi
+    exit 1
 fi
 
 if [[ ! $# > 0 ]] ; then

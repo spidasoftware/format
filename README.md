@@ -23,7 +23,7 @@ Perform/Ensure the Following:
 
 1. Download this repository (you can download or clone the repo by clicking the button to the right of this page).
 
-1. Add the absolute path of the format-v[number] directory to your path.
+1. Add the absolute path of the bin directory to your path.
 
 1.	To make sure it was correctly installed, enter the following command in your bash shell:
 
@@ -62,7 +62,7 @@ and subdirectories of the directory that was specified.
   * [Add Additional Formatters](https://github.com/spidasoftware/format/wiki/Adding-Additional-Formatters)
   * [Technical Notes on Groovy and Java Formatter](https://github.com/spidasoftware/format/wiki/Included-Groovy-and-Java-Formatters)
   * [Hooking into External Tools](https://github.com/spidasoftware/format/wiki/Hooking-into-External-Tools)
-  * [The Javadocs for this project](http://spidasoftware.github.io/format/index "The project's Javadoc")
+  * [The Javadocs for this project](http://spidasoftware.github.io/format/apidocs/index "The project's Javadoc")
 
 
 ## External Links
