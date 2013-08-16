@@ -98,12 +98,14 @@ public class FormatterTest extends TestCase {
 		BasicConfigurator.configure();
 		log.info("Formatter.readInFile reads in correctly from a non-empty file");
 		String contents = "abcdefghijklmnopqrstu\nvwx\nyz\n";
+		PrintWriter out = null;
 		try {
-			PrintWriter out = new PrintWriter(new FileWriter(fileName));
+			out = new PrintWriter(new FileWriter(fileName));
 			out.print(contents);
-			out.close();
 		} catch (IOException e) {
 			log.error(e, e);
+		} finally {
+			out.close();
 		}
 		assertTrue("readInFile extracts correct file contents", (Formatter.readInFile(fileName)).equals(contents));
 	}
@@ -115,12 +117,14 @@ public class FormatterTest extends TestCase {
 		log.info("Formatter.readInFile reads in correctly from a empty");
 		String contents = "";
 		File backUp = new File(fileName);
+		PrintWriter out = null;
 		try {
-			PrintWriter out = new PrintWriter(new FileWriter(fileName));
+			out = new PrintWriter(new FileWriter(fileName));
 			out.print(contents);
-			out.close();
 		} catch (IOException e) {
 			log.error(e, e);
+		} finally {
+			out.close();
 		}
 		assertTrue("readInFile extracts correct file contents", (Formatter.readInFile(fileName)).equals(contents));
 	}
@@ -529,6 +533,159 @@ public class FormatterTest extends TestCase {
 		}
 		assertTrue("Formatter.main on a directory that does exist", !before1.equals(Formatter.readInFile(fileName1))
 				&& !before2.equals(Formatter.readInFile(fileName2)));
+		if (absolutePathFile1 != null) {
+			if (absolutePathFile1.exists()) {
+				absolutePathFile1.delete();
+			}
+		}
+		if (absolutePathFile2 != null) {
+			if (absolutePathFile2.exists()) {
+				absolutePathFile2.delete();
+			}
+		}
+		if (absolutePathFile != null) {
+			if (absolutePathFile.exists()) {
+				absolutePathFile.delete();
+			}
+		}
+	}
+
+	/**
+	 * Test the main method on a directory with a groovy script
+	 */
+	public void testmainOnADirectoryGroovyScript() {
+		log.info("Formatter.main on a directory that does exist with a groovy script");
+		String dirName = System.getProperty("user.dir") + File.separator + "test";
+		String fileName1 = System.getProperty("user.dir") + File.separator + "test" + File.separator
+				+ "javaEclipseFormatterTest13243546.java";
+		File absolutePathFile1 = new File(fileName1);
+		String before1 = "			package groovyTest;\n  			public class genericJavaClass"
+				+ "{\npublic static void main(String[] args) {\n// TODO Auto-generated method stub\n}\n}";
+
+		String fileName2 = System.getProperty("user.dir") + File.separator + "test" + File.separator
+				+ "groovyEclipseFormatterTest13243546";
+		File absolutePathFile2 = new File(fileName2);
+		String before2 = "#!/usr/bin/env groovy\n			package groovyTest;\n  			public class genericJavaClass"
+				+ "{\npublic static void main(String[] args) {\n// TODO Auto-generated method stub\n}\n}";
+
+		absolutePathFile = new File(dirName);
+		try {
+			absolutePathFile.mkdir();
+			absolutePathFile1.createNewFile();
+			absolutePathFile2.createNewFile();
+			FileUtils.writeStringToFile(absolutePathFile1, before1);
+			FileUtils.writeStringToFile(absolutePathFile2, before2);
+			String[] args = new String[] { dirName };
+			Formatter.main(args);
+		} catch (SecurityException e) {
+			log.error(e, e);
+		} catch (IOException e) {
+			log.error(e, e);
+		}
+		assertTrue("Formatter.main on a directory that does exist", !before1.equals(Formatter.readInFile(fileName1))
+				&& !before2.equals(Formatter.readInFile(fileName2)));
+		if (absolutePathFile1 != null) {
+			if (absolutePathFile1.exists()) {
+				absolutePathFile1.delete();
+			}
+		}
+		if (absolutePathFile2 != null) {
+			if (absolutePathFile2.exists()) {
+				absolutePathFile2.delete();
+			}
+		}
+		if (absolutePathFile != null) {
+			if (absolutePathFile.exists()) {
+				absolutePathFile.delete();
+			}
+		}
+	}
+
+	/**
+	 * Test the main method on a directory with a groovy script and javaflag set
+	 */
+	public void testmainOnADirectoryGroovyScriptJavaFlagSet() {
+		log.info("Formatter.main on a directory that does exist with a groovy script and javaflag set");
+		String dirName = System.getProperty("user.dir") + File.separator + "test";
+		String fileName1 = System.getProperty("user.dir") + File.separator + "test" + File.separator
+				+ "javaEclipseFormatterTest13243546.java";
+		File absolutePathFile1 = new File(fileName1);
+		String before1 = "			package groovyTest;\n  			public class genericJavaClass"
+				+ "{\npublic static void main(String[] args) {\n// TODO Auto-generated method stub\n}\n}";
+
+		String fileName2 = System.getProperty("user.dir") + File.separator + "test" + File.separator
+				+ "groovyEclipseFormatterTest13243546";
+		File absolutePathFile2 = new File(fileName2);
+		String before2 = "#!/usr/bin/env groovy\n			package groovyTest;\n  			public class genericJavaClass"
+				+ "{\npublic static void main(String[] args) {\n// TODO Auto-generated method stub\n}\n}";
+
+		absolutePathFile = new File(dirName);
+		try {
+			absolutePathFile.mkdir();
+			absolutePathFile1.createNewFile();
+			absolutePathFile2.createNewFile();
+			FileUtils.writeStringToFile(absolutePathFile1, before1);
+			FileUtils.writeStringToFile(absolutePathFile2, before2);
+			String[] args = new String[] { "-java", dirName };
+			Formatter.main(args);
+		} catch (SecurityException e) {
+			log.error(e, e);
+		} catch (IOException e) {
+			log.error(e, e);
+		}
+		assertTrue("Formatter.main on a directory that does exist with a groovy script and javaflag set",
+				!before1.equals(Formatter.readInFile(fileName1)) && before2.equals(Formatter.readInFile(fileName2)));
+		if (absolutePathFile1 != null) {
+			if (absolutePathFile1.exists()) {
+				absolutePathFile1.delete();
+			}
+		}
+		if (absolutePathFile2 != null) {
+			if (absolutePathFile2.exists()) {
+				absolutePathFile2.delete();
+			}
+		}
+		if (absolutePathFile != null) {
+			if (absolutePathFile.exists()) {
+				absolutePathFile.delete();
+			}
+		}
+	}
+
+	/**
+	 * Test the main method on a directory with a groovy script and Groovy flag set
+	 */
+	public void testmainOnADirectoryGroovyScriptGroovyFlagSet() {
+		log.info("Formatter.main on a directory that does exist with a groovy script and Groovy flag set");
+		String dirName = System.getProperty("user.dir") + File.separator + "test";
+		String fileName1 = System.getProperty("user.dir") + File.separator + "test" + File.separator
+				+ "javaEclipseFormatterTest13243546.java";
+		File absolutePathFile1 = new File(fileName1);
+		String before1 = "			package groovyTest;\n  			public class genericJavaClass"
+				+ "{\npublic static void main(String[] args) {\n// TODO Auto-generated method stub\n}\n}";
+
+		String fileName2 = System.getProperty("user.dir") + File.separator + "test" + File.separator
+				+ "groovyEclipseFormatterTest13243546";
+		File absolutePathFile2 = new File(fileName2);
+		String before2 = "#!/usr/bin/env groovy\n			package groovyTest;\n  			public class genericJavaClass"
+				+ "{\npublic static void main(String[] args) {\n// TODO Auto-generated method stub\n}\n}";
+
+		absolutePathFile = new File(dirName);
+		try {
+			absolutePathFile.mkdir();
+			absolutePathFile1.createNewFile();
+			absolutePathFile2.createNewFile();
+			FileUtils.writeStringToFile(absolutePathFile1, before1);
+			FileUtils.writeStringToFile(absolutePathFile2, before2);
+			String[] args = new String[] { "-groovy", dirName };
+			Formatter.main(args);
+		} catch (SecurityException e) {
+			log.error(e, e);
+		} catch (IOException e) {
+			log.error(e, e);
+		}
+		assertTrue("Formatter.main on a directory that does exist with a groovy script and Groovy flag set",
+				before1.equals(Formatter.readInFile(fileName1)) && !before2.equals(Formatter.readInFile(fileName2)));
 		if (absolutePathFile1 != null) {
 			if (absolutePathFile1.exists()) {
 				absolutePathFile1.delete();
