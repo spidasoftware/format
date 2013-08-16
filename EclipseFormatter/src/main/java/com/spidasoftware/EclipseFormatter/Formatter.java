@@ -57,15 +57,23 @@ import java.util.Arrays;
 public class Formatter {
 	private static Logger log = Logger.getRootLogger();
 	private static Options options = new Options();
-	private static boolean java = true;
-	private static boolean groovy = true;
 
 	/**
-	 * This main mehod will parse the command line arguments and format the file(s)
+	 * This method will pass the command line arguments to the runFormatter method. 
+	 * @param args the command-line arguments
 	 */
 	public static void main(String[] args) {
 		instantiateLogger();
+		runFormatter(args);
+	}
+
+	/**
+	 * This method will perform the main logic of the program
+	 * @param args the command-line arguments
+	 */
+	public static void runFormatter(String[] args) {
 		CommandLine cmd = getOptions(args, options);
+		args = cmd.getArgs();
 		if (cmd.hasOption("help")) {
 			HelpFormatter formatter = new HelpFormatter();
 			formatter.printHelp("format [option] <directory or file with relative path>", options);
@@ -76,7 +84,6 @@ public class Formatter {
 		} else {
 			optionToFormat(cmd, args);
 		}
-
 	}
 
 	/**
@@ -85,14 +92,14 @@ public class Formatter {
 	 *
 	 * @param cmd the list of command-line arguments.
 	 * @param args the command-line arguments.
-	 * @return  boolean indicating if the file exists
+	 * @return  boolean indicating if the file/directory exists
 	 */
 	public static boolean optionToFormat(CommandLine cmd, String[] args) {
 		boolean exists = false;
-		if (args.length == 0) {
-			log.info("Need to provide a file to format");
+		if (args.length != 1) {
+			log.info("Exactly one file can be formatted");
 		} else {
-			File pathToFile = new File(args[args.length - 1]);
+			File pathToFile = new File(args[0]);
 			if (pathToFile.isDirectory()) {
 				exists = true;
 				ArrayList<File> files = new ArrayList<File>(Arrays.asList(pathToFile.listFiles()));
@@ -105,7 +112,7 @@ public class Formatter {
 				formatOne(pathToFile, cmd);
 				exists = true;
 			} else {
-				log.info("cannot format: " + args[args.length - 1] + "\nThe file/directory should be the last argument");
+				log.info("cannot format: " + args[0] + ".");
 			}
 		}
 		return exists;
@@ -257,7 +264,7 @@ public class Formatter {
 		String code = readInFile(fileName);
 		if (code.indexOf("\n") > -1) {
 			String firstLine = code.substring(0, code.indexOf("\n"));
-			if (firstLine.indexOf("#!/usr/bin/env groovy") > -1) {
+			if (firstLine.indexOf("#!/usr/bin/env groovy") > -1 && groovyFormatting(cmd)) {
 				GroovyFormat groovyFormatter = new GroovyFormat();
 				groovyFormatter.format(fileName, code);
 				if (groovyFormatter.isFormatted() && cmd.hasOption("b"))
@@ -267,6 +274,10 @@ public class Formatter {
 		return nameWithDate;
 	}
 
+	/* 
+	 * To decouple the groovy and java formatters, the next two methods were created:
+	 */
+
 	/** 
 	 * If groovy option was set, return false
 	 *
@@ -274,8 +285,10 @@ public class Formatter {
 	 * @return a boolean that is false if a groovy option was passed
 	 */
 	public static boolean javaFormatting(CommandLine cmd) {
-		if (cmd.hasOption("groovy"))
+		boolean java = true;
+		if (cmd.hasOption("groovy")) {
 			java = false;
+		}
 		return java;
 	}
 
@@ -286,8 +299,10 @@ public class Formatter {
 	 * @return a boolean that is false if a java option was passed
 	 */
 	public static boolean groovyFormatting(CommandLine cmd) {
-		if (cmd.hasOption("java"))
+		boolean groovy = true;
+		if (cmd.hasOption("java")) {
 			groovy = false;
+		}
 		return groovy;
 	}
 

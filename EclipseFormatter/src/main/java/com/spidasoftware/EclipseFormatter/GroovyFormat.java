@@ -51,19 +51,18 @@ public class GroovyFormat extends Format {
 	}
 
 	public void format(String fileName, String code) {
+		DefaultGroovyFormatter cf = initializeFormatter(code);
+		IDocument dc = new Document(code.toString());
+		PrintWriter out = null;
 		try {
-			DefaultGroovyFormatter cf = initializeFormatter(code);
-			IDocument dc = new Document(code.toString());
 			TextEdit te = cf.format();
 			if (te == null || code.length() == 0) {
 				log.info("!!! Could not format " + fileName + " !!!");
 			} else {
 				te.apply(dc);
-
-				PrintWriter out = new PrintWriter(new FileWriter(fileName));
+				out = new PrintWriter(new FileWriter(fileName));
 				out.println(dc.get());
 				out.close();
-
 				log.info("*** Groovy standard formatting conventions have been applied to " + fileName + " ***");
 				correctlyFormatted = true;
 			}
@@ -82,6 +81,10 @@ public class GroovyFormat extends Format {
 			log.info("!!!Could not format " + fileName + "!!!");
 		} catch (Exception e) {
 			log.error("!!!Could not format " + fileName + "!!!", e);
+		} finally {
+			if (out != null) {
+				out.close();
+			}
 		}
 	}
 
