@@ -212,7 +212,7 @@ for File in $@ ; do
         if [ ${RECURSIVE} = 1 ] ; then
             recursive "${File}"
         else
-            for entry in $(find ${1} -maxdepth 1 ) ; do
+            for entry in $(find ${File} -maxdepth 1 ) ; do
                 format "${entry}"
             done
         fi
