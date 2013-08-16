@@ -859,7 +859,7 @@ echo ""
 echo "Test format [list with fail] <formatBashScriptTest9992folder>. Formatting not needed on the files."
 testName[42]="Test format [list with fail]"
 RESULTS=$( format file1.java file4.java file3.groovy )
-oError="Usage: format [options] <file or directory with relative path>
+oError="Usage: format [options] <file(s) or director(y/ies) with relative path>
     -h:       print this message
     -b:       create a backup file
     -r:       format all files recursively starting from the directory specified

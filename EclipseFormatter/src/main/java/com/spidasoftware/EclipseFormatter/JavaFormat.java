@@ -62,13 +62,11 @@ public class JavaFormat extends Format {
 		if (te == null || code.length() == 0) {
 			log.info("!!! Could not format " + fileName + " !!!");
 		} else {
+			PrintWriter out = null;
 			try {
 				te.apply(dc);
-
-				PrintWriter out = new PrintWriter(new FileWriter(fileName));
+				out = new PrintWriter(new FileWriter(fileName));
 				out.println(dc.get());
-				out.close();
-
 				log.info("*** Java standard formatting conventions have been applied to " + fileName + " ***");
 				correctlyFormatted = true;
 			} catch (MalformedTreeException e) {
@@ -79,6 +77,10 @@ public class JavaFormat extends Format {
 				log.error("!!!Could not format " + fileName + "!!!", e);
 			} catch (Exception e) {
 				log.error("!!!Could not format " + fileName + "!!!", e);
+			} finally {
+				if (out != null) {
+					out.close();
+				}
 			}
 		}
 	}
