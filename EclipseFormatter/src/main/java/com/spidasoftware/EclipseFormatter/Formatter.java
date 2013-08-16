@@ -57,20 +57,21 @@ import java.util.Arrays;
 public class Formatter {
 	private static Logger log = Logger.getRootLogger();
 	private static Options options = new Options();
-	private static boolean instantiateLoggerOnlyOnce = true;
 
 	/**
-	 * This method will parse the command line arguments and format the file(s). 
+	 * This method will pass the command line arguments to the runFormatter method. 
 	 * @param args the command-line arguments
 	 */
 	public static void main(String[] args) {
+		instantiateLogger();
+		runFormatter(args);
+	}
 
-		// This conditional is incase clients of this class call this object more than once, the logger
-		// will only be instantiated once.
-		if (instantiateLoggerOnlyOnce) {
-			instantiateLogger();
-			instantiateLoggerOnlyOnce = false;
-		}
+	/**
+	 * This method will perform the main logic of the program
+	 * @param args the command-line arguments
+	 */
+	public static void runFormatter(String[] args) {
 		CommandLine cmd = getOptions(args, options);
 		args = cmd.getArgs();
 		if (cmd.hasOption("help")) {
