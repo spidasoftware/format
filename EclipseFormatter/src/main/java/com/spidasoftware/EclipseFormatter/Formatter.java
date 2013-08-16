@@ -111,7 +111,7 @@ public class Formatter {
 				formatOne(pathToFile, cmd);
 				exists = true;
 			} else {
-				log.info("cannot format: " + args[0] + "\nThe file/directory should be the last argument");
+				log.info("cannot format: " + args[0] + ".");
 			}
 		}
 		return exists;
