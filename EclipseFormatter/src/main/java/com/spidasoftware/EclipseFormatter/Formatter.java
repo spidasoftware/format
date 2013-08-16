@@ -263,7 +263,7 @@ public class Formatter {
 		String code = readInFile(fileName);
 		if (code.indexOf("\n") > -1) {
 			String firstLine = code.substring(0, code.indexOf("\n"));
-			if (firstLine.indexOf("#!/usr/bin/env groovy") > -1) {
+			if (firstLine.indexOf("#!/usr/bin/env groovy") > -1 && groovyFormatting(cmd)) {
 				GroovyFormat groovyFormatter = new GroovyFormat();
 				groovyFormatter.format(fileName, code);
 				if (groovyFormatter.isFormatted() && cmd.hasOption("b"))
