@@ -53,33 +53,36 @@ public class GroovyFormat extends Format {
 	public void format(String fileName, String code) {
 		DefaultGroovyFormatter cf = initializeFormatter(code);
 		IDocument dc = new Document(code.toString());
-		TextEdit te = cf.format();
-		if (te == null || code.length() == 0) {
-			log.info("!!! Could not format " + fileName + " !!!");
-		} else {
-			PrintWriter out = null;
-			try {
+		PrintWriter out = null;
+		try {
+			TextEdit te = cf.format();
+			if (te == null || code.length() == 0) {
+				log.info("!!! Could not format " + fileName + " !!!");
+			} else {
 				te.apply(dc);
 				out = new PrintWriter(new FileWriter(fileName));
 				out.println(dc.get());
+				out.close();
 				log.info("*** Groovy standard formatting conventions have been applied to " + fileName + " ***");
 				correctlyFormatted = true;
-			} catch (MalformedTreeException e) {
-				log.error("!!!Could not format " + fileName + "!!!", e);
-			} catch (BadLocationException e) {
-				log.error("!!!Could not format " + fileName + "!!!", e);
-			} catch (IOException e) {
-				log.error("!!!Could not format " + fileName + "!!!", e);
-			} catch (NullPointerException e) {
+			}
+		} catch (MalformedTreeException e) {
+			log.error("!!!Could not format " + fileName + "!!!", e);
+		} catch (BadLocationException e) {
+			log.error("!!!Could not format " + fileName + "!!!", e);
+		} catch (IOException e) {
+			log.error("!!!Could not format " + fileName + "!!!", e);
+		} catch (NullPointerException e) {
 
-				// This is Probably due to the formatter having trouble parsing through 
-				// the source code. Instead of printing the stack trace,
-				// the lines containg the unrecognizable syntax will be printed and the message 
-				// below will be printed as well.
-				log.info("!!!Could not format " + fileName + "!!!");
-			} catch (Exception e) {
-				log.error("!!!Could not format " + fileName + "!!!", e);
-			} finally {
+			// This is Probably due to the formatter having trouble parsing through 
+			// the source code. Instead of printing the stack trace,
+			// the lines containg the unrecognizable syntax will be printed and the message 
+			// below will be printed as well.
+			log.info("!!!Could not format " + fileName + "!!!");
+		} catch (Exception e) {
+			log.error("!!!Could not format " + fileName + "!!!", e);
+		} finally {
+			if (out != null) {
 				out.close();
 			}
 		}

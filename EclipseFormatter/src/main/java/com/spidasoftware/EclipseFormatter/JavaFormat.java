@@ -64,8 +64,8 @@ public class JavaFormat extends Format {
 		} else {
 			PrintWriter out = null;
 			try {
-				out = new PrintWriter(new FileWriter(fileName));
 				te.apply(dc);
+				out = new PrintWriter(new FileWriter(fileName));
 				out.println(dc.get());
 				log.info("*** Java standard formatting conventions have been applied to " + fileName + " ***");
 				correctlyFormatted = true;
@@ -78,7 +78,9 @@ public class JavaFormat extends Format {
 			} catch (Exception e) {
 				log.error("!!!Could not format " + fileName + "!!!", e);
 			} finally {
-				out.close();
+				if (out != null) {
+					out.close();
+				}
 			}
 		}
 	}

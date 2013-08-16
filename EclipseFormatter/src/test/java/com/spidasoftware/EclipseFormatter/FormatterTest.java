@@ -702,5 +702,27 @@ public class FormatterTest extends TestCase {
 			}
 		}
 	}
+
+	/**
+	 * test the main method on a groovy file
+	 */
+	public void testmainOnAGroovyFileparseError() {
+		log.info("Formatter.main on a groovy file");
+		fileName = System.getProperty("user.dir") + File.separator + "javaEclipseFormatterTest13243546.groovy";
+		absolutePathFile = new File(fileName);
+		String before = "\n@artifact.package@class @artifact.name@ {	\n  			"
+				+ "public class genericJavaClass" + "{\npublic static void main(String[] args) {\n// TODO Auto-generated method stub\n}\n}";
+		try {
+			absolutePathFile.createNewFile();
+			String[] args = new String[] { "-groovy", fileName };
+			FileUtils.writeStringToFile(absolutePathFile, before);
+			Formatter.main(args);
+		} catch (SecurityException e) {
+			log.error(e, e);
+		} catch (IOException e) {
+			log.error(e, e);
+		}
+		assertTrue("Formatter.main on a groovy file that does exist", before.equals(Formatter.readInFile(fileName)));
+	}
 }
 
