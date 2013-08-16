@@ -70,4 +70,4 @@ and subdirectories of the directory that was specified.
    * [The Eclipse Api for formatting Java code](http://help.eclipse.org/indigo/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fformatter%2FDefaultCodeFormatterConstants.html "DefaultCodeFormatterConstants API")
    * [The Apache license](http://www.apache.org/licenses/LICENSE-2.0 "Apache License, Version 2.0")
    * [The Eclipse Public License](http://www.eclipse.org/legal/epl-v10.html "Eclipse Public License - v 1.0")
-   * [Groovy-Eclipse Formatter Changes](https://github.com/nickjoodi/groovy-eclipse/commit/789988fae5dee4e4dbde72e924d6bb1dd7679d87 "Groovy-Eclipse Formatter Changes")
+   * [Groovy-Eclipse Formatter Changes](https://github.com/spidasoftware/groovy-eclipse/commit/789988fae5dee4e4dbde72e924d6bb1dd7679d87 "Groovy-Eclipse Formatter Changes")

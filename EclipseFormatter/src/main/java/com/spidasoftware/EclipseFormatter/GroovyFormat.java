@@ -59,11 +59,9 @@ public class GroovyFormat extends Format {
 				log.info("!!! Could not format " + fileName + " !!!");
 			} else {
 				te.apply(dc);
-
 				PrintWriter out = new PrintWriter(new FileWriter(fileName));
 				out.println(dc.get());
 				out.close();
-
 				log.info("*** Groovy standard formatting conventions have been applied to " + fileName + " ***");
 				correctlyFormatted = true;
 			}

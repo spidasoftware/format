@@ -64,11 +64,9 @@ public class JavaFormat extends Format {
 		} else {
 			try {
 				te.apply(dc);
-
 				PrintWriter out = new PrintWriter(new FileWriter(fileName));
 				out.println(dc.get());
 				out.close();
-
 				log.info("*** Java standard formatting conventions have been applied to " + fileName + " ***");
 				correctlyFormatted = true;
 			} catch (MalformedTreeException e) {

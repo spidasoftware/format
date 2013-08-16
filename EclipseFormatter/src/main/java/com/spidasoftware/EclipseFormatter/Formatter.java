@@ -273,6 +273,10 @@ public class Formatter {
 		return nameWithDate;
 	}
 
+	/* 
+	 * To decouple the groovy and java formatters, the next two methods were created:
+	 */
+
 	/** 
 	 * If groovy option was set, return false
 	 *
