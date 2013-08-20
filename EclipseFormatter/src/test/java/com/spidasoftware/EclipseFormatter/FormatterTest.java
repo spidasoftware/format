@@ -105,7 +105,9 @@ public class FormatterTest extends TestCase {
 		} catch (IOException e) {
 			log.error(e, e);
 		} finally {
-			out.close();
+			if (out != null) {
+				out.close();				
+			}
 		}
 		assertTrue("readInFile extracts correct file contents", (Formatter.readInFile(fileName)).equals(contents));
 	}
@@ -124,7 +126,9 @@ public class FormatterTest extends TestCase {
 		} catch (IOException e) {
 			log.error(e, e);
 		} finally {
-			out.close();
+			if (out != null) {
+				out.close();
+			}
 		}
 		assertTrue("readInFile extracts correct file contents", (Formatter.readInFile(fileName)).equals(contents));
 	}
