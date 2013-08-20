@@ -180,7 +180,6 @@ public class Formatter {
 			FileWriter file = new FileWriter(nameWithDate);
 			safety = new PrintWriter(file);
 			safety.print(before);
-			safety.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
