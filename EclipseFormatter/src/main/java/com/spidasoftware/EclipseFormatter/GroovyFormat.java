@@ -62,7 +62,6 @@ public class GroovyFormat extends Format {
 				te.apply(dc);
 				out = new PrintWriter(new FileWriter(fileName));
 				out.println(dc.get());
-				out.close();
 				log.info("*** Groovy standard formatting conventions have been applied to " + fileName + " ***");
 				correctlyFormatted = true;
 			}

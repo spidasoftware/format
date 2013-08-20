@@ -43,6 +43,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
+import org.apache.log4j.LogManager;
 
 /**
  * 
@@ -65,6 +66,8 @@ public class Formatter {
 	public static void main(String[] args) {
 		instantiateLogger();
 		runFormatter(args);
+		LogManager logManager = new LogManager();
+		logManager.shutdown();
 	}
 
 	/**
@@ -168,18 +171,25 @@ public class Formatter {
 	 */
 	public static String createBackupFile(String fileName, String before) {
 		String nameWithDate = null;
+		PrintWriter safety = null;
 		try {
 			Date date = new Date();
 			SimpleDateFormat sdf = new SimpleDateFormat("MM_dd_yyyy_h_mm_ss");
 			String formattedDate = sdf.format(date);
 			nameWithDate = fileName + "_BACKUP_" + formattedDate;
 			FileWriter file = new FileWriter(nameWithDate);
-			PrintWriter safety = new PrintWriter(file);
+			safety = new PrintWriter(file);
 			safety.print(before);
-			safety.close();
 		} catch (IOException e) {
 			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (safety != null) {
+				safety.close();
+			}
 		}
+
 		return nameWithDate;
 	}
 
